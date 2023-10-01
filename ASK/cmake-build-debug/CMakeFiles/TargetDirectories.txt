@@ -1,0 +1,3 @@
+/home/szymonm/Documents/ASK/cmake-build-debug/CMakeFiles/ASK.dir
+/home/szymonm/Documents/ASK/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/szymonm/Documents/ASK/cmake-build-debug/CMakeFiles/rebuild_cache.dir

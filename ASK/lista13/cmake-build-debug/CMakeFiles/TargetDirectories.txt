@@ -1,0 +1,3 @@
+/home/szymonm/Documents/ASK/lista13/cmake-build-debug/CMakeFiles/lista13.dir
+/home/szymonm/Documents/ASK/lista13/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/szymonm/Documents/ASK/lista13/cmake-build-debug/CMakeFiles/rebuild_cache.dir

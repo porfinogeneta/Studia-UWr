@@ -1,0 +1,3 @@
+/home/szymonm/Documents/ASK/lista8/cmake-build-debug/CMakeFiles/lista8.dir
+/home/szymonm/Documents/ASK/lista8/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/szymonm/Documents/ASK/lista8/cmake-build-debug/CMakeFiles/rebuild_cache.dir

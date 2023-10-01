@@ -1,0 +1,198 @@
+- pamięć wirtualna - lista N bajtów przechowywanych na dysku
+
+- pamięć fizyczna - zawartość dysku jest cachowana w pamięci fizycznej DRAM
+
+- fizyczna przestzeń adresowa - adresy w pamięci DRAM, na których przechowywane są adresy z pamięci wirtualnej
+
+- przerwania - sygnały generowane przez urządzenia wejścia wyjścia, które mówią procesorowi, że musi przerwać działanie
+bo realizują jakiś proces, urządzenia po prostu informują o ważnych procesach procesor
+
+
+- fizyczna przestrzeń adresowa, w wydruku: Memory at efxxxxxx
+
+-numery przerwań - IRQ xxx
+
+
+-przykład portu input output
+I/O ports at f000 [size=64]
+
+aby dobrać się do mapy fizycznej przestrzeni adresowej wpisujemy sudo cat /proc/iomem
+
+Reserved Memory - pamięć dla systemu i hardwaru
+System RAM - pamięć operacyjna
+
+karta graficzna: Graphics Stolen Memory
+karta sieciowa:
+    iwlwifi
+    e1000e
+karta dźwiękowa: ICH HD audio
+kontroler dysków: ahci
+
+// interruptions   CPU 0     CPU 1    CPU 2     CPU 3
+;karta sieciowa:
+ 129:              34234     0         2052764    1170392  IR-PCI-MSI 1048576-edge      iwlwifi -> 0 2 3
+;karta graficzna
+ 130:              60371    29410630    0          0  IR-PCI-MSI 32768-edge      i915 -> 0 1
+;karta dźwiękowa
+ 128:                0          0          0       2063  IR-PCI-MSI 514048-edge      snd_hda_intel:card0 -> 3
+;kontroler dysków
+ 125:              1030267          0          0          0  IR-PCI-MSI 376832-edge      ahci[0000:00:17.0] -> 0
+
+
+
+
+
+00:00.0 Host bridge: Intel Corporation Xeon E3-1200 v6/7th Gen Core Processor Host Bridge/DRAM Registers (rev 02)
+	Subsystem: Dell Xeon E3-1200 v6/7th Gen Core Processor Host Bridge/DRAM Registers
+	Flags: bus master, fast devsel, latency 0
+	Capabilities: <access denied>
+	Kernel driver in use: skl_uncore
+
+00:02.0 VGA compatible controller: Intel Corporation HD Graphics 620 (rev 02) (prog-if 00 [VGA controller])
+	DeviceName:  Onboard IGD
+	Subsystem: Dell HD Graphics 620
+	Flags: bus master, fast devsel, latency 0, IRQ 130
+	Memory at ee000000 (64-bit, non-prefetchable) [size=16M]
+	Memory at d0000000 (64-bit, prefetchable) [size=256M]
+	I/O ports at f000 [size=64]
+	Expansion ROM at 000c0000 [virtual] [disabled] [size=128K]
+	Capabilities: <access denied>
+	Kernel driver in use: i915
+	Kernel modules: i915
+
+00:04.0 Signal processing controller: Intel Corporation Xeon E3-1200 v5/E3-1500 v5/6th Gen Core Processor Thermal Subsystem (rev 02)
+	Subsystem: Dell Xeon E3-1200 v5/E3-1500 v5/6th Gen Core Processor Thermal Subsystem
+	Flags: fast devsel, IRQ 16
+	Memory at ef240000 (64-bit, non-prefetchable) [size=32K]
+	Capabilities: <access denied>
+	Kernel driver in use: proc_thermal
+	Kernel modules: processor_thermal_device_pci_legacy
+
+00:14.0 USB controller: Intel Corporation Sunrise Point-LP USB 3.0 xHCI Controller (rev 21) (prog-if 30 [XHCI])
+	Subsystem: Dell Sunrise Point-LP USB 3.0 xHCI Controller
+	Flags: bus master, medium devsel, latency 0, IRQ 124
+	Memory at ef230000 (64-bit, non-prefetchable) [size=64K]
+	Capabilities: <access denied>
+	Kernel driver in use: xhci_hcd
+	Kernel modules: xhci_pci
+
+00:14.2 Signal processing controller: Intel Corporation Sunrise Point-LP Thermal subsystem (rev 21)
+	Subsystem: Dell Sunrise Point-LP Thermal subsystem
+	Flags: fast devsel, IRQ 18
+	Memory at ef259000 (64-bit, non-prefetchable) [size=4K]
+	Capabilities: <access denied>
+	Kernel driver in use: intel_pch_thermal
+	Kernel modules: intel_pch_thermal
+
+00:15.0 Signal processing controller: Intel Corporation Sunrise Point-LP Serial IO I2C Controller #0 (rev 21)
+	Subsystem: Dell Sunrise Point-LP Serial IO I2C Controller
+	Flags: bus master, fast devsel, latency 0, IRQ 16
+	Memory at ef258000 (64-bit, non-prefetchable) [size=4K]
+	Capabilities: <access denied>
+	Kernel driver in use: intel-lpss
+	Kernel modules: intel_lpss_pci
+
+00:15.1 Signal processing controller: Intel Corporation Sunrise Point-LP Serial IO I2C Controller #1 (rev 21)
+	Subsystem: Dell Sunrise Point-LP Serial IO I2C Controller
+	Flags: bus master, fast devsel, latency 0, IRQ 17
+	Memory at ef257000 (64-bit, non-prefetchable) [size=4K]
+	Capabilities: <access denied>
+	Kernel driver in use: intel-lpss
+	Kernel modules: intel_lpss_pci
+
+00:16.0 Communication controller: Intel Corporation Sunrise Point-LP CSME HECI #1 (rev 21)
+	Subsystem: Dell Sunrise Point-LP CSME HECI
+	Flags: bus master, fast devsel, latency 0, IRQ 126
+	Memory at ef256000 (64-bit, non-prefetchable) [size=4K]
+	Capabilities: <access denied>
+	Kernel driver in use: mei_me
+	Kernel modules: mei_me
+
+00:16.3 Serial controller: Intel Corporation Sunrise Point-LP Active Management Technology - SOL (rev 21) (prog-if 02 [16550])
+	Subsystem: Dell Sunrise Point-LP Active Management Technology - SOL
+	Flags: 66MHz, fast devsel, IRQ 19
+	I/O ports at f0a0 [size=8]
+	Memory at ef255000 (32-bit, non-prefetchable) [size=4K]
+	Capabilities: <access denied>
+	Kernel driver in use: serial
+
+00:17.0 SATA controller: Intel Corporation Sunrise Point-LP SATA Controller [AHCI mode] (rev 21) (prog-if 01 [AHCI 1.0])
+	Subsystem: Dell Sunrise Point-LP SATA Controller [AHCI mode]
+	Flags: bus master, 66MHz, medium devsel, latency 0, IRQ 125
+	Memory at ef250000 (32-bit, non-prefetchable) [size=8K]
+	Memory at ef254000 (32-bit, non-prefetchable) [size=256]
+	I/O ports at f090 [size=8]
+	I/O ports at f080 [size=4]
+	I/O ports at f060 [size=32]
+	Memory at ef253000 (32-bit, non-prefetchable) [size=2K]
+	Capabilities: <access denied>
+	Kernel driver in use: ahci
+	Kernel modules: ahci
+
+00:1c.0 PCI bridge: Intel Corporation Sunrise Point-LP PCI Express Root Port #1 (rev f1) (prog-if 00 [Normal decode])
+	Flags: bus master, fast devsel, latency 0, IRQ 122
+	Bus: primary=00, secondary=01, subordinate=01, sec-latency=0
+	I/O behind bridge: [disabled]
+	Memory behind bridge: ef100000-ef1fffff [size=1M]
+	Prefetchable memory behind bridge: [disabled]
+	Capabilities: <access denied>
+	Kernel driver in use: pcieport
+
+00:1c.2 PCI bridge: Intel Corporation Sunrise Point-LP PCI Express Root Port #3 (rev f1) (prog-if 00 [Normal decode])
+	Flags: bus master, fast devsel, latency 0, IRQ 123
+	Bus: primary=00, secondary=02, subordinate=02, sec-latency=0
+	I/O behind bridge: [disabled]
+	Memory behind bridge: ef000000-ef0fffff [size=1M]
+	Prefetchable memory behind bridge: [disabled]
+	Capabilities: <access denied>
+	Kernel driver in use: pcieport
+
+00:1f.0 ISA bridge: Intel Corporation Sunrise Point LPC Controller/eSPI Controller (rev 21)
+	Subsystem: Dell Sunrise Point LPC Controller/eSPI Controller
+	Flags: fast devsel
+
+00:1f.2 Memory controller: Intel Corporation Sunrise Point-LP PMC (rev 21)
+	Subsystem: Dell Sunrise Point-LP PMC
+	Flags: fast devsel
+	Memory at ef24c000 (32-bit, non-prefetchable) [disabled] [size=16K]
+
+00:1f.3 Audio device: Intel Corporation Sunrise Point-LP HD Audio (rev 21)
+	Subsystem: Dell Sunrise Point-LP HD Audio
+	Flags: bus master, fast devsel, latency 32, IRQ 128
+	Memory at ef248000 (64-bit, non-prefetchable) [size=16K]
+	Memory at ef220000 (64-bit, non-prefetchable) [size=64K]
+	Capabilities: <access denied>
+	Kernel driver in use: snd_hda_intel
+	Kernel modules: snd_hda_intel, snd_soc_skl, snd_soc_avs
+
+00:1f.4 SMBus: Intel Corporation Sunrise Point-LP SMBus (rev 21)
+	Subsystem: Dell Sunrise Point-LP SMBus
+	Flags: medium devsel, IRQ 16
+	Memory at ef252000 (64-bit, non-prefetchable) [size=256]
+	I/O ports at f040 [size=32]
+	Kernel driver in use: i801_smbus
+	Kernel modules: i2c_i801
+
+00:1f.6 Ethernet controller: Intel Corporation Ethernet Connection (4) I219-LM (rev 21)
+	Subsystem: Dell Ethernet Connection (4) I219-LM
+	Flags: bus master, fast devsel, latency 0, IRQ 131
+	Memory at ef200000 (32-bit, non-prefetchable) [size=128K]
+	Capabilities: <access denied>
+	Kernel driver in use: e1000e
+	Kernel modules: e1000e
+
+01:00.0 Unassigned class [ff00]: Realtek Semiconductor Co., Ltd. RTS525A PCI Express Card Reader (rev 01)
+	Subsystem: Dell RTS525A PCI Express Card Reader
+	Flags: bus master, fast devsel, latency 0, IRQ 127
+	Memory at ef100000 (32-bit, non-prefetchable) [size=4K]
+	Capabilities: <access denied>
+	Kernel driver in use: rtsx_pci
+	Kernel modules: rtsx_pci
+
+02:00.0 Network controller: Intel Corporation Wireless 8265 / 8275 (rev 78)
+	Subsystem: Intel Corporation Wireless 8265 / 8275
+	Flags: bus master, fast devsel, latency 0, IRQ 129
+	Memory at ef000000 (64-bit, non-prefetchable) [size=8K]
+	Capabilities: <access denied>
+	Kernel driver in use: iwlwifi
+	Kernel modules: iwlwifi

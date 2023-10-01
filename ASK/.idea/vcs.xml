@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$/lista13/pagemap" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/pracownia/addsb23-porfinogeneta" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/pracownia/attack23-porfinogeneta" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/pracownia/bitrev23-porfinogeneta" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/pracownia/bomb-porfinogeneta" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/pracownia/clz23-porfinogeneta" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/pracownia/mod17_23-porfinogeneta" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/pracownia/opt-binsearch23-porfinogeneta" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/pracownia/opt-matmult23-porfinogeneta" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/pracownia/opt-randwalk23-porfinogeneta" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/pracownia/wbs23-porfinogeneta" vcs="Git" />
+  </component>
+</project>

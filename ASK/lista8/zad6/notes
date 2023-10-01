@@ -1,0 +1,37 @@
+// rekordy relokacji - relocation entires - struktury danych w relokowanych modułach obiektowych
+ zawierające informacje, które adresy muszą ulec zmianie aby móc wpisać program na
+ dowolne miejsce w pamięci, umożliwia to konsolidatorowi stworzenie wykonywalnego pliku,
+ a później systemowi jego uruchomienie
+ - jak zmodyfikować referencję do obiektu, którego lokalizacji nie zna przy tworzeniu pliku wykonywalnego
+ - sekcja .rel.text - zawiera rekordy relokacji z sekcji .text programu
+ - sekcja .rel.data - zawiera rekordy z sekcji .data programu
+
+ - assembler nie stworzy sekcji .rel.bss, ponieważ są tam niezdefiniowane zmienne, czyli 0 i nie ma potrzeby trzymania ich w pamięci
+
+komenda : 'readelf -r <object file name>' - rekordy relokacji
+
+Składowe rekordów relokacji:
+- offest - offset w sekcji, gdzie występuje relokacja
+- info  - kombinacja indexów tablicy symboli i typu relokacji
+- type - jaki rodzaj relokacji ma zostać zrobiony, jak lokacja symbolu musi być modyfikowana podczas linkowania
+- symbol value - wartość symbolu relokowalnego
+- symbol name - zgromadzone dane
+- addent - wartość którą mamy dodać do wartości symbolu, aby obliczyć nową wartość relokacji
+
+typedef struct {
+	Elf64_Addr	r_offset; - gdzie zaaplikować relokację
+	Elf64_Xword	r_info; - daje indeks w tabeli symboli oraz typ relokacji do zaaplikowania
+	Elf64_Sxword	r_addend;   - określa wielkość stałej addend używanej do obliczania wartości, która ma być przechowywana w polu relokowalnym.
+} Elf64_Rela;
+
+ - R_X86_64_PC32 - symbol w rekordzie relokacji służący do późniejszego połączenia danych symboli z różnych plików
+
+
+- objdump identyfikuje w kodzie miejsca, które będzie musiał uzupełnić konsolidator poprzez
+odnalezienie konkretnych miejsc, do których konsolidator będzie musiał włożyć poprawne adresy pamięci
+
+Kosolidator bierze offset z kolumny Offset i przy pomocy informacji z Info wylicza, co należy wstawić w referencję.
+
+Miejsca gdzie będzie musiał wstawić referencje są oznaczone symoblami typu R_X86_64_PC32 w objdump
+
+

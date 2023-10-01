@@ -1,0 +1,131 @@
+The symbol table contains information to locate and relocate symbolic definitions and references.
+The assembler creates the symbol table section for the object file.
+It makes an entry in the symbol table for each symbol that is defined or
+referenced in the input file and is needed during linking.
+
+- symbole readelf    -s start.o
+- relokacje  objdump -r odd.o
+- deasemblacja-  objdump -d odd.o
+
+
+- assembler zrobi plik relokowalny oraz odpowienie sekcje, doklei tam bajty
+
+- assembler nie wie jak wygenerować konkretne instrukcje, zostawia miejsce w konkretnym bajcie,
+czyli zostawia rekord relokacji, to on nam powie, że coś tam powinno zostać włożone w to miejsce
+
+- assembler nie może wygenerować ciągu bajtów dla instrukcji call i jmp,
+bo nie wie gdzie dokładnie będą w pamięci symbole tam używane
+
+- przed uruchomieniem nie wiadomo gdzie umieścić dany plik, po złączeniu już widać co będzie w pamięci
+- objdump -d plik.o -> nie wiadomo gdzie będą konkretne funkcje
+- objdump -d plik -> tu już jest adres
+
+Jakie informacje
+asembler zostawiaw plikach relokowalnych, żeby konsolidator mógł uzupełnić te instrukcje?
+
+
+    Tabela Symboli (Symbol Table):
+        Zawiera definicje symboli (takie jak nazwy funkcji i zmiennych)
+        , których adresy muszą zostać ustalone przez konsolidator.
+         W pliku relokowalnym mogą znajdować się również referencje
+          do symboli zdefiniowanych w innych plikach - konsolidator
+           będzie musiał je zlokalizować i połączyć ze sobą.
+
+    Tabela Relokacji (Relocation Table):
+         Przechowuje informacje o kodzie i danych,
+         które muszą zostać zaktualizowane przez konsolidator,
+          gdy adresy symboli zostaną ostatecznie rozwiązane.
+          Tabela relokacji informuje konsolidatora,
+          jak zmodyfikować kod maszynowy oraz jak uzupełnić
+          dane w wynikowym pliku wykonywalnym lub bibliotece.
+
+    Sekcje kodu i danych (Code and Data Sections):
+        Pliki relokowalne dzielą się na sekcje,
+         takie jak sekcje kodu (instrukcje), danych zainicjowanych,
+         niezainicjowanych czy stałych.
+         Konsolidator łączy odpowiednie sekcje ze wszystkich plików relokowalnych.
+
+    Informacje o atrybutach Wejście/Wyjście (I/O Attributes): W niektórych przypadkach asembler może zostawić informacje o atrybutach I/O takich jak porty, rejestry przerwań czy adresy zewnętrznych modułów. Konsolidator później używa tych informacji w procesie łączenia.
+
+
+Kiedy konsolidator łączy pliki relokowalne,
+korzysta z informacji zawartych w tabelach symboli
+i relokacji oraz z sekcji danych i kodu, aby połączyć
+dane oraz rozwiązać adresy i referencje.
+Wynikiem tego procesu jest plik wykonywalny lub biblioteka,
+która zawiera ostateczny kod maszynowy
+z poprawnie rozwiązanymi referencjami do symboli.
+
+
+
+Zadania konsolidatora:
+Konsolidator wykonuje różne zadania, takie jak
+ rozwiązywanie zewnętrznych odniesień między plikami obiektowymi,
+ przeprowadzanie relokacji symboli
+ generowanie ostatecznego pliku wykonywalnego.
+
+- mapa konsolidacji - co i jak zostało złączone,
+ na mapie w pliku widać jakie adresy zostały przyznane funkcjom
+ oraz etykietom z funkcji
+
+1 .text
+2 .globl _start
+3 .type _start, @function
+4 _start: // SYMBOL
+5 pushq %rax
+6 movl $42, %edi
+7 call is_even // REFERENCJA
+8 movl %eax, %edi
+9 movl $60, %eax
+10 syscall
+11 popq %rdx
+12 ret
+13 .size _start, .-_start
+
+- assembler zostawi w call adres żądanej przez nas funkcji - call   f <_start+0xf>
+
+- definicja symbolu, całość np całe is_odd
+- referencja, odwołanie do symbolu w callach i jumpach
+
+1 .text
+2 .globl is_odd
+3 .type is_odd, @function
+4 is_odd: // SYMBOL
+5 testq %rdi, %rdi
+6 je .L2 // REFERENCJA
+7 decq %rdi
+8 jmp is_even // REFERENCJA
+9 .L2:
+10 xorl %eax, %eax
+11 ret
+12 .size is_odd, .-is_odd
+
+- assembly zostawi nam adresy:
+je     11 <is_odd+0x11>
+jmp    11 <is_odd+0x11>>
+
+
+1 .text
+2 .globl is_even
+3 .type is_even, @function
+4 is_even: // SYMBOL
+5 testq %rdi, %rdi
+6 je .L2 // REFERENCJA
+7 decq %rdi
+8 jmp is_odd // REFERENCJA
+9 .L2:
+10 movl $1, %eax
+11 ret
+12 .size is_even, .-is_even
+
+- ASSEMBLY zostawia nam adres w pamięci
+ je     11 <is_even+0x11>
+ jmp    11 <is_even+0x11>
+
+
+
+
+
+
+
+

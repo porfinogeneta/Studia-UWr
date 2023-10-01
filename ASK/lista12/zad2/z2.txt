@@ -1,0 +1,57 @@
+// bez pure - za każdym razem skaczemy do wywołania my_strlen
+//000000000000114b <my_index>:
+//114b:       f3 0f 1e fa             endbr64
+//114f:       31 d2                   xor    %edx,%edx
+//1151:       e8 e3 ff ff ff          call   1139 <my_strlen>
+//1156:       48 39 d0                cmp    %rdx,%rax
+//1159:       76 0f                   jbe    116a <my_index+0x1f>
+//115b:       48 8d 04 17             lea    (%rdi,%rdx,1),%rax
+//115f:       40 38 34 17             cmp    %sil,(%rdi,%rdx,1)
+//1163:       74 07                   je     116c <my_index+0x21>
+//1165:       48 ff c2                inc    %rdx
+//1168:       eb e7                   jmp    1151 <my_index+0x6>
+//116a:       31 c0                   xor    %eax,%eax
+//116c:       c3                      ret
+
+// z pure - wywołujemy my_strlen tylko raz i zapisujemy wynik w rejestrze
+//000000000000114b <my_index>:
+//    114b:       f3 0f 1e fa             endbr64
+//    114f:       e8 e5 ff ff ff          call   1139 <my_strlen>
+//    1154:       48 8d 14 07             lea    (%rdi,%rax,1),%rdx
+//    1158:       48 39 d7                cmp    %rdx,%rdi
+//    115b:       74 0e                   je     116b <my_index+0x20>
+//    115d:       48 89 f8                mov    %rdi,%rax
+//    1160:       48 ff c7                inc    %rdi
+//    1163:       40 38 77 ff             cmp    %sil,-0x1(%rdi)
+//    1167:       75 ef                   jne    1158 <my_index+0xd>
+//    1169:       eb 02                   jmp    116d <my_index+0x22>
+//    116b:       31 c0                   xor    %eax,%eax
+//    116d:       c3                      ret
+
+// inlining - wezwanie funkcji w innej funkcji jest zastąpione przez ciało tej funkcji, umożliwia to
+// lepszą optymalizację całości kodu
+// po dodaniu static, wykonał się inlining, w my_index jest obecne ciało my_strlen, kompilator wywnioskował, że
+// funkcja jest czysta, ponieważ teraz nasza pętla po prostu jest połączona ze sprawdzaniem czy znak nie nie jest \0
+// zatem nie wywołujemy za każdym razem naszej funkcji <my_strlen> tylko wykorzystujemy jej właściwości, sprawdzanie
+// czy nie nie ma \0
+
+
+// z objdump objdump -d a.out
+//0000000000001139 <my_index>:
+//1139:       f3 0f 1e fa             endbr64
+//113d:       31 c0                   xor    %eax,%eax
+//113f:       31 d2                   xor    %edx,%edx
+//1141:       80 3c 17 00             cmpb   $0x0,(%rdi,%rdx,1)
+//1145:       74 05                   je     114c <my_index+0x13>
+//1147:       48 ff c2                inc    %rdx
+//114a:       eb f5                   jmp    1141 <my_index+0x8>
+//114c:       48 39 d0                cmp    %rdx,%rax
+//114f:       73 0f                   jae    1160 <my_index+0x27>
+//1151:       4c 8d 04 07             lea    (%rdi,%rax,1),%r8
+//1155:       40 38 34 07             cmp    %sil,(%rdi,%rax,1)
+//1159:       74 08                   je     1163 <my_index+0x2a>
+//115b:       48 ff c0                inc    %rax
+//115e:       eb df                   jmp    113f <my_index+0x6>
+//1160:       45 31 c0                xor    %r8d,%r8d
+//1163:       4c 89 c0                mov    %r8,%rax
+//1166:       c3                      ret

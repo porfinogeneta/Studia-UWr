@@ -1,0 +1,68 @@
+int relo3(int val) {
+    switch (val) {
+    case 100:
+        return val + 1;
+    case 101:
+    case 103 ... 104:
+        return val + 3;
+    case 105:
+        return val + 5;
+    case 107:
+        return val + 7;
+    default:
+    return val + 11;
+    }
+}
+0000000000000000 <relo3>:
+    0: 8d 47 9c lea -0x64(%rdi),%eax
+    3: 83 f8 07 cmp $0x7,%eax
+    6: 77 19 ja 21 <relo3+0x21>
+    8: 89 c0 mov %eax,%eax
+    a: ff 24 c5 00 00 00 00 jmpq *0x0(,%rax,8)
+    11: 8d 47 01 lea 0x1(%rdi),%eax
+    14: c3 retq
+    15: 8d 47 03 lea 0x3(%rdi),%eax
+    18: c3 retq
+    19: 8d 47 05 lea 0x5(%rdi),%eax
+    1c: c3 retq
+    1d: 8d 47 07 lea 0x7(%rdi),%eax
+    20: c3 retq
+    21: 8d 47 0b lea 0xb(%rdi),%eax
+    24: c3 retq
+Oblicz wartości, które należy wstawić w miejsca referencji, do których odnoszą się poniższe rekordy relokacji
+otrzymane poleceniem «objdump -r».
+
+- tablica skoków dla switch jest w .rodata, pod adresem 0x2000
+- funkcja jest w .text, pod adresem 0x1000
+
+ROZWIĄZANIE:
+- W naszym rozwiązaniu w linijce a: ff 24 c5 00 00 00 00 jmpq *0x0(,%rax,8) skaczemy do jekiegoś
+miejsca w pamięci, prawdopodobnie do tablicy skoków, zatem jeżeli chodzi o wartość, którą
+trzeba wstawić w miejsce referencji to  jest to 0x100d (operacje na tablicy skoków są realizowane pod takim adresem w funkcji)
+ bo tablica skoków jest z offsetem 000000000000000d (pod takim adresem jest .rodata), co się zgadza także
+ z kodem maszynowym, bo pierwsze 00 to 13 bajt indeksując od zera
+
+- jeżeli chodzi o wartości, które trzeba wstawić w pozostałe referencje to są to
+adresy początku tablicy skoków z dodanym offsetem, np pierwszy switch-case dla 100 jest na offsetcie
+0x0 względem początku tablicy skoków i ma wartość 0x11 + początek_funkcji_relo3, to się zgadza bo tam jest pierwszy case (case 100)
+
+- 0x1000 funkcja
+- 0x2000 tablica skoków
+za R_X86_64_32S wstawimy sobie 0x1000 + 0xd -> tam jest tablica skoków
+za R_X86_64_64 wstawimy sobie 0x2000 + offset -> tam są konkretne wartości w tablicy skoków, zauważmy że wartości (pole VALUE) odpowiada kolejnym case'om
+
+1 RELOCATION RECORDS FOR [.text]:
+2 OFFSET TYPE VALUE
+3 000000000000000d R_X86_64_32S .rodata
+4
+5
+6 RELOCATION RECORDS FOR [.rodata]:
+7 OFFSET TYPE VALUE
+8 0000000000000000 R_X86_64_64 .text+0x0000000000000011
+9 0000000000000008 R_X86_64_64 .text+0x0000000000000015
+10 0000000000000010 R_X86_64_64 .text+0x0000000000000021
+11 0000000000000018 R_X86_64_64 .text+0x0000000000000015
+12 0000000000000020 R_X86_64_64 .text+0x0000000000000015
+13 0000000000000028 R_X86_64_64 .text+0x0000000000000019
+14 0000000000000030 R_X86_64_64 .text+0x0000000000000021
+15 0000000000000038 R_X86_64_64 .text+0x000000000000001d

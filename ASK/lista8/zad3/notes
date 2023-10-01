@@ -1,0 +1,29 @@
+Silne symbole przykrywają słabe w momencie łączenia plików
+
+ - silne - procedury i zadeklarowane zmienne globalne
+ - słabe - niezainicjowane zmienne globalne
+ - bardzo słabe  - niezainicjowane zmienne globalne, zadeklarowane przy użyciu extern
+
+- Kompilacja:  gcc -fcommon mismatch-a.c mismatch-b.c -o output
+- Debugowanie: gdb -batch -ex "disassemble/rs main" output (debug dla funkcji main)
+
+- Program się skompiluje, bez błędu, ponieważ mismatch-a.c zawiera silniejszą deklarację zmiennej 'main'.
+
+- Co by się zmieniło gdybyśmy w pliku «mismatch-b.c» zainicjowali
+  zmienną «main» w miejscu jej definicji? - w takiej sytuacji dostaniemy 'multiple definition of main' error, bo
+  będziemy mieli dwie definicje silne main'a
+
+- Drukowana wartość to: 0xfffffff3, po deasemblacji pliku binarnego, dowiadujemy się,
+    że 0xf3 to pierwszy adres w funkcji main
+
+- Po przypisaniu wartości do maina w mismatch-b.c (main jako zmienna globalna)
+    - otrzymamy błąd: 'multiple definition of `main`'
+
+- Po zapisaniu wartości maina w ciele funkcji wszystko się skompiluje,
+    ale otrzymamy błąd: Segmentation fault (core dumped)
+
+- po dodaniu flagi '-fno-common', wkłada niezainicjowane zmienne globalne do sekcji .bss, hamuje to
+    złączanie niepewnych definicji przez linkera, dostajemy 'multiple-definition error', jak się powtórzyły nazwy
+    ta flaga jest już defaultowo
+
+

@@ -1,0 +1,63 @@
+tablica stron - page table - tablica rekordów PTE, która mapuje wirtualne strony do stron fizycznych w DRAM
+
+adres wirtualny - adres wewnątrz programu, która jest mapowany do adresu fizycznego, adres tylko na potrzeby programu
+
+numer ramki - indeks ramki w fizycznej pamięci DRAM
+
+pfn - physical frame number
+
+w pamięci wirtualnej system dzieli przestrzeń adresów wirtualnych na równe części, nazywane stronami (pages)
+podobnie pamięć fizyczna jest podzielona na odpowiadające rozmiarom strony ramki - frame,
+rozmiary strony i ramki są takie same
+
+mapa fizycznej przestrzeni adresowej - grupa adresów fizycznych odpowiadająca zmapowanym adresom logicznym
+
+Przetłumaczony adres jest w regionie:
+100000000-42e7fffff : System RAM
+nasze fizyczne adresy są w tym przedziale
+aby to zobaczyć trzeba wpisać: sudo cat /proc/iomem
+
+Polecenia:
+
+ps aux - lista procesów
+
+pmap <pid> daje nam listę postaci
+
+np u mnie pmap 149062:
+
+Virtual Address   Size of memory region Kbytes     Mode - zgody procesu (read write execute)    Mapping
+000055c86be5b000    436K                              r----                                    python3.10
+000055c86bec8000   2764K                              r-x--                                    python3.10
+000055c86c17b000   2296K                              r----                                    python3.10
+...
+
+fragment z wydruku ./pagemap2
+sudo ./pagemap 149062 0x000055c86be5b000 0x000055c86c3ff000
+szukamy adresu wirtualnego w wydrukowanej tabelce:
+  55c86be5b000
+0x55c86be5b000     : pfn 25ed8e           soft-dirty 1 file/shared 1 swapped 0 present 1
+0x55c86be5c000     : pfn 25ed8f           soft-dirty 1 file/shared 1 swapped 0 present 1
+0x55c86be5d000     : pfn 25eda1           soft-dirty 1 file/shared 1 swapped 0 present 1
+0x55c86be5e000     : pfn 25eda2           soft-dirty 1 file/shared 1 swapped 0 present 1
+
+tłumaczenie adresów wirtualnych na fizyczne:
+- wiemy że rozmiar strony to 4096 bajtów zatem 2^12, czyli potrzebujemy 12 bitów na offset
+- 63-12 (virtual page number) (11 - 0) offset - on pozostaje bez zmiany
+
+nowy adres to konkatenacja pfn i offsetu np u nas: pfn dla adresu 0x55c86be5b000 to pfn 25ed8e,
+ zatem adres fizyczny to:
+0x25ed8e000
+
+1) 0x55c86be5b000 -> 0x25ed8e000 (0 z przodu bo mają być 64 bity)
+2) 0x55c86bec8000 -> 0x261b84000 (nie chce mi się wpisywać 0)
+3) 0x55c86bec6000 -> 0x260971000
+
+później ./pagemap2 <pid> przedział adresów wirtualnych
+program trzeba uruchamiać z sudo!!!!!
+
+mapa adresów w pamięci
+cat /proc/iomem
+100000000-42e7fffff : System RAM
+
+
+

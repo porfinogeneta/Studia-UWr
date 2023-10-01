@@ -1,0 +1,8 @@
+- niezmienniki pętli - loop invariants - wartości, które pozostają stałe w całym działaniu pętli, np długość iteracji
+- zmienne indukcyjne - induction variable elimination - zamienienie wykorzystania indeksów z pętli na zwykłe obliczenia
+- osłabienie - strength reduction - zastąpienie kosztownych operacji tanimii np. b*5 => (b << 2) + b
+
+
+
+
+

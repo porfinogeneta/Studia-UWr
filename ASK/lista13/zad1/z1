@@ -1,0 +1,38 @@
+- po co profilować programy
+Pozwala nam to zdeterminować ile czasu musimy poświęcić na optymalizację której części kodu,
+mamy wiedzę o tym ile czasu CPU potrzebowało na realizacji danych funkcji oraz ile razy były one wołane.
+Oprócz tego można dowiedzieć się co program robi i na jakich danych.
+
+- jakie informacje zawiera profil płaski i profil grafu wywołań, po co opcja -pg
+
+- profil płaski - zawiera listę procedur wołanych przy uruchomieniu programu, wraz z ilością ich wywołań,
+ilością czasu którą zajęły, mamy też listę procedur nigdy nie wywołanych, mamy informacje o czasie wykonania
+naszego programu, z podziałem na funkcje
+
+- profil grafu wywołań - zawiera informacje o procedurach programu i o tym która funkcja wzywa którą funkcję
+strzałki wywołań; mamy więc dostęp do całego przepływu programu;
+mamy dostęp do informacji z profilu płaskiego, poszerzone o czas propagacji z każdej procedury do ich dzieci.
+Profil jest posortowany względem czasu na procedurę + czas na procedury przez nie wywoływane;
+
+z tabelki wiemy:
+1. której procedury dotyczy
+2.ile czasu wywołania zajmuje ta funkcja
+3.ile czasu przekazuje propagowanym do siebie funkcjom
+4.ile czasu przekazuje propagowanym od siebie funkcjim
+5. ile razy dana procedura była wezwana i przez kogo
+
+dla każdej procedury pokazujemy tabelkę
+
+flaga -pg kompilacja i linkowanie programu z zapisem jego profilu, taka kompilacja jest nieco dłuższa
+gprof prog - uruchamiamy nasz profiler
+
+- na czym polega zliczanie interwałowe
+Kompilowany program utrzymuje licznik dla każdej funkcji w kompilowanym pliku. System operacyjny przerywa program
+co czas delta 1.0-10.0 ms, następnie sprawdza, która funkcja była używana i zwiększa jej licznik o delta. Przez takie
+zliczanie czasu krótkie funkcje, które realizują się w czasie mniejszym niż delta mogą być źle albo wcale policzone.
+
+
+
+
+
+

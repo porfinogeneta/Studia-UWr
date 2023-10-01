@@ -1,0 +1,39 @@
+- DYNAMIC LINKING
+- przyłączanie bibliotek zewnętrznnych w trakcie runtimu (kiedy kod jest egzekwowany),
+ a nie kompilacji, umożliwia to dzielenie bibliotek i zmniejszenie śladu w pamięci
+ - normalnie linking odbywa się w trakcie kompilacji, ale dynamic linking złącza
+   dynamicznie uprzednio pobrane biblioteki w trakcie trawania programu
+
+ZADANIA
+- zlokalizowanie bibliotek
+- odczytanie konkretnych referencji do symboli z konsolidowanych bibliotek
+- poprawna alokacja pamięci załodowywanych bibliotek i zapewnienie poprawnego wyczyszczenia pamięci po wykonaniu programu
+- podczas interpretowania adresów wirtualnych interpreter oblicza faktyczne adresy na podstawie oryginalnych wartości z pliku
+
+
+ - LD_DEBUG=all /bin/sleep 1
+ - lookup wyszukanie biblioteki
+ - binding
+  10269:     file=libc.so.6 [0];  needed by /bin/sleep [0]
+  10269:     find library=libc.so.6 [0]; searching
+  10269:      search cache=/etc/ld.so.cache
+  10269:       trying file=/lib/x86_64-linux-gnu/libc.so.6
+
+
+- biblioteka i program tworzą swoje symbole
+- linking - jeszcze linker nie złącza, ale modyfikuje symbol tak, żeby miał reference do biblioteki
+- loading - w tym momenie linker wiąże symbole z biblioteki i pliku
+- wiązanie symboli, związywanie symboli z odpowiadającymi im symbolami z biblioteki
+- ładowanie i wyszukiwanie bibliotek na początku
+- w trakcie uruchomienia programu  relocation processing
+
+
+
+
+
+
+
+
+
+
+

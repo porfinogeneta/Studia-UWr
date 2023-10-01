@@ -1,0 +1,1 @@
+CMakeLists.txt not found in /home/szymonm/Documents/ASK/lista12 Select CMakeLists.txt

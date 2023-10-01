@@ -1,0 +1,55 @@
+memory aliasing - dwa wskaźniki mogą odwoływać się do tego samego miejsca w pamięci
+
+
+w nasze procedurze swap, jeśli *xp = *yp, otrzymamy
+void swap(long *xp, long *yp) {
+     *xp = *xp + *yp; /* x+y */
+     *yp = *xp - *yp; /* x+y-y = x */
+     *xp = *xp - *yp; /* x+y-x = y */
+     jeśli wskaźniki pokazują na to samo miejsce w pamięci to wynikiem
+     tej funkcji będzie 0, przez to odejmowanie
+}
+- teraz wersja zooptymalizowana
+//optimised?
+void swap2(long *xp, long *yp) { *xp = *yp
+    long x = *xp, y = *yp;
+    x = x + y, y = x - y, x = x - y;|||  x = x + y = 2x, y = 2x - y = x, 2x = 2x - x = x
+    *xp = x, *yp = y;
+}
+- udaje się nam poprawnie zamienić w przypadku wersji zooptymalizowanej
+
+- jednak kompilator nie wie czym jest funkcja swap i właściwą wartością, którą powinien zwrócić jest zero w przypadku
+wersji zooptymalizowanej (w przypadku wskaźnika do tego samego adresu w pamięci), jednak wersja zooptymalizowana
+robi wszysko na zmiennych lokalnych i nie generuje tego problemu, mamy tu więc undefined behaviour, ze strony wersji optimised
+
+- kompilator nie może zooptymalizować adresów tak jak to jest w swap2, bo nie wie dokąd te adresy prowadzą, mogą prowadzić
+do tej samej pamięci, a wtedy istnieje ryzyko undefined behaviour, tak jak w naszym przypadku, dla swap,
+przez to swap != swap2
+
+-możemy zooptymalizować swap używając słowa restrict, które mu powie że oba wskaźniki nie mogą być zaaliasowane
+
+- oto jak komilator zooptymalizował
+00000000000011c9 <swap>:
+    11c9:       f3 0f 1e fa             endbr64
+    11cd:       48 8b 06                mov    (%rsi),%rax
+    11d0:       48 03 07                add    (%rdi),%rax
+    11d3:       48 89 07                mov    %rax,(%rdi)
+    11d6:       48 2b 06                sub    (%rsi),%rax
+    11d9:       48 89 06                mov    %rax,(%rsi)
+    11dc:       48 29 07                sub    %rax,(%rdi)
+    11df:       c3                      ret
+
+00000000000011e0 <swap_prim>:
+    11e0:       f3 0f 1e fa             endbr64
+    11e4:       48 8b 06                mov    (%rsi),%rax
+    11e7:       48 8b 17                mov    (%rdi),%rdx
+    11ea:       48 89 07                mov    %rax,(%rdi)
+    11ed:       48 89 16                mov    %rdx,(%rsi)
+    11f0:       c3
+
+
+
+
+
+
+

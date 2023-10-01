@@ -1,0 +1,31 @@
+translacja - proces tłumaczenia adresu wirtualnego na adres fizyczny w DRAM,
+jednostka MMU przowadzi translację adresów, korzystając z tabelki fizycznych numerów stron (table of physical page number)
+
+
+wyjątek - błąd zgłoszony przez procesor do pamięci, sprawi to że procesor przejdzie do trybu uprzywilejowanego,
+czyli trybu pracy procesora, w którym operuje nim jądro systemu operacyjnego, procesor uruchamia procedurę radzenia sobie z wyjątkami,
+wywołuje odpowiednią procedurę
+
+kiedy zgłoszony będzie wyjątek dostępu do pamięci:
+- tylko kernel reserved memory (zawsze błąd)
+- zapis do rodata/read only itp (zawsze błąd)
+- próba dostępu do pamięci, do której nigdy się nie odnosiliśmy (page-fault nie wywołuje problemu)
+- próba dostępu do pamięci, która nie istnieje (zawsze błąd)
+
+błąd odczytu strony:
+- procedura obsługi błędu strony, czyli próby dostępu do pamięci, której nie ma w DRAM, odpowiada za sprowadznie
+danej pamięci do DRAMu
+- jak valid jest 0 następuje przerwanie procesora (błąd odczytu strony)
+Krok po kroku, jak to się odbywa
+- próbowaliśmy zrobić dostęp do pamięci z bitem valid 0, procesor realizuje kod z jądra tj procedurę
+page-fault, ta procedura wie który adres wirtualny był błędny i że trzeba coś z nim zrobić,
+tj. program dla niego nie powinien zakończyć się błędem segmentacji i że trzeba naprawić środowisko programu, wtedy
+z pamięci fizycznej (z DRAM) wybieramy ofiarę i usuwamy ją, jak była brudna to synchronizujemy ją z dyskiem,
+stronę którą chcieliśmy zapisać pobieramy do page table i pamięci fizycznej;
+jak naprawimy już błąd strony wracamy z trybu uprzywilejowanego do trybu użytkownika i jeszcze raz robimy dostęp do pamięci
+
+przed wykonaniem - Jądro pracuje procesorem i pobiera dane z pamięci, po wykonaniu procedury wracamy do procesu,
+tryb użytkownia ponownie się uruchamia,
+jeszcze raz puszczany jest dostęp do pamięci, który tym razem będzie hit
+
+

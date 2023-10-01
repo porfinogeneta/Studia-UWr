@@ -1,0 +1,75 @@
+
+Merging program properties
+
+
+Discarded input sections
+
+ .comment       0x0000000000000000       0x2c even.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 even.o
+ .note.gnu.property
+                0x0000000000000000       0x20 even.o
+ .comment       0x0000000000000000       0x2c odd.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 odd.o
+ .note.gnu.property
+                0x0000000000000000       0x20 odd.o
+ .comment       0x0000000000000000       0x2c start.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 start.o
+ .note.gnu.property
+                0x0000000000000000       0x20 start.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+                0x00000000004000e8                . = (0x400000 + SIZEOF_HEADERS)
+
+.text           0x00000000004000e8       0x45
+ *(.text .text.*)
+ .text          0x00000000004000e8       0x17 even.o
+                0x00000000004000e8                is_even
+ .text          0x00000000004000ff       0x14 odd.o
+                0x00000000004000ff                is_odd
+ .text          0x0000000000400113       0x1a start.o
+                0x0000000000400113                _start
+
+.rodata
+ *(.rodata .rodata.*)
+
+.eh_frame       0x0000000000400130       0x60
+ .eh_frame      0x0000000000400130       0x30 even.o
+ .eh_frame      0x0000000000400160       0x18 odd.o
+                                         0x30 (size before relaxing)
+ .eh_frame      0x0000000000400178       0x18 start.o
+                                         0x30 (size before relaxing)
+
+.data           0x0000000000400190        0x0
+ *(.data .data.*)
+ .data          0x0000000000400190        0x0 even.o
+ .data          0x0000000000400190        0x0 odd.o
+ .data          0x0000000000400190        0x0 start.o
+
+.bss            0x0000000000400190        0x0
+ *(.bss .bss.*)
+ .bss           0x0000000000400190        0x0 even.o
+ .bss           0x0000000000400190        0x0 odd.o
+ .bss           0x0000000000400190        0x0 start.o
+ *(COMMON)
+
+/DISCARD/
+ *(.rela.*)
+ *(.iplt .iplt.*)
+ *(.igot .igot.*)
+ *(.got .got.*)
+ *(.comment)
+ *(.note.gnu.property)
+ *(.note.GNU-stack)
+LOAD even.o
+LOAD odd.o
+LOAD start.o
+OUTPUT(start elf64-x86-64)

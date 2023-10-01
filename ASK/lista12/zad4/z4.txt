@@ -1,0 +1,9 @@
+Loop interchange - zamiana pętli - wykonywanie iteracjji w porządku row-major (cash friedly)
+
+Loop fusion - łączenie pętli - złączanie przyległych pętli, mających te same limity
+
+Induction variable elimination - usuwanie zmiennych indukcyjnych - zamiana indeksów z iteracji na obliczenia
+
+Rematerialization - obliczenie wartości raz, bez koniecnzości sięgania po nią za każdym razem do pamięci
+
+

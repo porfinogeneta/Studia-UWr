@@ -1,0 +1,46 @@
+// symbole - identyfikatory dla funkcji, zmiennych i stałych, - nazwane miejsce w pamięci
+// służą do złączania programu w całość plików z referencjami w różnych miejscach
+//static od razu nam zaaolkuwuje albo w .bss albo w .data
+
+
+
+//silne symbole to procedury i zainicjowane zmienne
+
+//definicja symbolu - D
+// referencja do symbolu - R
+
+//Local linker symbols are not local program variables!
+
+// zasięg widoczności symbolu, gdzie dany symbol jest widoczny
+// * lokalne - widoczne tylko w danym zakresie - zadeklarowane przy użyciu static [L]
+// * globalne - widoczne z każdego pliku - non-static C functions and non-static global variables    [G]
+// * zewnętrzne, pochodzące z innych plików, słowo kluczowe extern, [E]
+// są traktowane jak słabe symbole, muszą być zdefiniowane w innym pliku
+
+//SEKCJE
+// .text - wywołania kodu programu, funkcje, instrukcje itp.
+// .rodata - read only, czyli jump tables (do switchy), stringi
+// .data - zainicjowane zmienne globalne i statyczne
+// .bss - niezainicjowane zmienne globalne i statyczne lub zainicjowane zerami
+
+//tablica symboli - mówi nam gdzie siedzi symbol (zmienna globalna, funkcja itp.) jakiej jest wielkości
+// oraz pozwala linkerowi na złączenie wielu plików binaranych w jeden
+
+
+
+
+// plik relokowalny - skompilowany plik binarny, który zawiera kod i dane,
+// które można włożyć na dowolne miejsce w pamięci
+// można w ten sposób połączyć plik z innymi plikami i stworzyć cały program
+
+// gcc -c zad1.c -o zad1.o
+// nm zad1.o
+
+//000000000000001a T addf
+//U buf
+//0000000000000000 D bufp0
+//0000000000000008 b count.0
+//0000000000000000 t incr
+//U printf
+//0000000000000000 b sum
+//0000000000000061 T swap

@@ -1,0 +1,11 @@
+- odnalezienie adresów gadżetów w pliku
+- odnalezienie syscall - program żąda usługi od systemu operacyjnego
+
+- w ropex.in.txt 0x38 jest w 3 rzędzie na 8 bajcie, gdzie jedna para liczb to jeden bajt (para po 4 bity)
+- objdump -d -s ropex | grep gadget / syscall
+
+- gdb --args ./ropex ropex.in
+
+ - b *0x4017a4 breakpoint
+- sztos x/50x $rsp
+- c kolejny breakpoint

@@ -1,0 +1,22 @@
+graf wywołań funkcji - graf prezentujący, która funkcja wywołuje którą i ile czasu jest przeznaczone na daną funkcję
+
+strcmp - funkcja do porównywania napisów
+
+strtok - dzieli napisy na części względem jakiegoś znaku
+
+strspn - funkcja szuka w przeszukiwanym stringu indeksu pierwszego znaku, który nie występuje w drugim stringu
+
+strcpy - kopiuje string
+
+- najwięcej czasu, bo aż 37.74% czasu kosztuje nas strcmp, używamy w funkcjach:
+find_ele_rec, find_ele_iter_f oraz find_ele_iter_r do wyszukiwania string'a w liście
+
+- można zooptymalizować użycie tej funkcji poprzez zmianę wyszukiwania iteracyjnego i rekurencyjnego na
+jakiś bardziej optymalny alorytm np wyszukiwanie binarne, potrzebne wtedy będzie mniej porównań
+
+- jeżeli chodzi o funkcje strtok i strcpy to nie bardzo można zooptymalizować miejsca ich użycia, bo
+strtok służy do wczytania inputu w naszym programie, a z kolei
+strcpy służy do kopiowania zawartości opcji z pliku, też nie ma miejsca na optymalizację
+
+
+

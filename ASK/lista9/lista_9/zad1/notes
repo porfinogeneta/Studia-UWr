@@ -1,0 +1,23 @@
+- sterwonik kompilatora (compiler driver) koordynuje proces kompilacji, łączenie, przekazywanie argumentów itp.
+
+
+- kompilacja- gcc -c -o data.o data.c
+- deasemblacja- objdump -d -M intel data.o
+
+- OKREŚLENIE ZNACZENIA DYREKTYW ASEMBLERA
+- global, widoczne dla linkera, dla innych plików
+- .data - coś wpadnie do sekcji data, nasza funkcja później
+- typ - co będziemy wrzucać
+- size - rozmiar danych
+- align 32, wyrównanie skekcji do 32 bajtów
+
+- beżącą sekcję przyłączają .data .bss , modyfikacja informacji .align oraz .size
+
+.size -._start obliczenie rozmiaru
+
+
+
+
+
+
+

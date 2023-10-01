@@ -1,0 +1,50 @@
+Leniwe wiązanie
+ - nie łączy wszystkim symboli na raz
+ - tworzy tabelę nierozwiązanych symboli, symboli zastępczych
+ - linker rozwiązuje symbole na żądanie
+ - funkcje stub i tabela łączenia procedur PLT
+ - gdy funkcja jest wywoływana po raz pierwszy trzeba rozwiązać jej symbole,
+    za kolejnymi razami nie jest to konieczne
+
+- plik relokowalny z flagą -fpic można załadować na dowolny adres w pamięci, używa adresowania względnego
+- pliku nierelokowalnego nie można załadować pod inne miejsce w pamięci, tylko biblioteki statyczne
+- plik relokowalny może zostać użyty do stworzenia biblioteki współdzielonej, może być ładowana do wielu różnych procesów
+
+
+W kontekście artykułu, funkcje stub to małe fragmenty kodu,
+które są używane w dynamicznym łączeniu do funkcji wywoływania
+w bibliotekach współdzielonych. Gdy program wywołuje funkcję w
+bibliotece współdzielonej, łącznik nie zna rzeczywistego adresu
+funkcji w czasie kompilacji. Zamiast tego tworzy funkcję stub w
+tabeli powiązań procedur (PLT), która przeskakuje do dynamicznego
+łącznika, aby rozwiązać symbol i zaktualizować globalną tabelę przesunięcia
+(GOT) o rzeczywisty adres funkcji. Funkcja stub jest wykonywana tylko raz,
+przy pierwszym wywołaniu funkcji, a następnie jest zastępowana faktycznym
+adresem funkcji w GOT. Kolejne wywołania funkcji omijają funkcję
+stub i przeskakują bezpośrednio na rozwiązany adres w GOT.
+
+- sekcje plt i got
+- PLT - tabela powiązań procedur
+- GOT - globalna tabela przesunięć
+- używane do rozwiązywania symboli w trakcie wykonywania
+- PLT - funkcje stup, używane do wywoływania funkcji we współdzielonych bibliotekach
+- GOT - wskaźniki do rzeczywistych adresów w pamięci
+- pierwsze wywołanie funkcji  -stub w PLT, aktualizuje GOT o rzeczywisty adres w pamięci,
+    kolejne wywołania korzystają już z tego co ta funkcja obliczyła i przeskakują do GOT
+
+- GOT - tam zapisuje się rzeczywiste adresy w pamięci
+- PLT - tylko odczyt funkcje stub, które, przeskakuje do dynamicznego łącznika, aby rozwiązać symbol i zaaktualizować
+GOT o rzeczywisty adres funkcji
+
+- zalety leniwego nad gorliwym
+
+
+Skrócony czas uruchamiania: Dzięki leniweMU wiązaniu dynamiczny łącznik rozwiązuje tylko symbole, które są faktycznie używane w czasie wykonywania, co może skrócić czas uruchamiania programu.
+
+Zmniejszone zużycie pamięci: Ponieważ symbole są rozwiązywane tylko wtedy, gdy są potrzebne, leniwe wiązanie może zmniejszyć zużycie pamięci przez program, zwłaszcza jeśli istnieje wiele nieużywanych symboli.
+
+Ulepszone udostępnianie: Leniwe wiązanie umożliwia wielu procesom współdzielenie tej samej kopii biblioteki współdzielonej, ponieważ biblioteka może być ładowana pod różnymi adresami w każdym procesie.
+
+Lepsze bezpieczeństwo: Leniwe wiązanie może poprawić bezpieczeństwo programu, utrudniając atakującym wykorzystywanie luk w bibliotekach współdzielonych, ponieważ adresy funkcji nie są znane do czasu wykonania.
+
+

@@ -1,0 +1,17 @@
+tablica stron:
+
+1 poziomowa tablica stron zajęła by pół terabajta
+
+2 poziomowa tablica stron, rozbijamy tą tablicę na części i trzymamy jej adresy w pomocniczej tablicy
+z której odnośniki do podtabel
+
+VA - 0x12345678, wyrzucamy 3 ostanie cyfry - to jest offset
+szukamy w tablicy stron wpisu o numerze 0x12345 -> tam mamy abc i mamy 0xabc(678) <-adres fizyczny
+
+dzięki podzieloeniu na podtablice, nie musimy trzymać tak wielu komórek na nulle,
+bo w jednej tablicy byśmy musieli trzymać dla nich miejsca, a w przypadku podtabel
+jak mamy nulle to po prostu nie trzymamy dla nich tabel
+
+resident set - pamięć procesu z RAMu
+working set - pamięć której proces używa w przedziale czasowym, zestaw danych z których korzystamy
+

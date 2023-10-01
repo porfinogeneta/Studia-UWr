@@ -1,0 +1,29 @@
+gcc -g nazwa_pliku.c -o nazwa_wykonawcza
+
+gdb nazwa_wykonawcza
+
+gdb start
+
+_GI__IO_puts (str=str@entry=0x555555556004 "first time") <- ten adres
+__GI__IO_puts (str=str@entry=0x55555555600f "second time") <- ten adres
+
+w PLT - 0x0000555555555050  puts@plt
+
+layout asm
+
+break 4
+break 5
+run
+
+step
+
+pojawia się funkcja -> skaczemy do PLT -> skaczemy do GOT, GOT modyfikuje adres faktyczny,
+    później gdy pojawi się funkcja w następnych krokach do nie będzie konieczności do skoków do PLT
+
+sekcja .text ma funkcję, za pierwszym razem skacze do PLT, na jego podstawie skacze do GOT
+    w got zapisywany jest adres funkcji, później widząć funkcję ma już 'przetarty szlak' i
+    idzie z PLT od razu, bez wachania do GOT
+
+PLT - fragmenty kodu, umieszczam inforamcję, gdzie będą coś wpisywał, znajdź mi tą funkcję
+GOT - adresy, nadpisuje adresy, później  znich korzystam
+

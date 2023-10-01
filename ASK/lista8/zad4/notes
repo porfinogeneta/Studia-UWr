@@ -1,0 +1,75 @@
+ - A relocatable file holds code and data suitable for linking with other object files to create an executable
+ - An executable file holds a program suitable for execution
+ - STRUKTURA
+ HEADER
+ - trzyma organizację pliku
+ SECTIONS
+ - instructions, data, symbol table, relocation information etc.
+
+* A program header table tells the system how to create a process image.
+* rolą header jest trzymanie technicznych szczegółów jeżeli chodzi o identyfikację i uruchamianie programów
+
+//znaczenie pól nagłówka
+#define EI_NIDENT 16
+
+e_ident[EI_NIDENT] - tablica bitów rozmairu 16
+4 pierwse to liczba magiczna (identyfikacyjna)
+5 bajt stwierdza czy objekt jest 32 bitowy czy 64 bitowy
+6 bajt stwierdza czy zapis jest w little endian czy w big endian
+7 bajt stwierdza werssję nagłówka ELF
+8 bajt stwierdza czy i jakiego rozszerzenia używa ELF, rozszerzenia względem systemu czy ABI
+9 bajt to ientyfikuje wersje ABI której objekt korzysta
+10 bajt - zaczyna się padding zerami
+
+typedef struct {
+        unsigned char   e_ident[EI_NIDENT]; - wejściowe bajty określają plik jako plik obiektowy i umożliwiają dekodowanie
+        Elf64_Half      e_type; - określa typ pliku
+        Elf64_Half      e_machine; - określa architekturę dla danego pliku
+        Elf64_Word      e_version; - określa wersję
+        Elf64_Addr      e_entry; - określenie adresu wirtualnego dla systemu, żeby można było rozpocząć proces
+        Elf64_Off       e_phoff; - trzyma offset tabelki nagłówka
+        Elf64_Off       e_shoff; - trzyma offest tabelki sekcji
+        Elf64_Word      e_flags; - trzyma flagi dla procesora, związane z plikiem
+        Elf64_Half      e_ehsize; - trzyma rozmiar nagłówka
+        Elf64_Half      e_phentsize; - trzyma rozmiar jednego rekordu w nagłówku
+        Elf64_Half      e_phnum; - trzyma liczbę nagłówków pliku
+        Elf64_Half      e_shentsize; - trzyma rozmiar sekcji nagłówka
+        Elf64_Half      e_shnum; - trzyma liczbę rekordów w sekcji nagłówka tabeli
+        Elf64_Half      e_shstrndx; - indeks sekcji nazw w tabeli
+} Elf64_Ehdr;
+
+//znaczenie tablicy rekordów nagłówków programu
+typedef struct {
+	Elf64_Word	p_type;     - jaki segment opisuje ta lista elementów, co ma zostać załadowane
+	Elf64_Word	p_flags;    - możliwe do odczytu i do egzekucji - rodzaje flag
+	Elf64_Off	p_offset;   - gdzie powinno to być czytane
+	Elf64_Addr	p_vaddr;    - adres wirtualny, do którego ma być to załadowane
+	Elf64_Addr	p_paddr;    - adres fizyczny gdzie ma to być załadowane
+	Elf64_Xword	p_filesz;   - rozmiar pliku
+	Elf64_Xword	p_memsz;    - rozmiar w pamięci
+	Elf64_Xword	p_align;    - określają wymogi wyrównania tego segmentu w pamięci
+} Elf64_Phdr;
+
+;readelf -h -l output
+;Entry point address:               0x1060
+
+- relokacja, informacja gdzie jaki adres wpisać, co poprawić po znajmości wszystkich adresów
+
+plik_relokowalny_1 + plik_relokowalny_2 = plik_wykonywalny
+
+===
+Skąd wiadomo gdzie znajduje się pierwsza instrukcja pliku wykonywalnego?
+
+ - poprzez pole e_entry w nagłówku ELF
+
+Pod jakie adresy wirtualne zostaną załadowane poszczególne segmenty programu?
+
+ - poprzez pole p_vaddr w nagłówku segmentu
+
+Które z sekcji nie zostaną załadowanecdo pamięci?
+
+- te z p_type = pt_null
+
+Z których sekcji procesor będzie mógł wyłącznie czytać?
+
+- Z tych w których p_flags ma tylko Read.

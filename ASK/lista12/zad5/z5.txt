@@ -1,0 +1,36 @@
+0000000000001219 <neigh>:
+    1219:       f3 0f 1e fa             endbr64
+    121d:       48 ff ca                dec    %rdx
+    1220:       4c 8d 41 ff             lea    -0x1(%rcx),%r8
+    1224:       48 ff c1                inc    %rcx
+    1227:       48 0f af d6             imul   %rsi,%rdx
+    122b:       48 01 f6                add    %rsi,%rsi
+    122e:       48 01 d6                add    %rdx,%rsi
+    1231:       4e 8d 0c 02             lea    (%rdx,%r8,1),%r9
+    1235:       48 01 ca                add    %rcx,%rdx
+    1238:       48 8b 04 d7             mov    (%rdi,%rdx,8),%rax
+    123c:       48 89 f2                mov    %rsi,%rdx
+    123f:       48 29 ce                sub    %rcx,%rsi
+    1242:       4a 03 04 cf             add    (%rdi,%r9,8),%rax
+    1246:       4c 29 c2                sub    %r8,%rdx
+    1249:       48 03 04 d7             add    (%rdi,%rdx,8),%rax
+    124d:       48 03 04 f7             add    (%rdi,%rsi,8),%rax
+    1251:       c3                      ret
+
+
+
+0000000000001252 <my_neigh_opy>:
+    1252:       f3 0f 1e fa             endbr64
+    1256:       48 ff ca                dec    %rdx
+    1259:       48 0f af d6             imul   %rsi,%rdx
+    125d:       48 01 f6                add    %rsi,%rsi
+    1260:       4c 8d 44 11 ff          lea    -0x1(%rcx,%rdx,1),%r8
+    1265:       48 01 c9                add    %rcx,%rcx
+    1268:       49 8d 50 02             lea    0x2(%r8),%rdx
+    126c:       48 01 d6                add    %rdx,%rsi
+    126f:       48 8b 04 d7             mov    (%rdi,%rdx,8),%rax
+    1273:       4a 03 04 c7             add    (%rdi,%r8,8),%rax
+    1277:       48 29 ce                sub    %rcx,%rsi
+    127a:       48 03 04 f7             add    (%rdi,%rsi,8),%rax
+    127e:       48 03 44 f7 f0          add    -0x10(%rdi,%rsi,8),%rax
+    1283:       c3

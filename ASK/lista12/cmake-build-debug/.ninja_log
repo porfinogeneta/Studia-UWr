@@ -1,0 +1,6 @@
+# ninja log v5
+0	25	1684789458153719053	CMakeFiles/lista12.dir/zad2/pure.c.o	2027ff739d2e0c0d
+0	28	1684789458153719053	CMakeFiles/lista12.dir/zad1/swaps.c.o	67bbf3039c67e151
+0	30	1684789458157719105	CMakeFiles/lista12.dir/zad3/fools.c.o	4c8f12d26ab7e73f
+25	56	1684789458181719420	CMakeFiles/lista12.dir/zad4/compute.c.o	5ed705e56ed6d203
+28	59	1684789458185719472	CMakeFiles/lista12.dir/zad5/neigh.c.o	35c0353ce5d7310b

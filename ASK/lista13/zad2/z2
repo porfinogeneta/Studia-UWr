@@ -1,0 +1,43 @@
+powtarzamy eksperyment, zatem komendy:
+gcc -O1 -pg prog.c -o prog
+./prog - uruchomić program, dopiero wtedy można użyć gprof
+gprof prog
+
+- kandydat to optymalizacji to funkcja sort_word:
+97.44%    190.58s   190.58s        1 calls   190.58 self call   190.58 to call  sort_words
+- QUICK 1, umożliwi to uruchomienie quicksort'a w funkcji sort_words, oto wydruk z zooptymalizowanego programu:
+
+ 94.41      4.13     4.13   965027     0.00     0.00  find_ele_rec
+  1.37      4.20     0.06   965027     0.00     0.00  h_mod
+  1.14      4.25     0.05        1     0.05     0.05  sort_words
+
+opis do tabelki:
+ %         the percentage of the total running time of the
+time       program used by this function.
+
+cumulative a running sum of the number of seconds accounted
+ seconds   for by this function and those listed above it.
+
+ self      the number of seconds accounted for by this
+seconds    function alone.  This is the major sort for this
+           listing.
+
+calls      the number of times this function was invoked, if
+           this function is profiled, else blank.
+
+ self      the average number of milliseconds spent in this
+ms/call    function per call, if this function is profiled,
+           else blank.
+
+ total     the average number of milliseconds spent in this
+ms/call    function and its descendents per call, if this
+           function is profiled, else blank.
+
+name       the name of the function.  This is the minor sort
+           for this listing. The index shows the location of
+           the function in the gprof listing. If the index is
+           in parenthesis it shows where it would appear in
+           the gprof listing if it were to be printed.
+
+
+
