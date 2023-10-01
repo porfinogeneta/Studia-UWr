@@ -1,0 +1,82 @@
+#lang plait
+(lambda (x) (lambda (y) (lambda (z) ((x z) (y z)))))
+#|
+x = ('a -> ('b -> 'c))
+y = ('a -> 'b)
+z = 'a
+(x z) => ('b->'c)
+(y z) => 'b
+((x z) (y z)) => (('b->'c) 'b) => 'c
+
+('a -> ('b -> 'c)) -> ('a -> 'b) -> 
+
+;('a -> 'b) -> (('a -> 'b) -> ('a -> 'c)
+
+|#
+
+;((lambda (x) (x x)) (lambda (x) (x x)))
+
+;(((lambda (x) x) (lambda (x) x)) 42) -> Number
+
+
+( define ( curry f) ( lambda (x) ( lambda (y) (f x y))))
+( define ( flip f) ( lambda (x y) (f y x)))
+( define ( compose f g) ( lambda (x) (f (g x))))
+( define ( apply f x) (f x))
+#|
+
+1.(a b -> c) -> (a -> (b -> c))
+2.(a b -> c) -> (b a -> c)
+3.((b -> c) (a -> b)) -> (a -> c))
+4.(a -> b) a -> b
+|#
+
+;(( ' a -> 'b) ('a -> 'c) -> ('a -> ('b * 'c)))
+
+(define (f3 f g)
+  (lambda (x) (pair (f x) (g x))))
+
+;(( ' a -> ( Optionof ('a * 'b))) 'a -> ( Listof 'b))
+
+(define (f4 [f : ('a -> (Optionof ('a * 'b)))] x)
+  (list (snd (some-v (f x)))))
+
+
+
+( define-type ( NNF 'v)
+( nnf-lit [ polarity : Boolean ] [ var : 'v ])
+( nnf-conj [l : ( NNF 'v)] [r : ( NNF 'v) ])
+( nnf-disj [l : ( NNF 'v)] [r : ( NNF 'v) ]) )
+
+(define (neg-nnf psi)
+  (type-case (NNF 'v) psi
+    [(nnf-lit p v) (nnf-lit (not p) v)]
+    [(nnf-conj l r) (nnf-disj (neg-nnf l) (neg-nnf r))]
+    [(nnf-disj l r) (nnf-conj (neg-nnf l) (neg-nnf r))]
+    ))
+
+( define-type ( Formula 'v)
+( var [ var : 'v ])
+( neg [f : ( Formula 'v) ])
+( conj [l : ( Formula 'v)] [r : ( Formula 'v) ])
+( disj [l : ( Formula 'v)] [r : ( Formula 'v) ]) )
+
+(define (to-nnf phi)
+  (type-case (Formula 'v) phi
+    [(var v) (nnf-lit #t v)]
+    [(neg f) (neg-nnf (to-nnf f))]
+    [(conj l r) (nnf-conj (to-nnf l) (to-nnf r))]
+    [(disj l r) (nnf-disj (to-nnf l) (to-nnf r))]))
+
+(define formula (neg (conj (neg(var 'a)) (var 'b) )) )
+
+(to-nnf formula)
+
+
+#;(define (eval-nnf sigma psi)
+  (type-case (NNF psi)
+    [(nnf-lit p v) (if p (sigma v) (not (sigma v)))]
+    [...]))
+
+
+

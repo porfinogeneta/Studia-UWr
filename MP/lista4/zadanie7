@@ -1,0 +1,30 @@
+#lang racket
+
+
+
+(define empty-queue (cons '() '() ) )
+
+(define queue (cons (list 1 2 3) (list 4 6 8) ))
+
+; zgodnie z wytycznymi niezmiennika
+(define (empty? q)
+  (and (null? (car q)) (null? (cdr q)) )
+  )
+
+;dodanie na koniec kolejki
+(define (push-back x q)
+  (cons (car q) (cons x (cdr q)) )
+  )
+
+;lewy element z lewej listy
+(define (front q)
+  (car (car q))
+  )
+
+; jak lewy jest pusty to tworzymy tylko odwróconą listę prawą
+(define (pop q)
+  (if (null? (cdr (car q)))
+      (cons (reverse (cdr q)) '())
+      (cons (cdr (car q)) (cdr q))
+      )
+  )

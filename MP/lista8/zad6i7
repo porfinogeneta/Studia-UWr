@@ -1,0 +1,112 @@
+#lang plait
+
+
+;w tym zadaniu mamy wyrazić formy specjalne z Racketa za pomocą typów w plait
+;wyrażenia składające się z:
+;-zmiennych (typ Symbol)
+;-liczb
+;-lambda-wyrażenia
+;-aplikacje (wywołania funkcji)
+;-let
+;-if
+;-cond
+
+
+(define-type RacketExpression
+  [rtype-var (s : Symbol)] ;zmienna
+  [rtype-number (n : Number) ] ;liczba
+  [rtype-lambda (args : (Listof Symbol)) (body : RacketExpression)] ;lambda n argumentów i ciało funkcji
+  [rtype-app (f : RacketExpression) (args : (Listof RacketExpression))] ;zwykła funkcja - f (n argumentów)
+  [rtype-let (bindings : (Listof (Symbol * RacketExpression))) (body : RacketExpression)] ;let - n złączeń w let oraz ciało let'a
+  [rtype-if (conditional : RacketExpression) (then-part : RacketExpression) (else-part : RacketExpression)] ;if - warunek oraz dwie gałęzie
+  [rtype-condi (conditions : (Listof (RacketExpression * RacketExpression) ))] ;cond  - lista warunków i wartości od nich zależnych
+)
+
+;PARSER
+;Na przykład, dla lambdy z jednym argumentem x ((lambda (x) (* x x))), (car (cdr s)) oblicza się do (x), a wynikiem przetwarzania map jest lista [(rtype-symbol 'x)]
+;Na przykład dla lambdy z ciałem (* x x) ((lambda (x) (* x x))), (cadr (cdr s)) oblicza się do wyrażenia (* x x). Następnie, ciało to jest analizowane za pomocą funkcji parse-racket
+
+;robimy strukturę typu lambda
+;na początku konwersja na listę s-symboli, następnie każdy s-symbol na zwykły symbol
+(define (parse-list-lambda e)
+  (let ([xs (s-exp->list e)])
+    (map (lambda (elem) (s-exp->symbol elem)) xs) 
+    )
+  )
+;przyjujemy s-wyrażenie będące listą, konwersja na listę s wyrażeń
+(define (parse-list-let e)
+  
+  (let* (;otrzymujemy listę zdań w let
+         [let-sen (s-exp->list e)]
+         ;konwertuję je na listę złożoną z list s-wyrażeń
+         [propper (map (lambda (sen) (s-exp->list sen)) let-sen)]
+         )
+    ;teraz w każdej liście złożonej z s-wyrażeń wyciągam odpowiednie elementy
+    (map
+     (lambda (sen-propper)
+       ;tworzę parę żeby było to zgodne z typem
+       (pair (s-exp->symbol (first sen-propper)) (parse-RacketExpression (second sen-propper) ))
+       )
+     propper)
+    )
+  )
+
+(define (parse-list-cond conditions)
+  (let* (;konwertuję warunki na listy s-wyrażeń
+         [propper (map (lambda (cdt) (s-exp->list cdt)) conditions)]
+         )
+    ;teraz w każdej liście złożonej z s-wyrażeń wyciągam odpowiednie elementy
+    (map
+     (lambda (elem)
+       ;tworzę parę żeby było to zgodne z typem
+       (pair (parse-RacketExpression (first elem)) (parse-RacketExpression (second elem) ))
+       )
+     propper)
+    )
+  )
+
+;podana zostaje lista s-wyrażeń, każde chcemy sparsować
+(define (parse-list-apply apps)
+  (map (lambda (elem) (parse-RacketExpression elem)) apps)
+  )
+
+
+(define (parse-RacketExpression s)
+  (cond
+    [(s-exp-symbol? s) (rtype-var (s-exp->symbol s))] ; symbol
+    [(s-exp-number? s) (rtype-number (s-exp->number s))] ; liczby
+    [(s-exp-list? s)
+     ;konwertujemy s-wyrażenie podane na wejściu na listę
+     (let* ([xs (s-exp->list s)] [command (first xs)]);[pierwszy element to typ racketowy
+       (cond
+         [(equal? command `lambda)
+          (rtype-lambda
+            (parse-list-lambda (second xs)) ;parsujemy listę argumentów
+            (parse-RacketExpression (third xs)))] ;ciało lambdy to jakieś wyrażenie racketowe
+         [(equal? command `let)
+          (rtype-let
+            (parse-list-let (second xs)) ;parsujemy listę bindingów leta
+            (parse-RacketExpression (third xs)))] ;ciało leta to jakieś wyrażenie racketowe
+         [(equal? command `if)
+          (rtype-if
+            (parse-RacketExpression (second xs)) ;trzy gałęzie ifa
+            (parse-RacketExpression (third xs))
+            (parse-RacketExpression (fourth xs)))]
+         [(equal? command `cond)
+          (rtype-condi
+            (parse-list-cond (rest xs))) ;parsujemy listę warunków conda
+          ]
+         [else
+          (rtype-app
+           (parse-RacketExpression (first xs)) ;funkcja to jakieś wyrażenie racketowe
+           (parse-list-apply (rest xs)) ;funkcja jest wywoływana na liście s-symboli
+           )
+          ]
+         )
+       )]))
+
+
+
+
+
+

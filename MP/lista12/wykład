@@ -1,0 +1,99 @@
+#lang plait
+interpreter jes to ogonowy jeśli wyliczenie nastąpi dopiero na końcu
+
+(+ (+ e1 e2) e3) - jak któryś się wyliczy jako error, wyrzucamy kontekst pozostałych obliczeń i zwracamy error, kończymy program
+
+===================================
+
+
+funkcje u nas to (Value -> Value)
+
+{lambda (x) e}
+
+{funV (lambda(v) (eval e (extern-env env x v)))}
+
+- co potrzebujemy żeby to wyliczyć: [nazwa zmiennej, exp, env] <- domknięcie funkcji, czyli funkcja + środowisko, env zawiera zmienne wolne w exp
+
+- w apply korzystamy że nasza funkcja składa się teraz z domknięć, nasz interpreter teraz nie zwraca funkcji, tylko jakąś strukturę danych
+
+
+- co jeżeli z naszej notacji pozbędziemy się środowiska
+
+{let x 0
+  {let f {{lambda (y) {+ y x}}
+          {let x 10
+            {f 1} <- tutaj x = 1, statyczne wiązanie zmiennej w przypadku [x, e, env], wyliczy się do 1, jak nie zbudujemy domknięcia to będziemy mieli [x, e] i wyliczy się do 11
+            }
+          }
+  }}
+
+dodamy operatory +,- itd do środowiska, nie ma już wyrażeń typu OpE,
+
+{+ 1 2} => {{+ 1} 2}, dostajemy zagnieżdzoną aplikację + - identyfikator, 1 aplikacja
+
+teraz inaczej wygląda interpretacja operatorów
+primap - u nas jakaś funkcja z bibloteki, po wzięciu pierwszego argumentu zwrócimy primopV, czyli coś Value -> Value, jak liczba zwracamy procedurę
+
+mamy pary, symbol, znaczenie symbolu i budujemy z nich środowisko, eval nie uwzględnia OpE, teraz apply zaaplikuje operacje prymitywne, wykrywamy +, liczbę 1 dostajemy 2
+
+{+ 1 2} => parsowanie => (appE (appE (varE '+) (numE 1)) (numE 2)) => teraz eval => w środowisku pod nazwą +, mamy primopV f (jakaś lambda), zaaplikujemy do kolejnego appE i tam wyliczamy
+
+====================================
+(let ([fact (lambda (n) (* (fact (- n 1))))])
+  (fact 5)
+  ) z letem nie działa, bo drugi fact nie jest widoczny wewnątrz fact
+
+jak zrobimy sobie letrec to będzie już działało, fact będzie dostępny
+
+
+spróbujmy to zdefiniować w naszym języku
+
+(let ([fact
+       (lambda (f)
+      (lambda (n) (if (= n 0)
+                      1
+                      (+ n (f (- n 1)))
+                      ))
+      )])
+  ((fact fact) 5)
+)
+
+dlaczego to działa - (* 5 ((fact fact) 4)) => (* 5 (* 4 ((fact fact) 3)) => (* 5 (* 4 .. 1)), możemy aplikować siebie do siebie
+
+operator punktu stałego  (fix f) => (f (fix f)), punkt stały to y = f(y)
+
+
+=======================================
+zdefiniujemy letrac'a w naszym języku
+{letrec x e1 e2}
+
+{letrec ([v (eval e1 (extend-env env x v))])
+  (eval e2 (extend-env x v))
+  }
+
+{letrec (f) {lambda (y) f} e2}
+
+to co trzymamy w val to są odroczone obliczenia, jak rozszerzam środowisko, umieszczam tam odroczone obliczenia
+
+{letrec x {+ x 1} e1}
+
+
+
+===============================
+mutowalny stan
+pod fact wstawiamy funkcję definiującą silnię, nie ma tu rekursji
+
+env[fact 'undefined] => kolejny krok => (funV n e), w env podmieniam środowisko za pomocą set!'a
+
+gensym, robimy mutowalny lokalny stan, box na stercie, (box 0) trzyma referencję na wartość 0
+
+set-box! w referencji c zapisujemy (unbox c), czyli set-box! zmodyfikuje pamięć, nic nam nie zwraca
+
+Boxof adres na coś na stercie, w stercie trzymamy wskaźnik
+
+wcześniej env to była lista identyfikatorów i wartości, teraz dalej mamy listę z identyfikatorami, ale zamiast wartości mamy pamięć modyfikowalną,
+na  którą wskazujemy. zajrzenie do środowiska daje mi adres, pod który muszę popatrzeć
+
+
+
+ 

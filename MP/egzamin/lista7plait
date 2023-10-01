@@ -1,0 +1,85 @@
+#lang plait
+
+(define (fold-right f acc xs)
+  (if (empty? xs)
+      acc
+      (f (first xs) (fold-right f acc (rest xs)))))
+
+(define (fold-right-broken f acc xs)
+  (if (empty? xs)
+      acc
+      (f (first xs) (fold-right-broken f (first xs) (rest xs)))))
+(fold-right-broken (lambda (a acc) (+ a acc)) 0 '(1 2 3))
+
+;z1
+(define-type (23Tree 't)
+  (leaf2)
+   (node2 [elem : 'a] [child1 : (23Tree 't)] [child2 : (23Tree 't)])
+   (node3 [elem : 'a] [elem2 : 'a] [child1 : (23Tree 't)] [child2 : (23Tree 't)] [child3 : (23Tree 't)]))
+
+(define (choose-bigger a b)
+  (if (> a b)
+      a
+      b))
+
+(define (choose-smaller a b)
+  (if (< a b) a b))
+
+
+
+(define (check-height t h)
+  (type-case (23Tree 't) t
+    [(leaf2) h]
+    [(node2 e c1 c2)
+     (choose-bigger (check-height c1 (+ 1 h)) (check-height c2 (+ 1 h)))]
+    [(node3 e e2 c1 c2 c3)
+     (choose-bigger (check-height c1 (+ 1 h)) (choose-bigger (check-height c2 (+ 1 h)) (check-height c3 (+ 1 h))))]))
+
+(define (max-v t v)
+  (type-case (23Tree 't) t
+    [(leaf2) v]
+    [(node2 e c1 c2)
+     (if (> e v)
+         (choose-bigger (max-v c1 e) (max-v c2 e))
+         (choose-bigger (max-v c1 v) (max-v c2 v)))]
+    [(node3 e e2 c1 c2 c3)
+     (if (> (choose-bigger e e2) v)
+         (choose-bigger (max-v c1 e) (choose-bigger (max-v c2 e) (max-v c3 e)))
+         (choose-bigger (max-v c1 e) (choose-bigger (max-v c2 e) (max-v c3 e))))]
+    ))
+
+(define (min-v t v)
+  (type-case (23Tree 't) t
+    [(leaf2) v]
+    [(node2 e c1 c2)
+     (if (< e v)
+         (choose-smaller (min-v c1 e) (min-v c2 e))
+         (choose-smaller (min-v c1 v) (min-v c2 v)))]
+    [(node3 e e2 c1 c2 c3)
+     (if (< (choose-smaller e e2) v)
+         (choose-smaller (min-v c1 e) (choose-smaller (min-v c2 e) (min-v c3 e)))
+         (choose-smaller (min-v c1 v) (choose-smaller (min-v c2 v) (min-v c3 v))))]
+    ))
+
+(define (check-23Tree? t)
+  (type-case (23Tree 't) t
+    [(leaf2) #t]
+    [(node2 e c1 c2)
+     (and (= (check-height c1 0) (check-height c2 0)) (> e (max-v c1 -inf.0)) (< e (min-v c2 +inf.0)) (check-23Tree? c1) (check-23Tree? c2))]
+    [(node3 e e2 c1 c2 c3)
+     (and (= (check-height c1 0) (check-height c3 0))
+          (= (check-height c2 0) (check-height c3 0))
+          (= (check-height c1 0) (check-height c2 0)
+          )
+          (> e e2)
+          (<= e2 (min-v c2 +inf.0))
+          (>= e (max-v c3 -inf.0))
+          (> e (max-v c1 +inf.0))
+          (< e2 (min-v c2 +inf.0))
+          (> e2 (max-v c1 -inf.0))
+          (< e2 (min-v c2 +inf.0))
+          (check-23Tree? c1)
+          (check-23Tree? c2)
+          (check-23Tree? c3))]
+    ))
+

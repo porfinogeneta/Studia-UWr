@@ -1,0 +1,15 @@
+#lang racket
+
+
+(define (mreverse! lst)
+  (define (loop prev lst)
+    ;jak lista się skończy nie robimy nic
+    (if (null? lst)
+        (void)
+        (begin
+          ()
+          )
+        )
+    )
+  )
+

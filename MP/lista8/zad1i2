@@ -1,0 +1,120 @@
+#lang racket
+
+(struct mlst (
+                [front #:mutable]
+                [back #:mutable]))
+
+;sprawdzenie czy lista jest pusta
+(define (mlst-empty? q)
+  (and (null? (mlst-front q))
+       (null? (mlst-back  q))))
+
+(define (nonempty-mlst? q)
+  (and (mlst? q) (mpair? (mlst-front q))))
+
+;robi nową listę, z pustym front i back
+(define (make-mlst)
+  (mlst null null))
+
+;wrzucamy element x na koniec listy q
+(define (mlst-push q x)
+  ;ostanim elementem ma być para (x null)
+  (define p (mcons x null))
+  (if (mlst-empty? q)
+      ;jak lista nic nie ma
+      (set-mlst-front! q p)
+      ;doklejamy p do ostaniej pary
+      (set-mcdr! (mlst-back q) p))
+  ;zmieniamy wskaźnik na back 
+  (set-mlst-back! q p))
+
+
+(define myList (make-mlst)) 
+
+
+
+(mlst-push myList 10)
+(mlst-push myList 20)
+(mlst-push myList 30)
+
+;(display (mlst-back myList))
+
+;ZADANIE 1
+(define (cycle! lst)
+  (if (mlst-empty? lst)
+      (error "No elements to handle")
+      ;przypinamy do back nowy front
+      (set-mcdr! (mlst-back lst) (mlst-front lst))
+      )
+  )
+;(cycle! myList)
+;(display myList)
+
+;ZADANIE 2
+;trzeba poprawić back pointer
+(define (mreverse! lst)
+  (define (loop prev curr)
+    (if (null? curr)
+        (begin
+          ;front i back nie są jeszcze na tym etapie zmienione
+          ;jak dojdziemy do końca zamieniamy front i back
+          ;zmieniona zawartość back staje się przodem
+          (set-mlst-front! lst (mlst-back lst))
+          ;przód staje się tyłem
+          ;(set-mcdr! prev null) ;dodajemy null
+          (set-mlst-back! lst  (mlst-front lst))) ;zamiana tyłu
+        
+          ;musimy zapamiętać wskaźnik na kolejny element
+          (let ([next (mcdr curr)]
+                )
+               ;przestawiamy wskaźnik
+              (set-mcdr! curr prev)
+              ;robimy kolejny obieg pętli, poprzedim elementem, jest aktualny element
+              (loop curr next ))
+         )
+  (loop '() (mlst-front lst))
+)
+
+
+  
+
+
+
+;1 > 2 > 3 > null
+;1>null , 2>3>null
+;2>1>null , 3 > null
+;3>2>1>null , null
+;3 - front, 1 back
+ 
+
+(mreverse! myList)
+(display (mlst-front myList))
+(display "\n")
+(display (mlst-back myList))
+
+
+;można też tak
+(define mlist-rev (mcons 1 (mcons 2 (mcons 3 (mcons 4 null)))))
+
+(define (mreverse! mlist)
+  (define (it cur prv)
+    (if (null? cur)
+        prv
+        (let ([nxt (mcdr cur)])
+          (set-mcdr! cur prv)
+          (it nxt cur))))
+   (set-mcar! mlist-rev (it mlist null))) ;nasza zmienna powianna pokazywać na ostatni bloczek
+   
+#;(define (mreverse! xs)
+  (define (it cur prev)
+    (if (empty? cur)
+        prev
+        (let [(nxt (mcdr cur))]
+          (set-mcdr! cur prev)
+          (it nxt cur))))
+  (it xs '()))
+
+(define mlist2 (list->mlist '(5 6 7 8 9)))
+   
+
+(mreverse! mlist-rev)

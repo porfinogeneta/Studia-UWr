@@ -1,0 +1,13 @@
+#lang racket
+
+(require "zad3m")
+
+(define mydeq (make-dequeue))
+
+(dequeue-push-front mydeq 3)
+(dequeue-push-back mydeq 4)
+(dequeue-pop-front mydeq)
+(dequeue-pop-back mydeq)
+
+
+(dequeue-empty? mydeq)

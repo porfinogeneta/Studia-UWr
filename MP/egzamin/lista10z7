@@ -1,0 +1,41 @@
+#lang plait
+
+(define-syntax do
+  (syntax-rules ()
+    [(do () a)
+     a]
+    [(do ([x1 a1] [x2 a2] ...) a)
+     (bind a1 (λ (x1) (do ([x2 a2] ...) a)))]))
+
+(define-syntax my-and
+  (syntax-rules ()
+    [(my-and () b) #t]
+    [(my-and b1 b2 ...)
+     (if b1 (my-end b2 ...) #f)]))
+
+(define-syntax my-or
+  (syntax-rules ()
+    [(my-or () b) #f]
+    [(my-or b1 b2 ...)
+     (if b1 #t (my-or b2 ...))]))
+
+(define-syntax my-let
+  (syntax-rules ()
+    [(my-let () body ...) (begin body ...)]
+    [(my-let* [(var expr) ...] body ...)
+     ((lambda (var ...) body ...) expr ...)]))
+
+(define-syntax my-let*
+  (syntax-rules ()
+    [(my-let* () body ...) ;jeżeli nie ma już zmiennych do analizy, obliczam body
+     (begin body ...)
+     ]
+    [(my-let* ((var expr) . rest ) body ...) ;rekurencyjnie liczę lokalne wartości zmiennych i podaję je do kolejnych let'ów
+     (my-let ((var expr) )
+             (my-let* rest body ...)
+             )
+     ]
+  )
+)
+
+

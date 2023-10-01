@@ -1,0 +1,13 @@
+#lang racket
+
+(define (two-squares a b c)
+  (cond [(and (< a b) (< a c)) (+ (* b b) (* c c))]
+        [(and (< b a) (< b c)) (+ (* a a) (* c c))]
+        [else (+ (* a a) (* b b))]
+  ))
+
+
+(require rackunit)
+
+(check-equal? (two-squares 2 3 5) 34)
+(check-equal? (two-squares 2 3 5) 32)

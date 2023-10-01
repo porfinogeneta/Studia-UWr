@@ -1,0 +1,129 @@
+#lang racket
+
+;; processing data sequences with lists --------------------
+
+(define-syntax-rule
+  (delay c)
+  (memo-proc (λ () c)))
+
+(define (force t)
+  (t))
+
+(define (memo-proc proc)
+  (let ([already-run? false]
+        [result false])
+    (lambda ()
+      (if (not already-run?)
+          (begin (set! result (proc))
+                 (set! already-run? true)
+                 result)
+          result))))
+
+
+
+;; streams aka lazy lists ---------------------------------
+
+;; delay and force
+
+(define-syntax-rule
+  (stream-cons v s)
+  (cons v (delay s)))
+
+(define stream-car car)
+
+(define (stream-cdr s)
+  (force (cdr s)))
+
+(define stream-null null)
+(define stream-null? null?)
+
+;; operations on streams
+
+(define (stream-ref s n)
+  (if (= n 0)
+      (stream-car s)
+      (stream-ref (stream-cdr s) (- n 1))))
+
+(define (stream-filter p s)
+  (if (stream-null? s)
+      stream-null
+      (if (p (stream-car s))
+          (stream-cons (stream-car s)
+                       (stream-filter p (stream-cdr s)))
+          (stream-filter p (stream-cdr s)))))
+
+(define (stream-enumerate-interval a b)
+  (if (> a b)
+      stream-null
+      (stream-cons a (stream-enumerate-interval (+ a 1) b))))
+
+
+;; infinite streams
+
+(define ones (stream-cons 1 ones))
+
+(define (integers-from n)
+  (stream-cons n (integers-from (+ n 1))))
+
+(define nats (integers-from 0))
+
+
+ ;; combining (infinite) streams 
+
+;wykonujemy funkcję f na dwóch strumieniach xs i ys
+(define (map2 f xs ys)
+  (stream-cons
+   (f (stream-car xs)
+      (stream-car ys)) ;pierwszy element pary
+   (map2 f (stream-cdr xs) (stream-cdr ys)))) ;drugi element pary
+
+(define nats2 (stream-cons 0 (map2 + nats2 ones)))
+
+;zadanie 3
+ ;mnożymy strumień  liczb naturalnych od 1 przez kolejne elementy ze strumienia silni
+(define fact
+  (stream-cons 1 (map2 * fact (stream-cdr nats2))))
+
+(stream-ref fact 3)
+
+#|
+
+fact:   1 1 2 6
+nats2 0 1 2 3 4
+|#
+
+;zadanie 4
+;budujemy nowy strumień, w którym dodajemy jeden strumień do drugiego
+(define (partial-sums stream)
+  (stream-cons (stream-car stream) 
+               (map2 + (partial-sums stream) (stream-cdr stream))));cdr przesuwa nam strumień w prawo, a my robimy sumę częściową od całego strumienia
+
+(stream-ref (partial-sums nats2) 2)
+
+#|
+dzięki użyciu map2 złączymy ogon naszego strumienia z resztą strumienia, a dzięki temu że w partial-sum nie zmieniamy strumienia
+suma będzie zależała od ogona
+dla sumy dwuelementowej
+(stream-cons a0 (map2 + a1 a0), a0 z partial sums, z tego zrobi się nowy strumień, w którym dalej będizemy dodawać elementy, które pochodzą z sumowanych pozostałych
+ s s1 s2 s3 s4
+ s1 s1+s2 s1+s2+s3
+;dodajemy przesunięty strumień
+|#
+
+#|
+nats2    0 1 2 ...
+ones     1 1 1 ...
+---------------------------------------
+nats2  0 1 2 3 ...
+|#
+
+(define fibs
+  (stream-cons 0 (stream-cons 1 (map2 + fibs (stream-cdr fibs)))))
+
+#|
+fib            0 1 1 2 3 ...  
+(cdr fib)      1 1 2 3 ...
+-----------------------------------------
+fib        0 1 1 2 3 5 ...
+
+|#

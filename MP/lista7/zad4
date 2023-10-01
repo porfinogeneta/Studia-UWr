@@ -1,0 +1,82 @@
+#lang racket
+;intuicja
+;pozytywne - opisują wartości dostarczane przez funkcję, której dotyczy kontrakt
+;negatywne - wartości dostarczane przez użytkownika
+
+;formalnie
+;pozytywne - jest na pozycji argumentu parzyście wielu strzałek
+;negatywne - wpp
+
+;      neg poz
+;[a] (-> a a)
+;arg - pakuje
+;rozw - rozpakowuje
+;wkładam do pudełka, w wyniku powieniem dostać co jest w pudełku, programista wyciąga złą rzecz, wina programisty
+;nie jestem w stanie odpakować, programista winny
+
+;[a] ( -> lst? number?)
+;((lambda (x) 5) 9) - neg złamało bo użytownik dał 9
+
+
+;dlaczego się odwraca polarność przy wychodzeniu z funkcji
+;[a] (-> (-> a b) a) b) - apply
+;(lambda (f x) (f x))
+;użytkownik podał funkcję, jest ona negatywna, tak samo jak parametr a
+;potem ja używam funkcji będącej podanej przez użytkownika, ja podaję a, jeśli ona zostanie źle użyta to błąd będzie programisty
+;używam negatywnej funkcji, czyli to ja mam dostarczyć parametr
+;apply
+
+
+;X - pozytywne
+;x - negatywne
+
+;x1 -> indeksowanie od lewej
+
+
+;-> a b A
+;a1 arg 1 strzałki
+;b1 arg 1 strzałki
+;a2 wynik
+(define/contract (pkt_1 a b)
+  ( parametric->/c [a b] (-> a b a))
+  a
+  )
+
+;                           całe negatywne, wynik pozytywny
+;(-> (-> A B c) (-> A b) a C)
+;a1 arg 2 strzałek
+;a2 arg 2 strzałek
+;c1 nie jest na pozycji argumentu
+;c2 jest na pozycji wyniku
+;b1 jest na pozycji argumentu
+;b2 jest wynikiem funkcji z argumentu
+( parametric->/c [a b c] (-> (-> a b c) (-> a b) a c))
+(define/contract (pkt_2 f1 f2 a)
+  ( parametric->/c [a b c] (-> (-> a b c) (-> a b) a c))
+  (f1 a (f2 a))
+  )
+
+;(-> (-> B c) (-> A b) (-> a C))
+;b1 arg 2 strzałek
+;c1 wynik
+;a1 arg 2 strzałek
+;b2 wynik
+;a2 arg 1 strzałki
+;c2 wynik
+( parametric->/c [a b c] (-> (-> b c) (-> a b) (-> a c)))
+(define/contract (pkt_3 f1 f2)
+  ( parametric->/c [a b c] (-> (-> b c) (-> a b) (-> a c)))
+  (lambda (x) (f1 (f2 x)) )
+  )
+
+(-> (-> (-> a A) a) A)
+;a1 arg 3 strzałek
+;a2 arg 2 strzałek
+;a3 arg 1 strzałki
+;a4 wynik
+
+
+(define (pkt_4 f)
+  ( parametric->/c [a] (-> (-> (-> a a) a) a))
+  (f (lambda (x) (lambda (x) x) x))
+)

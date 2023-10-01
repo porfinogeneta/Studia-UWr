@@ -1,0 +1,10 @@
+#lang racket
+
+(define x 1)
+
+(if (> x 2)
+    (+ x 2)
+    (- x 2)
+    )
+
+(or (and (> x 2)  (+ x 2)) (and (not (> x 2)  ) (- x 2) ) )

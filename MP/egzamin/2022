@@ -1,0 +1,38 @@
+#lang racket
+(require racket/contract)
+
+;z3
+
+(define (merge lst1 lst2)
+  (cond [(empty? lst1) lst2]
+        [(empty? lst2) lst1]
+        [(< (car lst1) (car lst2)) (cons (car lst1) (merge (cdr lst1) lst2))]
+        [else (cons (car lst2) (merge lst1 (cdr lst2)))]))
+
+(merge '(1 2 3) '(2 4 6))
+
+
+(define/contract (append-map f xs)
+  (parametric->/c [a b] (-> (-> a (listof b)) (listof a) (listof b)))
+  (if (null? xs)
+      null
+      (append (f (car xs)) (append-map f (cdr xs)))))
+
+(define (double x) (list (* x 2)))
+(append-map double '(1 2 3 4))
+
+
+(lambda (x) (lambda (y) (lambda (z) ((x z) (y z)))))
+;(a->(b->c)) -> 
+
+((lambda (x) (x x)) (lambda (x) (x x)))
+
+(((lambda (x) x) (lambda (x) x)) 42)
+
+
+#;(define (padovan-numbers)
+  (stream-cons 1 (stream-cons 1 (stream-cons 1 (map2 + padovan-numbers (stream-cdr padovan-numbers))))))
+
+
+
+

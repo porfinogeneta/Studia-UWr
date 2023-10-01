@@ -1,0 +1,88 @@
+#lang plait
+
+
+(define-type (Tree 'a)
+  (leaf)
+  (node [l : (Tree 'a)] [elem : 'a] [r : (Tree 'a)]))
+
+(define example-tree
+  (node (node (leaf) 1 (leaf))
+        2
+        (node (leaf)
+              3
+              (node (leaf) 4 (leaf)))))
+
+;(( ' a 'b 'c 'b -> 'b) ; procedura dla węzła
+;( 'a - > 'b) ; procedura dla liścia
+;( 'a 'c - > 'a) ; akumulacja dla lewej gałęzi
+;( 'a 'c - > 'a) ; akumulacja dla prawej gałęzi
+;'a ; wartość akumulatora
+;( Tree 'c )
+;- >
+;'b )
+
+(define (process-tree f-branch f-leaf f-acc-left f-acc-right acc tree)
+  ; wywołujemy osobną funkcję dla liścia
+  (cond [(leaf? tree) (f-leaf  acc)]
+        [else
+         ; osobna funkcja w węźle
+         (f-branch
+          ; funkcja lewa oblicza wartość akumulatora lewego
+          (process-tree f-branch f-leaf f-acc-left f-acc-right (f-acc-left acc (node-elem tree)) (node-l tree))
+          (node-elem tree)
+          ; funkcja prawa oblicza wartość akumulatora prawego
+          (process-tree f-branch f-leaf f-acc-left f-acc-right (f-acc-right acc (node-elem tree)) (node-r tree))
+          acc
+          )
+         ]
+        )
+  )
+
+
+
+(define (bst? t)
+  (cond [(leaf? t) #t]
+      [(not (= (process-tree
+       ; f-branch
+       (lambda (l e r acc)
+         ; element musi być w przedziale
+         (if (and (<= l e) (>= r e)) e -1)
+         )
+       ; f-leaf
+       (lambda (x) x)
+       ; f-acc-left
+       (lambda (acc l) (min acc l))
+       ; f-acc-right
+       (lambda (acc r) (max acc r))
+       ; acc
+       (node-elem t)
+       ; tree
+       t
+       ) -1)) #t]
+      [else #f]
+      
+      ))
+
+
+(bst? example-tree)
+
+
+(define (sum-paths t)
+  (process-tree
+       ; f-branch - utworzenie nowego drzewa
+       (lambda (l e r acc)
+         (node l (+ e acc) r))  
+       ; f-leaf
+       (lambda (x) (leaf))
+       ; f-acc-left, dodawanie poprzednich elementów w lewym
+       (lambda (acc l) (+ acc l))
+       ; f-acc-right, dodawanie poprzednich elementów w prawym
+       (lambda (acc r) (+ acc r))
+       ; acc
+       0
+       ; tree
+       t
+       )
+  )
+
+(sum-paths example-tree)

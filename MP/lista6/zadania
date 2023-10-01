@@ -1,0 +1,126 @@
+#lang plait
+
+(define (map func lst)
+  (if (empty? lst)
+    '()
+    (cons (func (first lst)) (map func (rest lst)))))
+
+( define-type ( NNF 'v )
+   ( nnf-lit [ polarity : Boolean ] [ var : 'v ])
+   ( nnf-conj [ l : ( NNF 'v ) ] [ r : ( NNF 'v ) ])
+   ( nnf-disj [ l : ( NNF 'v ) ] [ r : ( NNF 'v ) ]))
+
+
+(define for1 (nnf-conj (nnf-disj (nnf-lit #f 'b)  (nnf-lit #t 'c) ) (nnf-lit #t 'a ) ))
+(define phi6 (nnf-conj (nnf-disj (nnf-lit #t 'a) (nnf-lit #f 'b)) (nnf-lit #f 'c)))
+
+
+;zadanie 4
+(define (neg-nnf psi)
+  (cond
+    ([nnf-lit? psi ]
+     (if (nnf-lit-polarity psi)
+                         (nnf-lit #f (nnf-lit-var psi))
+                         (nnf-lit #t (nnf-lit-var psi)) ))
+    ([nnf-conj? psi]
+     (nnf-disj (neg-nnf (nnf-conj-l psi))
+               (neg-nnf (nnf-conj-r psi)) ) )
+    (else
+     (nnf-conj (neg-nnf (nnf-disj-l psi))
+               (neg-nnf (nnf-disj-r psi))  )  )
+    )
+  )
+
+(neg-nnf for1)
+
+;zadanie 5
+(define (eval-nnf sigma psi)
+  (cond
+    [(nnf-lit? psi)
+     (if (nnf-lit-polarity psi)
+         (sigma (nnf-lit-var psi))
+         (not (sigma (nnf-lit-var psi))))]
+
+    [(nnf-conj? psi)
+     (and (eval-nnf sigma (nnf-conj-l psi))
+          (eval-nnf sigma (nnf-conj-r psi)))]
+
+    [(nnf-disj? psi)
+     (or (eval-nnf sigma (nnf-disj-l psi))
+         (eval-nnf sigma (nnf-disj-r psi)))]
+
+    ))
+
+
+(define sigma
+  (lambda (x)
+    (cond [(eq? x 'a) #t]
+          [(eq? x 'b) #f]
+          [(eq? x 'c) #t]
+          [(eq? x 'd) #f]
+          )))
+
+(eval-nnf sigma phi6)
+
+;zadanie 6
+
+( define-type ( Formula 'v)
+( var [ var : 'v ])
+( neg [ f : ( Formula 'v) ])
+( conj [ l : ( Formula 'v)] [r : ( Formula 'v) ])
+( disj [ l : ( Formula 'v)] [r : ( Formula 'v) ]) )
+
+(define (to-nnf psi)
+  (cond ((var? psi) (nnf-lit #t (var-var psi)))
+        ((conj? psi)  (nnf-conj (to-nnf (conj-l psi)) (to-nnf (conj-r psi) )) )
+        ((disj? psi) (nnf-disj  (to-nnf (disj-l psi)) (to-nnf (disj-r psi) )))
+        ;dla negacji
+        (else (neg-nnf (to-nnf (neg-f psi) ) ))
+        )
+  )
+
+(define formula (neg (conj (neg(var 'a)) (var 'b) )) )
+
+(to-nnf formula)
+
+
+; zadanie 7
+
+(define (eval-formula sigma psi)
+  (cond ((var? psi) (sigma (var-var  psi)))
+        ((neg? psi)  (not (eval-formula sigma (neg-f psi))))
+        ((conj? psi) (and (eval-formula sigma (conj-l psi)) (eval-formula sigma (conj-r psi))  )  )
+        ((disj? psi) (or (eval-formula sigma (disj-l psi)) (eval-formula sigma (disj-r psi)) ) )
+        )
+
+  )
+
+(eval-formula sigma formula)
+
+
+;zadanie 8
+
+(define example-list (list 1 2 4 5 6))
+
+
+(define (insert x xs)
+  (if (empty? xs)
+      (cons x empty)
+      (if (< x (first xs))
+          (cons x xs)
+          (cons (first xs) (insert x (rest xs))))))
+
+(insert 3 example-list)
+
+
+(define (sorted? xs)
+  (cond ((empty? xs) #t)
+        ((empty? (rest xs)) #t)
+        ((<= (first xs) (second xs)) (sorted? (rest xs)))
+        (else #f)
+        )
+  )
+
+(sorted? (list 1 3 4 1 3))
+(sorted? (list 1 3 4 5 6))
+

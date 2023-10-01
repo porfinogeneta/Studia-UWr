@@ -1,0 +1,28 @@
+#lang racket
+
+;only in -> tylko to bierzemy z plait, bo inaczej require będzie od nas wymagał żeby cały plik był w plaitcie 
+
+;nasz własny s-exp-match?
+
+
+;w plaitcie trzeba wydłubać eleemnty z s-expression, tworzymy wrapper na to
+
+;#fałsz jak się nie udało dopasować, wpp zwracam po prostu wyrażenia
+
+;andy zwracają element jak wszystko jest true
+; dla consa robię listę rzeczy które mnie interesują
+; jak jest parą to badam result jednego i drugiego, na końcu robię append
+
+;exp-parser
+;zwracamy funkcje, reprezentujące, parametr, który dostaliśmy
+
+;run-parser bierze parser i wyrażenie
+; p to lista pusta
+; para wzorzec, akcja
+; jak nie dopasowałem się do wzorca, przechodzę bo kolejnych elementach
+; wpp aplikuję action
+
+;przez zastosowanie stringów jako kluczy parsera, mamy bardziej schludną implementację, nie będziemy tego robić
+
+
+

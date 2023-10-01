@@ -1,0 +1,9 @@
+#lang plait
+
+(define (fold-right f acc xs)
+  (if (empty xs)
+      acc
+      (f (car xs) (fold-right f acc (cdr xs)) )
+      )
+  )
+

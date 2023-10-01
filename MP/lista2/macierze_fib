@@ -1,0 +1,67 @@
+#lang racket
+
+;zadanie 3
+(define-struct matrix (a b c d) #:transparent)
+
+
+(define m1 (make-matrix 1 2 3 4))
+(define m2 (make-matrix 2 4 6 8))
+
+(define (matrix-mult m n)
+  (let [(a (+ (* (matrix-a m) (matrix-a n)) (* (matrix-b m) (matrix-c n))))
+        (b (+ (* (matrix-a m) (matrix-b n)) (* (matrix-b m) (matrix-d n))))
+        (c (+ (* (matrix-c m) (matrix-a n)) (* (matrix-d m) (matrix-c n))))
+        (d (+ (* (matrix-c m) (matrix-b n)) (* (matrix-d m) (matrix-d n))))]
+    (make-matrix a b c d)
+    )
+  )
+
+(matrix-mult m1 m2)
+
+(define matrix-id
+  (let [
+        (a 1)
+        (b 0)
+        (c 0)
+        (d 1)
+        ]
+    (make-matrix a b c d)
+    )
+  )
+
+(define (matrix-expt m k)     
+  (define (it m k) ;jak jest co potęgować
+    [if (= k 1)
+        m
+        (it (matrix-mult m m) (- k 1))
+        ]
+    )
+  (it m k)
+  )
+
+(matrix-expt m1 2)
+
+(define (fib-matrix k)
+  (define m-start (make-matrix 1 1 1 0 ))
+  (matrix-expt m-start k)
+  )
+
+(fib-matrix 3)
+
+(define (matrix-expt-fast m exp)
+  (cond [(= 0 exp) matrix-id]
+        [(even? exp) (matrix-expt-fast (matrix-mult m m) (/ exp 2))]
+        [else (matrix-mult m (matrix-expt-fast (matrix-mult m m) (/ (- exp 1) 2) ))]))
+
+(define (fib-fast k)
+  (matrix-expt-fast (make-matrix 1 1 1 0) k))
+
+(matrix-b (fib-matrix 5))
+
+
+(define (quick-exp base exp)
+  (cond [(= 0 exp) 1]
+        [(even? exp) (quick-exp (* base base) (/ exp 2))]
+        [else (* base (quick-exp (* base base) (/ (- exp 1) 2)))]))
+
+;(quick-exp 2 5)

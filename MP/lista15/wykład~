@@ -1,0 +1,12 @@
+#|
+WYKŁAD
+kontynuuacja, przekazywanie funkcji do wykonania
+eval teraz używa kontynuuacji
+kontynuuacja początkowa to musi być identyczność, żeby zwrócić Value
+
+callcc - uruchamianie funkcji z obecną kontynuuacją
+contV - przechwycone kontynuuacje
+
+możemy też zaaplikować przechwyconą kontynuuację (funkcja apply), podmieniamy kontynuuację
+
+|#

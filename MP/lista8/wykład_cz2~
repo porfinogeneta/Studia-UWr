@@ -1,0 +1,11 @@
+#lang plait
+
+;definiujemy składnie
+;zdefiniujemy drzewo wyrażeń oraz typ operatorów
+
+;wykorzystamy cytowanie do parsowania
+;'(+ 2 2) -> '(+ 2 2) dostajemy dobrze sparsowane drzewo
+;` quasi cytownaie zwraca S-Exp `(+ 2 2) -> '(+ 2 2) - dostajemy z wyrażenie
+
+;parse-sexp, korzystamy z s-wyrażeń
+;s-exp->number s - bierze liczbę z s-wyrażenia

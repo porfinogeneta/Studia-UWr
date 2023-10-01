@@ -1,0 +1,31 @@
+#lang plait
+
+
+
+(define-type Tree23
+  (leaf)
+  (node2 [l : Tree23] [v : Number] [r : Tree23])
+  (node3 [l : Tree23] [v1 : Number] [c : Tree23] [v2 : Number] [r : Tree23]))
+;niepotrzeba liścia, bo coś wsadziliśmy
+;insert ma 3 możliwości zwrócenia czegoś:
+;- nie zmieniliśmy wysokości, dalej zaczynamy od węzła z dwójką dzieci (2) dla (1) coś było na środku
+;- jeżeli drzewo miało zmienioną wyskokość to korzeń musi mieć trójkę dzieci
+(define-type Tree-addit
+  (addit3 [l : Tree23] [v1 : Number] [c : Tree23] [v2 : Number] [r : Tree23])
+  (addit2 [l : Tree23] [v : Number] [r : Tree23])
+  (addit2-bigger [l : Tree23] [v : Number] [r : Tree23]))
+
+; (define (insert-addit [t : Tree23] [v : Number]) : Tree-addit
+
+
+(define (insert [t : Tree23] [v : Number]) : Tree23
+  (if (leaf? t) 
+      (node2 (leaf) v (leaf))
+      (type-case Tree-addit (insert-addit t v)
+        [(addit3 l w1 c w2 r)
+         (node3 l w1 c w2 r)]
+        [(addit2 l w r)
+         (node2 l w r)]
+        [(addit2-bigger l w r)
+         (node2 l w r)])))
+

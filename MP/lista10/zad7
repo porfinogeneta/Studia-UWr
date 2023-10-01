@@ -1,0 +1,70 @@
+#lang plait
+
+
+(define-syntax my-and
+  (syntax-rules ()
+    [(my-and) #t] ;jeżeli brak jest jakiegokolwiek argumentu, zwracam #t
+    [(my-and expr1 expr2 ...)
+     (if expr1
+         (my-and expr2 ...) ;jak choć jeden się okaże fałszem, to otrzymam #f
+         #f
+         )
+     ]
+    )
+  )
+
+(define-syntax my-or
+  (syntax-rules ()
+    [(my-or) #f]
+    [(my-or expr1 expr2 ...)
+     (if expr1 ;jak choć jeden okaże się prawdą, to zwracam prawdę
+         #t
+         (my-or expr2 ...)
+         )
+     ]
+    )
+  )
+
+(define-syntax my-let
+  (syntax-rules ()
+    ;pary - nazwa zmiennej i jej obliczona wartość, zaaplikowanie zmiennych do ciała
+    [(my-let [(var expr) ... ] body ...)
+     ((lambda (var ...) body ...) expr ...) ;obliczamy body stosując lambdę, gdzie każdym argumentem, który jest przypisany do var, jest obliczone expr
+     ]
+    )
+  )
+
+
+
+(define-syntax my-let*
+  (syntax-rules ()
+    [(my-let* () body ...) ;jeżeli nie ma już zmiennych do analizy, obliczam body
+     (begin body ...)
+     ]
+    [(my-let* ((var expr) . rest ) body ...) ;rekurencyjnie liczę lokalne wartości zmiennych i podaję je do kolejnych let'ów
+     (my-let ((var expr) )
+             (my-let* rest body ...)
+             )
+     ]
+  )
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,32 @@
+#lang plait
+
+
+( define-type Prop
+( var [ v : String ])
+( conj [ l : Prop ] [r : Prop ])
+( disj [ l : Prop ] [r : Prop ])
+( neg [ f : Prop ]) )
+
+(define (eval dict prop)
+  (cond
+    ; jak prop jest zmienną, sięgam do zwróconej przez Optionof wartości (użycie some-v)
+    [(var? prop) (some-v  (hash-ref dict (var-v prop) ) ) ]
+    [(conj? prop) (and (eval dict (conj-l prop)) (eval dict (conj-r prop)) ) ]
+    [(disj? prop)  (or (eval dict (disj-l prop)) (eval dict (disj-r prop) )) ]
+    [else  (not (eval dict (neg-f prop)))]
+        )
+  )
+
+(define (tautology? [p : Prop])
+  (local [
+          (define (taut vars h)
+                (if (empty? vars)
+                    (eval p h)
+                    (and
+                     (taut
+                      (rest vars)
+                      (hash-set h (first vars) #f))
+                     (taut
+                      (rest vars)
+                      (hash-set h (first vars) #t)))))]
+    ( taut (free-vars p) (hash '()) )))

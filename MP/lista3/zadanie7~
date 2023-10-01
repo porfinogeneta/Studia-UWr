@@ -1,0 +1,23 @@
+#lang racket
+
+; wskazana operacja trwa bardzo długo
+( define ( foldr-reverse xs )
+( foldr ( lambda (y ys ) ( append ys ( list y))) null xs ))
+
+( define ( foldr-reverse-cons xs )
+( foldr ( lambda (y ys ) ( cons y ys)) null xs ))
+
+;złożoność jest tak potężna, ponieważ funkcja append musi za każdym razem pójść
+; na koniec listy i dołożyć tam kolejny element
+; na początku dokłada 1, później 2, 3 itd. w końcu n-1, za każdym razem
+; musi przejść do końca listy, pokonując drogę wyznaczoną przez poprzednie elementy
+; złożoność ma więc postać 1 + 2 + 3 + 4 + ... + n-1, co jest ciągiem arytmetycznem ((1 + n)/2)*n
+
+;problem może rozwiązać użycie cons, ponieważ dokleja on po prostu nową listę jako głowę,
+; bez potrzeby traversowania po całej liście
+; cons bierze posortowaną listę i nowy element i daje jako tail listę, a jako nową głowę nasz element
+
+;niepotrzebne elementy, wszystkie pary, utowrzone przez append, a zatem ich ilość to 1, 2, 3, 4, 5,... n-1, zatem suma ciągu arytmetycznego n*(n + 1)/2
+
+( length ( foldr-reverse-cons ( build-list 10000 identity )))
+

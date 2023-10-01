@@ -1,0 +1,39 @@
+#lang plait
+
+;przy require podajemy typ, żeby przekonwertować funkcję na 'legalną' dla plaita
+(require "syntax.rkt")
+(require (typed-in "parser.rkt"
+                   (parse-Exp : (S-Exp -> Exp))))
+
+;sprawdzanie typów do sparsowania jest bardzo pracochłonne
+;sprawdzanie długości listy i kształyu
+; można użyć s-exp-match? żeby zobaczyć czy kształt jest zgodny
+
+;s-exp jest niezdefiniowane, chodzi że może być jakikolwiek s-expression
+
+;(s-exp `(ANY ANY ANY)) ; tepmplate, dopasowujący się do dowolnego wyrażenia
+(s-exp-match? `(ANY ANY ANY) `(1 2))
+
+;(s-exp `(lambda (SYMBOL) ANY)) ;-> można też tak
+;s-exp-match? to f. biblioteczna - rozwiązuje skomplikowany problem w sposób ogólny
+
+(define (eval-op op)
+  (type-case Op op
+    [(op-add) +]
+    [(op-sub) -]
+    [(op-mul) *]
+    [(op-div) /]))
+
+(define (eval e)
+  (type-case Exp e
+    [(exp-number n)    n]
+    [(exp-op op e1 e2)
+     ((eval-op op) (eval e1) (eval e2))]))
+
+(define (calc s)
+  (eval (parse-Exp s)))
+
+
+;problemem jest u nas to, że za każdym razem trzeba wydłubywać eleementy z s-wyrażenia 
+
+

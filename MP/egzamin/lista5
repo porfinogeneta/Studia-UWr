@@ -1,0 +1,228 @@
+#lang plait
+
+;z1
+(define (proc1 x y)
+  x)
+
+(define (proc2 f g x)
+  (f x (g x)))
+
+(define (proc3 [ f : (('a -> 'a) -> 'a)])
+  (f (lambda (x) x)))
+
+(define (proc4 f g)
+  (lambda (a) (pair (f a) (g a))))
+
+(define (proc5 [f : ('a -> (Optionof ('a * 'b)))] a)
+  (list (snd (some-v (f a)))))
+
+;z2
+( define ( apply f x) (f x))
+;[('a -> 'b) 'a] -> 'b
+
+( define ( compose f g) ( lambda (x) (f (g x))))
+;[('a -> 'b) ('c -> 'a)] -> ('c -> 'b)
+
+( define ( flip f) ( lambda (x y) (f y x)))
+;['a 'b -> 'c] -> ('b 'a -> 'c)
+
+( define ( curry f) ( lambda (x) ( lambda (y) (f x y))))
+;['a 'b -> 'c] -> ('a -> ('b -> 'c))
+
+;z3
+( curry compose )
+;[('a->'b) ('c->'a) -> ('c->'b)] => [('a->'b)->(('c->'a)->('c->'b))]
+
+(( curry compose ) ( curry compose ))
+;('_a->'_b)->(('_c->'_a)->('_c->'_b))
+;(('x -> 'y) -> (('z -> 'x) -> ('z -> 'y)))
+;_a = ('x -> 'y)
+;_b = (('z -> 'x) -> ('z -> 'y))
+;[('x -> 'y) -> (('z -> 'x) -> ('z -> 'y))]=>(('_c->'('x -> 'y))->('_c->'(('z -> 'x) -> ('z -> 'y))))
+;(('a->'('b -> 'c))->('a->'(('d -> 'b) -> ('d -> 'c))))
+
+(( curry compose ) ( curry apply ))
+( curry apply )
+;[('a -> 'b) 'a] -> 'b - apply
+;['A 'B -> 'C] -> ('A -> ('B -> 'C)) - curry
+;'A = ('a -> 'b)
+;'B = 'a
+;'C = 'b
+
+;('a -> 'b) -> ('a -> 'b) - ( curry apply )
+;[('A->'B)->(('C->'A)->('C->'B))] - ( curry compose )
+;A = ('a -> 'b)
+;B = ('a -> 'b)
+;['C->('a -> 'b)]=>('C->('a -> 'b))
+
+(( curry apply ) ( curry compose ))
+;[('a->'b)->(('c->'a)->('c->'b))] - ( curry compose )
+;('A -> 'B) -> ('A -> 'B) - ( curry apply )
+;A = ('a->'b)
+;B = (('c->'a)->('c->'b))
+;(('a->'b)->(('c->'a)->('c->'b)))=>(('a->'b)->(('c->'a)->('c->'b)))
+;(('a->'b)->(('c->'a)->('c->'b)))
+
+( compose curry flip )
+;[('A -> 'B) ('C -> 'A)] -> ('C -> 'B) - compose
+;['a 'b -> 'c] -> ('a -> ('b -> 'c)) - curry
+;['a 'b -> 'c] -> ('b 'a -> 'c) - flip
+;A = ['a 'b -> 'c]
+;B = ('a -> ('b -> 'c))
+;C = ['a 'b -> 'c]
+;A = ('b 'a -> 'c)
+;(['a 'b -> 'c])=>('a -> ('b -> 'c))
+
+;z4
+
+;funkcja do usuwania konkretnego elementu z listy
+(define (remove x lst)
+  (cond
+    ((empty? lst) '())  ; jeśli lista jest pusta, zwracamy pustą listę
+    ((eq? x (first lst)) (remove x (rest lst))) ; jeśli pierwszy element listy to x, to pomijamy go i rekurencyjnie usuwamy z reszty listy
+    (else (cons (first lst) (remove x (rest lst)))))) ; w przeciwnym przypadku zachowujemy pierwszy element i rekurencyjnie usuwamy z reszty listy
+
+;funkcja przechodzi po liście
+;wykonuje na poszczególnych elementach funkcję f
+; i na końcu złącza je w jedną listę
+(define (append-map f lst)
+  (foldr (lambda (x acc)
+           (append (f x) acc))
+         '()
+         lst))
+
+(define (perms lst)
+  ;przypadek bazowy
+  (if (empty? lst)
+      '(())
+      ;append-map, która na każdym elemencie wykona lambde - to ona tworzy listę list
+      (append-map (lambda (x)
+                    (map (lambda (p) (cons x p)) ;dodaje aktualny element na początek listy
+                         ;oblicza permutacje bez aktualnego elementu
+                         (perms (remove x lst))))
+                  lst)))
+
+(perms (list 1 2 3))
+
+;z5
+
+(define-type (Tree 'a)
+  (leaf)
+  (node [l : (Tree 'a)] [elem : 'a] [r : (Tree 'a)]))
+
+(define example-tree
+  (node (node (leaf) 1 (leaf))
+        2
+        (node (leaf)
+              3
+              (node (leaf) 4 (leaf)))))
+
+(define (process-tree n-proc l-proc l-acc r-acc acc-val t)
+  (cond [(leaf? t) (l-proc t)]
+        [(node? t)
+         (n-proc
+          acc-val
+          (process-tree n-proc l-proc l-acc r-acc (r-acc acc-val (node-elem t)) (node-l t))
+          (node-elem t)
+          (process-tree n-proc l-proc l-acc r-acc (l-acc acc-val (node-elem t)) (node-r t))
+          )]))
+
+(define (bst? t)
+  (process-tree
+         (lambda (acc acc-l elem acc-r) (and (<= (fst acc) elem) (>= (snd acc) elem)))
+         (lambda (x) #t)
+         (lambda (acc val) (pair (fst acc) val))
+         (lambda (acc val) (pair val (snd acc)))
+         (pair -inf.0 +inf.0)
+         t))
+
+(define (sum-paths t)
+  (process-tree
+   (lambda (acc l elem r) (node l (+ acc elem) r))
+   (lambda (x) (leaf))
+   (lambda (acc val) (+ acc val))
+   (lambda (acc val) (+ acc val))
+   0
+   t
+   ))
+
+
+(bst? example-tree)
+(sum-paths example-tree)
+
+;z6
+(define-type (RoseTree 'a)
+  (l [elem : 'a])
+  (n (children : (Listof (RoseTree 'a)))))
+
+
+(define (flatten lst)
+  (if (empty? lst)
+      '()
+      (append (first lst) (flatten (rest lst)))
+      ))
+
+(define (show-rose t)
+  (cond [(l? t) (list (l-elem t))]
+        [else (flatten (map show-rose (n-children t)))]))
+
+
+(define example-rose
+  (n (list (l "A")
+              (n (list (l "B")
+                          (l "C")))
+              (l "D")
+              (n (list (n (list (l "E")
+                                       (l "F")))
+                          (l "G"))))))
+(show-rose example-rose)
+
+;z7
+( define-type Prop
+   ( var [v : String ])
+   ( conj [l : Prop ] [r : Prop ])
+   ( disj [l : Prop ] [r : Prop ])
+   ( neg [f : Prop ]) )
+
+(define (is_in_set x set)
+  (cond [(empty? set) #f]
+        [(eq? x (first set)) #t]
+        [else (is_in_set x (rest set))]))
+
+(define (union a b)
+  (cond [(empty? a) b]
+        [(empty? b) a]
+        [(is_in_set (first a) b) (union (rest a) b)]
+        [else (cons (first a) (union (rest a) b))]))
+
+(define (free-vars fi)
+  (cond [(var? fi) (list (var-v fi))]
+        [(conj? fi) (union (free-vars (conj-l fi)) (free-vars (conj-r fi)))]
+        [(disj? fi) (union (free-vars (disj-l fi)) (free-vars (disj-r fi)))]
+        [(neg? fi) (free-vars (neg-f fi))]
+        ))
+
+(define test-formula (disj (conj (var "a") (var "c") ) (var "c") ) )
+(free-vars test-formula)
+
+(define (eval dict prop)
+  (cond
+    ; jak prop jest zmienną, sięgam do zwróconej przez Optionof wartości (użycie some-v)
+    [(var? prop) (some-v  (hash-ref dict (var-v prop) ) ) ]
+    [(conj? prop) (and (eval dict (conj-l prop)) (eval dict (conj-r prop)) ) ]
+    [(disj? prop)  (or (eval dict (disj-l prop)) (eval dict (disj-r prop) )) ]
+    [else  (not (eval dict (neg-f prop)))]))
+
+(define (tautology fi)
+  (and
+   (cond [(var? fi) #f]
+         [(neg? fi) (not (tautology (neg-f fi)))]
+         [(conj? fi) (and (tautology (conj-l fi)) (tautology (conj-r fi)))]
+         [(disj? fi) (or (tautology (conj-l fi)) (tautology (conj-r fi)))]
+         )
+   (cond [(var? fi) #t]
+         [(neg? fi) (not (tautology (neg-f fi)))]
+         [(conj? fi) (and (tautology (conj-l fi)) (tautology (conj-r fi)))]
+         [(disj? fi) (or (tautology (conj-l fi)) (tautology (conj-r fi)))]
+         )))
+

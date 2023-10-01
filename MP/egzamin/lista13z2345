@@ -1,0 +1,115 @@
+#lang racket
+
+;; streams aka lazy lists ---------------------------------
+
+;; delay and force
+
+(define-syntax-rule
+  (stream-cons v s)
+  (cons v (delay s)))
+
+(define stream-car car)
+
+(define (stream-cdr s)
+  (force (cdr s)))
+
+(define stream-null null)
+(define stream-null? null?)
+
+;; operations on streams
+
+(define (stream-ref s n)
+  (if (= n 0)
+      (stream-car s)
+      (stream-ref (stream-cdr s) (- n 1))))
+
+(define (stream-filter p s)
+  (if (stream-null? s)
+      stream-null
+      (if (p (stream-car s))
+          (stream-cons (stream-car s)
+                       (stream-filter p (stream-cdr s)))
+          (stream-filter p (stream-cdr s)))))
+
+(define (stream-enumerate-interval a b)
+  (if (> a b)
+      stream-null
+      (stream-cons a (stream-enumerate-interval (+ a 1) b))))
+
+
+
+ ;; combining (infinite) streams 
+
+(define (map2 f xs ys)
+  (stream-cons
+   (f (stream-car xs)
+      (stream-car ys))
+   (map2 f (stream-cdr xs) (stream-cdr ys))))
+
+
+
+#|
+nats2    0 1 2 ...
+ones     1 1 1 ...
+---------------------------------------
+nats2  0 1 2 3 ...
+|#
+
+(define fibs
+  (stream-cons 0 (stream-cons 1 (map2 + fibs (stream-cdr fibs)))))
+
+#|
+fib            0 1 1 2 3 ...  
+(cdr fib)      1 1 2 3 ...
+-----------------------------------------
+fib        0 1 1 2 3 5 ...
+
+|#
+
+(define ones (stream-cons 1 ones))
+(define nats2 (stream-cons 0 (map2 + nats2 ones)))
+
+(define (divides? a b)
+  (= (remainder b a) 0))
+
+(define (prime? n s)
+  (if (stream-null? s) #t
+      (if (divides? (stream-car s) n) #f (prime? n (stream-cdr s)))))
+
+(define (prime-stream n s)
+  (if (prime? n s)
+      (stream-cons n (prime-stream (+ 1 n) (stream-cons n s)))
+      (prime-stream (+ 1 n) s)))
+
+(define primes (prime-stream 2 stream-null))
+
+
+(define fact-stream
+         (stream-cons 1 (map2 * fact-stream (stream-cdr nats2))))
+
+#|
+fact 1 2 6
+nats 1 2 3 4 5 6 ...
+----------------------
+fact 1 2 6
+|#
+
+(define (partial-sums s)
+  (stream-cons (stream-car s) (map2 + (partial-sums s) (stream-cdr s))))
+
+(define (merge s1 s2)
+  (cond [(< (stream-car s1) (stream-car s2)) (stream-cons (stream-car s1) (merge (stream-cdr s1) s2))]
+        [(> (stream-car s1) (stream-car s2)) (stream-cons (stream-car s2) (merge s1 (stream-cdr s2)))]
+        [(= (stream-car s1) (stream-car s2)) (stream-cons (stream-car s1) (merge (stream-cdr s1) (stream-cdr s2)))]))
+
+(define (scale s n)
+  (stream-cons (* n (stream-car s)) (scale (stream-cdr s) n)))
+
+(define hemming
+  (letrec ([s2 (stream-cons 2 (merge (scale s2 5) (merge (scale s2 2) (scale s2 3))))]
+        [s3 (stream-cons 3 (merge (scale s3 5) (merge (scale s3 2) (scale s3 3))))]
+        [s5 (stream-cons 5 (merge (scale s5 5) (merge (scale s5 2) (scale s5 3))))])
+    (merge s2 (merge s3 s5))))
+
+
+

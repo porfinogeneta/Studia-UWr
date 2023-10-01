@@ -1,0 +1,121 @@
+#lang racket
+
+
+
+;nazwa i typ danych w kolumnach
+(define-struct column-info (name type) #:transparent)
+
+;schema pierwsza lista, rows druga lista
+(define-struct table (schema rows) #:transparent)
+
+(define countries
+  (table
+   (list (column-info 'country 'string)
+         (column-info 'population 'number))
+   (list (list "Poland" 38)
+         (list "Germany" 83)
+         (list "France" 67)
+         (list "Spain" 47))))
+
+(define cities
+  (table
+   (list (column-info 'city    'string)
+         (column-info 'country 'string)
+         (column-info 'area    'number)
+         (column-info 'capital 'boolean))
+   (list (list "Wrocław" "Poland"  293 #f)
+         (list "Warsaw"  "Poland"  517 #t)
+         (list "Poznań"  "Poland"  262 #f)
+         (list "Berlin"  "Germany" 892 #t)
+         (list "Munich"  "Germany" 310 #f)
+         (list "Paris"   "France"  105 #t)
+         (list "Rennes"  "France"   50 #f))))
+
+
+(define (table-rename col ncol tab)
+  (let ([schema (table-schema tab)]
+        [rows (table-rows tab)]
+        )
+    ;będziemy robić nową tabelkę
+    (table (map
+            (lambda (c)
+              ;jak name aktualnie spr kolumny się pokryje ze zmianą
+              (if (eq? (column-info-name c) col)
+                  ;zamieniam kolumnę na nową
+                  (column-info ncol (column-info-type c))
+                  c ;zostawiam starą
+                  )
+              )
+            schema
+            )rows )
+    )
+  )
+
+
+(define test1 (list (column-info 'city    'string)
+         (column-info 'country 'string)
+         (column-info 'area    'number)
+         (column-info 'capital 'boolean)))
+
+(define test2 (list (column-info 'country 'string)
+         (column-info 'population 'number)) )
+
+;rozszerzanie listy o diff elementów xs-dana zs-pomocnicza diff-różnica indx-obecny index
+#;(define (extend xs zs diff indx)
+  (if (= diff 0)
+      zs
+      ;jak indeks nie przekroczy sługości
+      (if (<= indx (- (length xs) 1))
+          (extend xs (append zs (list (list-ref xs indx))) (- diff 1) (+ indx 1) )
+          (extend xs (append zs (list (list-ref xs 0))) (- diff 1) 1 )
+          )
+      )
+  )
+
+
+(define (merge-extend xs ys)
+  (let* ([len-xs (length xs)]
+         [len-ys (length ys)]
+         [diff-len (abs (- len-xs len-ys))])
+    (cond ((< len-xs len-ys)
+           (append xs ys))
+          ((> len-xs len-ys)
+           (append xs ys))
+          (else
+           (append xs ys)))))
+
+
+
+(define (concat-extend xs ys)
+  (let* ([len-xs (length xs)]
+         [len-ys (length ys)]
+         [diff-len (abs (- len-xs len-ys))])
+    (map (lambda (x)
+           (map (lambda (y) (append x y) ) ys)
+           )  xs )
+    )
+  )
+
+;(merge-extend test1 test2)
+;(concat-extend test1 test2)
+
+(define (table-cross-join tab1 tab2)
+  ;deklarujemy nową tabelkę
+  (table
+   (merge-extend (table-schema tab1) (table-schema tab2) )
+   (concat-extend (table-rows tab1) (table-rows tab2) )
+   )
+  )
+
+;(table-cross-join cities countries)
+( table-cross-join cities
+( table-rename 'country 'country2 countries ))
+
+
+
+
+
+
+
+
+

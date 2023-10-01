@@ -1,0 +1,82 @@
+#lang plait
+(require "syntax.rkt")
+
+
+;nasza gramatyka
+;E0 -> E1 R0
+;R0 -> (null)
+;R0 -> OP0 EO
+;E1 -> N
+;E1 -> (E0)
+
+;parser wyrażeń infixowych, znaki w normalnych miejscach
+;naszą gramatykę rozbijemy na poszczególne elementy
+
+
+
+; mamy typ parse-result, a to jest to co parsujemy
+; ma konstruktor parse-result, wartość i reszta (lista s-wyrażeń)
+; tego typu używają funkcje parsujące
+(define-type (ParseResult 'a)
+  (parse-err) ;parsowanie się nie powiodło
+  (parse-ok [v : 'a] [rest : (Listof S-Exp)])) ;parsowanie się powiodło
+
+; parse op0 czy wyrażenie powastało z e0
+; jak jest pusty to nie udało się sparsować
+; no i badamy operatory
+; ss lista wyrażeń typu s-expression
+; funkcja sprawdza czy wyrażenie zaczyna się od operatora, zwraca ParseResult z wartością operatora i resztą wyrażeń
+(define (parse-op0 ss)
+  (type-case (Listof S-Exp) ss
+    [empty (parse-err)] ;jak jest pusty
+    [(cons op rest) ;jak jest parą
+     (cond
+       [(s-exp-match? `+ op) (parse-ok (op-add) rest)] ;operator dodawania
+       [(s-exp-match? `- op) (parse-ok (op-sub) rest)] ;operator odejmowania
+       [else (parse-err)])])) ;jak nie pasuje do żadnego operatora, zgłaszam błąd
+
+;w parse-exp0, parsuję resztę wyrażenia
+(define (parse-exp0 ss)
+  (type-case (ParseResult Exp) (parse-exp1 ss) ;EO -> E1 R0 parsowanie E1
+    [(parse-err) (parse-err)] ; w wypadku błędów
+    [(parse-ok e1 rest) ;jak parse-exp1 było ok to parsujemy pozostałą część
+     (type-case (ParseResult Op) (parse-op0 rest) ;z R0 -> OP0 E0, tutaj analizujemy operator
+       [(parse-err)         (parse-ok e1 rest)] ;jak nie ma żadnego operatora, zwracamy po prostu E1
+       [(parse-ok op rest2) ;jak jest jakiś operator
+        (type-case (ParseResult Exp) (parse-exp0 rest2)
+          [(parse-err) (parse-err)] ;albo błędy
+          [(parse-ok e2 rest3) (parse-ok (exp-op op e1 e2) rest3)])])])) ;albo operator i pozostałe wyrażenia
+
+;parsowanie wyrażenia E1
+; parse-err
+; nasze E1 może reprezentować albo liczbę listę s-wyrażeń (E0) [z gramatyki, którą zdefiniowaliśmy], parsujemy wtedy tą listę E0
+
+(define (parse-exp1 ss)
+  (type-case (Listof S-Exp) ss
+    [empty (parse-err)]
+    [(cons s rest)
+     (cond
+       [(s-exp-number? s) (parse-ok (exp-number (s-exp->number s)) rest)] ; E1 -> N
+       [(s-exp-list? s) ;albo (E0)
+        (type-case (ParseResult Exp) (parse-exp0 (s-exp->list s)) ; E1 -> (E0)
+          [(parse-err) (parse-err)] ;czy wyrażenie z E0 jest dobrze uformowane
+          [(parse-ok e rest2)
+           (if (empty? rest2)
+               (parse-ok e rest) ;zwraca E0, jak już nie ma co parsować
+               (parse-err))])])])) ;;nic nie zostało w E0, nie może tak być
+
+
+
+;(parse-exp0 (s-exp->list `(2 - 2 - 2)))
+
+
+;błędna gramatyka, poprawiona, właściwa na zdj
+;lewostronna faktoryzacja
+(define (parse-exp s)
+  (type-case (ParseResult Exp) (parse-exp0 (list s))
+    [(parse-err) (error 'parse-exp "Syntax error")]
+    [(parse-ok e rest)
+     (if (empty? rest)
+         e
+         (error 'parse-exp "Syntax error"))]))
+(parse-exp `(2 - 2 - 2))

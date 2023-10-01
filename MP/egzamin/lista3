@@ -1,0 +1,125 @@
+#lang racket
+
+;z1
+(list (list 'car (cons 'a 'b)) (list '* '2))
+
+(list (car (cons 'a 'b)) (* 2) )
+
+(list (list '+ '1 '2 '3) (list 'cons) (list 'cons 'a 'b))
+
+;z2
+
+;w przypadku pustej listy powinien zwrócić akumulator
+(define (product xs)
+  (foldl (lambda (x acc) (* x acc) ) 1 xs))
+
+(define (my-foldl f acc xs)
+  (define (iter ls acc)
+    (if (null? ls)
+        acc
+        (iter (cdr ls) (f (car ls) acc))))
+  (iter xs acc))
+
+(define (pr xs)
+  (my-foldl * 1 xs))
+
+(pr '(1 2 3))
+
+;z3
+
+;(( lambda (x y) (+ x (* x y))) 1 2) ;x->1 y->2
+; 1 * 2
+; 1 + 2
+; 3
+
+;(( lambda (x) x) ( lambda (x) x))
+
+;( lambda (x) x) -> ( lambda [] ( lambda (x) x)) -> ( lambda (x) x)
+
+
+;(( lambda (x) (x x)) ( lambda (x) x))
+
+;( lambda (x) (x x)) -> ( lambda [] (( lambda (x) x)  ( lambda (x) x))) -> ( lambda (x) x)
+
+;(( lambda (x) (x x)) ( lambda (x) (x x)))
+
+;( lambda (x) (x x)) -> ( lambda [] (( lambda (x) (x x))  ( lambda (x) (x x)))) ->(... ( lambda (x) (x x)) ( lambda (x) (x x))...)
+
+;z4
+(define (my-compose f g)
+  (lambda (x) (f (g x))))
+
+(define (square x)
+  (* x x))
+
+(define (inc x)
+  (+ 1 x))
+
+(( my-compose square inc ) 5)
+
+;(square (inc 5))
+;(square 6)
+;36
+
+;z5
+(define (negatives n)
+  (build-list n (lambda (x) (* -1 (+ 1 x)))))
+
+(negatives 5)
+
+(define (reciprocals n)
+  (build-list n (lambda (x) (/ 1 (+ 1 x)))))
+
+(reciprocals 5)
+
+(define (evens n)
+  (build-list n (lambda (x) (* 2 x))))
+
+(evens 5)
+
+(define (identityM n)
+  (build-list n (lambda (x) (build-list n (lambda (y) (if (= x y) 1 0))))))
+
+(identityM 3)
+
+;z6
+
+(define (empty-set)
+  (lambda (x) #f))
+
+(define (singleton a)
+  (lambda (x) (equal? x a)))
+
+(define (in a s)
+  (s a))
+
+(define (union s t)
+  (lambda (x) (or (in x s) (in x t))))
+
+(define (intersect s t)
+  (lambda (x) (and (in x s) (in x t))))
+
+;z7
+
+( define ( foldr-reverse xs )
+( foldr ( lambda (y ys ) ( append ys ( list y))) null xs ))
+
+;działanie foldr
+;(foldr f x '(1 2 3))
+;(f 1 (f 2 (f 3 x)))
+
+;działanie foldr-reverse
+;(foldr-reverse '(1 2 3 4))
+;(append (append (append (append null 4) 3) 2) 1)
+
+;dla n mamy 1+2+3+...+n
+;w całości n(n+1)/2 consów, każdy append tworzy nową listę, a zatem i nowe consy
+;n consów potrzebujemy, do stworzenia ostatecznej listy
+;czyli mamy n(n-1)/2 nieużytków
+
+;z8
+(define (list->llist xs)
+  (lambda (ys) (append xs ys)))
+
+()
+

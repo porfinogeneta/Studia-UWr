@@ -1,0 +1,52 @@
+#lang racket
+
+
+(define-struct leaf () #:transparent)
+(define-struct node (l elem r) #:transparent)
+
+
+(define (fold-tree f bt t)
+  (if (leaf? t)
+      ; zwróć utoworzoną wartość
+      bt
+      ;wywołaj funkcję f z trzema argumentami
+      (f
+       (node-elem t)
+       (fold-tree f bt (node-l t))
+       (fold-tree f bt (node-r t))
+       )
+      )
+  )
+
+( define ( list->left-tree xs )
+   ( foldl ( lambda (x t) ( node t x ( leaf ))) ( leaf ) xs ))
+( define test-tree ( list->left-tree ( build-list 2000 identity )))
+
+
+( define example-treev2
+   ( node
+     ( node ( leaf ) 2 ( leaf ))
+     5
+     ( node ( node ( leaf ) 6 ( leaf ))
+            8
+            ( node ( leaf ) 9 ( leaf )))))
+
+
+(define (flatten t)
+  (define (flat-append t xs)
+    (if (leaf? t)
+        xs
+        (flat-append
+         ;trawers po lewym podrzewie
+         (node-l t)
+         ;utworzenie nowej listy, łączenie węzła i trawers po prawym
+         (cons (node-elem t) (flat-append (node-r t) xs))
+         )
+        )
+    )
+  (flat-append t '())
+  )
+
+(flatten test-tree)
+
+

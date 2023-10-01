@@ -1,0 +1,118 @@
+#lang racket
+
+
+;zadanie 5
+(define lista (cons 1 (cons 1 (cons 3 null))))
+
+
+(define (elem? x xs)
+  (if (null? xs)
+      #f
+      (if
+       (equal? (first xs)  x)
+       #t
+       (elem? x (rest xs))
+          )
+
+      )
+  )
+
+(elem? 1 lista)
+
+;zadanie 6
+(define (maximum xs)
+  (define (find-max list max)
+    (if (null? list)
+        max
+        ;puszczamy maxa przez argument
+        [if (> (first list) max)
+            (find-max (rest list) (first list) )
+            (find-max (rest list) max )
+            ]
+
+        ))
+  (find-max xs -inf.0))
+
+
+(maximum lista)
+
+;zadanie 7
+(define (suffixes xs)
+  (if (null? xs)
+      (list '())
+      (cons xs (suffixes (rest xs) ) )
+  )
+)
+( suffixes ( list 1 2 3 4) )
+
+
+;zadanie 8
+(define (sorted? xs)
+  (define (deter list prev)
+    (if (null? list)
+        #t
+        ;puszczamy poprzedni element przez argument z góry
+        (if (< (first list) prev)
+            #f ;nie jest posortowana niemalejąco
+            (deter (rest list) (first list) )
+            )
+
+        ))
+  (deter xs (first xs))
+  )
+
+(sorted? lista)
+
+
+;zadanie 9
+
+(define (select xs)
+  (cond [(empty? xs) (error 'select "emptymlist")]
+        [(empty? (cdr xs)) (cons (car xs) '())]
+        ;dzięki takim operacjom na pierwszym elemencie i reszcie nie zmieniamy kolejności listy
+        [else (let* ([min-rest (select (cdr xs))]
+                     [min (car min-rest)]
+                     [rest (cdr min-rest)])
+                (if (< (car xs) min)
+                    (cons (car xs) min-rest)
+                    (cons min (cons (car xs) rest))))]))
+
+
+(select '(4 3 1 2 5))
+
+(define (select-sort xs)
+  (if (empty? xs)
+      '()
+      (let ([choice (select xs)])
+        (cons (car choice) (select-sort (cdr choice))))))
+
+
+(select-sort '(1 5 0 7 1 4 1 0))
+
+;zadanie 10
+(define (split xs)
+  (define (it xs ys)
+    (if (< (length xs) (+ (length ys) 1))
+        (cons ys xs)
+        (it (cdr xs) (cons (car xs) ys))))
+  (it xs '()))
+
+(split '(8 2 4 7 4 2 1 2))
+
+(define (merge xs ys)
+  (cond [(empty? xs) ys]
+        [(empty? ys) xs]
+        [(<= (car xs) (car ys)) (cons (car xs) (merge (cdr xs) ys))]
+        [(> (car xs) (car ys)) (cons (car ys) (merge xs (cdr ys)))]
+        ))
+
+(define (merge-sort xs)
+  (if (= 1 (length xs))
+      xs
+      (merge (merge-sort (car (split xs))) (merge-sort (cdr (split xs))))))
+
+(merge-sort '(8 2 4 7 4 2 1 2))
+
+
+
+

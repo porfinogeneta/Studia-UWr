@@ -1,0 +1,43 @@
+#lang plait
+
+;(('a -> 'b) (Listof 'a) -> (Listof 'b))
+(define (my-map f xs)
+  (if (empty? xs)
+      empty
+      (cons (f (first xs)) (my-map f (rest xs)) )
+      )
+  )
+
+(define (my-map2 f xs)
+  ;czy jest consem i zapisuje na x pierwszy element z consa itd.
+  (type-case (Listof 'a) xs
+    [empty empty]
+    [(cons x xs) (cons (f x) (my-map2 f xs))]
+    )
+  )
+
+(define-type (Tree 'a)
+  (leaf)
+  (node [l : (Tree 'a)] [elem : 'a] [r : (Tree 'a)] )
+  )
+
+;type-case pozwala obejść się bez wyznaczania danych ze struktury
+(define (insert x t)
+  (type-case )
+  )
+
+;racket
+(struct leaf () #:transparent )
+(struct node (l elem r) #:transparent )
+
+(define (insert x t)
+  (match t
+    [(leaf? (leaf))]
+    [(node l y  r)]
+    (if (< x y)
+        (node (inser))
+        )
+    )
+
+  )
+

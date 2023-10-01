@@ -1,0 +1,14 @@
+#|
+monada, typ parametryczny z dwoma funkcjami,
+dla dowolnej wartości produkujemy dowolny kontekst obliczeniowy
+return a -> M a
+bind M 'a ('a -> M 'b) -> (M 'b), bierzemy typ a i funkcję robiącą monadę i zwracamy monadę
+bind można też zapisać jako >=
+te funkcje muszą spełniać prawa monadyczne
+
+#1 prawo monadyczne
+(return 'a) >= f == (f a) binduje się z f
+
+monady służą do modelowania efektów ubocznych
+
+|#

@@ -1,0 +1,8 @@
+#lang racket
+
+
+( define bar
+   ( wrap-contract
+     (- >/ c ( parametric/c ( lambda [a] (- >/ c a a))) number ?)
+     ( lambda (f) (f 42) )))
+( bar identity )

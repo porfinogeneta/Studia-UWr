@@ -1,0 +1,93 @@
+#lang racket
+
+;select
+(define (select xs)
+  (cond [(empty? xs) (error 'select "emptymlist")]
+        [(empty? (rest xs)) (cons (first xs) '())]
+        [else (let* ([min-rest (select (cdr xs))]
+                [min (car min-rest)]
+                [rest (cdr min-rest)])
+                (if (< (car xs) min)
+                    (cons (car xs) min-rest)
+                    (cons min (cons (car xs) rest)))
+                )]))
+
+(select '(100 2 3 3 2 4 6))
+
+(define (selection-sort xs)
+  (if (empty? xs)
+      '()
+      (cons (car (select xs)) (selection-sort (cdr (select xs))))
+      ))
+
+(selection-sort '(100 23 4 57 8))
+
+;insert
+(define (insert x xs)
+  (cond [(empty? xs) (cons x '())]
+        [(< x (car xs)) (cons x xs)]
+        [else (cons (car xs) (insert x (cdr xs)))])
+  )
+
+(define (insertion-sort xs)
+  (foldr (lambda (x acc) (insert x acc)) '() xs))
+
+(insert 4 '(1 2 3 4 5 6 7))
+
+(insertion-sort '(10 9 8 2 1))
+
+;bst
+(define-struct leaf () #:transparent)
+(define-struct node (l elem r) #:transparent)
+( define t
+( node
+( node ( leaf ) 2 ( leaf ))
+5
+( node ( node ( leaf ) 6 ( leaf ))
+8
+( node ( leaf ) 9 ( leaf )))))
+
+(define (bst? t)
+  (define (help t Min Max)
+    (cond [leaf #t]
+          [(and (<= Min (node-elem t)) (<= (node-elem t) Max))
+           (and (help (node-l t) Min (node-elem t)) (help (node-r t) (node-elem t) Max))]
+          [else #f]
+          )
+    )
+  (help t +inf.0 -inf.0)
+  )
+
+(bst? t)
+
+#|
+( parametric- >/ c [a b] (- > a b a)) a b -> a
+( parametric- >/ c [a b c] (- > (- > a b c) (- > a b) a c))
+( parametric- >/ c [a b c] (- > (- > b c) (- > a b) (- > a c)))
+( parametric- >/ c [a] (- > (- > (- > a a) a) a))
+
+|#
+
+(define (f1 a b)
+  (parametric->/c [a b] (-> a b a))
+  a)
+
+(define (f2 f g a)
+  (parametric->/c [a b c] (-> (-> a b c) (-> a b) a c))
+  (f a (g a)))
+
+(define (f3 f g)
+  (parametric->/c [a b c] (-> (-> b c) (-> a b) (-> a c)))
+  (lambda (a) (f (g a))))
+
+(define (f4 f)
+  (parametric->/c [a] (-> (-> (-> a a) a) a))
+  #;(f (lambda (x) (lambda (x) x) x))
+  (f (lambda (a) (lambda (a) a) a)))
+
+
+
+
+
+
+

@@ -1,0 +1,180 @@
+#lang racket
+
+(define (proc a b c)
+  (cond [(and (>= a c) (>= b c))
+        (* (* a a) (* b b))]
+        [(and (>= b a) (>= c a))
+        (* (* b b) (* c c))]
+        [(and (>= a b) (>= c b))
+         (* (* a a) (* c c))]
+  ))
+
+(proc 3 1 2)
+
+(require  rackunit)
+
+(check-equal? (proc 1 2 3) 36)
+
+#;(if ifCond ifTrue ifFalse)
+
+#;(or (and ifCond ifTrue) ifFalse)
+
+
+;FIBBONACCI I MATRIXY
+
+(define (fib n)
+  (cond [(= n 0) 0]
+        [(= n 1) 1]
+        [else (+ (fib (- n 2)) (fib (- n  1)))]))
+
+(fib 5)
+
+(define (fib-iter n)
+  (define (loop prev1 prev2 iter)
+    (if (= 1 iter)
+        prev2
+        (loop prev2 (+ prev1 prev2) (- iter 1))))
+  (cond [(= 0 n) 0]
+        [(= 1 n) 1]
+        [else (loop 0 1 n)]))
+
+(fib-iter 5)
+
+
+(define-struct matrix (a b c d) #:transparent)
+
+(define m1 (make-matrix 1 2 3 4))
+
+(define (matrix-mult m n)
+  (let (
+      [A (+ (* (matrix-a m) (matrix-a n)) (* (matrix-b m) (matrix-c n)))]
+      [B (+ (* (matrix-a m) (matrix-b n)) (* (matrix-b m) (matrix-d n)))]
+      [C (+ (* (matrix-c m) (matrix-a n)) (* (matrix-d m) (matrix-c n)))]
+      [D (+ (* (matrix-c m) (matrix-b n)) (* (matrix-d m) (matrix-d n)))])
+    (make-matrix A B C D)
+    ))
+
+(define matrix-id (make-matrix 1 0 0 1))
+
+(define (matrix-expt m k)
+  (cond
+    [(= 0 k) matrix-id]
+    [(= k 1) m]
+    [else (matrix-mult m (matrix-expt m (- k 1)))]
+      ))
+
+(define (fib-matrix k)
+  (matrix-expt (make-matrix 1 1 1 0) k))
+
+(matrix-b (fib-matrix 4))
+
+(define (matrix-expt-fast m exp)
+  (cond [(= 0 exp) matrix-id]
+        [(even? exp) (matrix-expt-fast (matrix-mult m m) (/ exp 2))]
+        [else (matrix-mult m (matrix-expt-fast (matrix-mult m m) (/ (- exp 1) 2) ))]))
+
+(define (fib-fast k)
+  (matrix-expt-fast (make-matrix 1 1 1 0) k))
+
+(matrix-b (fib-matrix 5))
+
+
+(define (quick-exp base exp)
+  (cond [(= 0 exp) 1]
+        [(even? exp) (quick-exp (* base base) (/ exp 2))]
+        [else (* base (quick-exp (* base base) (/ (- exp 1) 2)))]))
+
+;(quick-exp 2 5)
+
+
+
+;LISTY
+(define (elem? x xs)
+  (cond [(equal? (car xs) x) #t]
+        [(empty? (cdr xs)) #f]
+        [else (elem? x (cdr xs))]))
+
+
+(elem? 2 '(1 1 3 4 2))
+
+(define (maximum xs)
+  (define (iter max ls)
+    (cond [(empty? ls) max]
+          [(> (car ls) max) (iter (car ls) (cdr ls))]
+          [else (iter max (cdr ls))]))
+  (if (empty? xs) -inf.0 (iter -inf.0 xs)))
+
+(maximum '(1 1 1 2 3 4))
+
+(define (suffixes xs)
+  (if (empty? xs)
+      '('())
+      (cons xs (suffixes (cdr xs)))
+      )
+  )
+
+(suffixes '(1 2 3 4))
+
+(define (sorted? xs)
+  (define (iter prev ls)
+    (cond
+      [(empty? ls) #t]
+      [(<= prev (car ls)) (iter (car ls) (cdr ls))]
+      [else #f]))
+  (iter -inf.0 xs))
+
+(sorted? '(1 2 1))
+
+;SELECTION SORT
+
+(define (select xs)
+  (cond [(null? xs) #f]
+        [(null? (cdr xs)) (cons (car xs) '())]
+        [else (let* ([min-rest (select (cdr xs))]
+                     [min (car min-rest)]
+                     [rest (cdr min-rest)])
+                (if (< (car xs) min)
+                    (cons (car xs) min-rest)
+                    (cons min (cons (car xs) rest)))
+                )]))
+
+(define (selection-sort xs)
+  (if (empty? xs)
+      '()
+      (cons (car (select xs)) (selection-sort (cdr (select xs))))
+      ))
+
+( selection-sort ( list 1 5 0 7 1 4 1 0) )
+
+
+(define (split xs)
+  (define (iter ls nxs n)
+    (if (> (length ls) (+ (length nxs) 1))
+        (iter (cdr ls) (cons (car ls) nxs) (+ 1 n))
+        (cons nxs ls)
+        ))
+  (iter xs '() 0))
+
+
+( split ( list 8 2 4 7 4 2 1) )
+
+(define (merge xs ys)
+  (define (iter new xs ys)
+    (if (or (empty? xs) (empty? ys))
+        (append new xs ys)
+        (if (< (car xs) (car ys))
+            (iter (append new (list (car xs))) (cdr xs) ys)
+            (iter (append new (list (car ys))) xs (cdr ys)))
+        ))
+  (iter '() xs ys))
+
+
+( merge ( list 1 4 4 8) ( list 2 2 7) )
+
+(define (merge-sort xs)
+  (if (<= (length xs) 1)
+      xs
+      (merge (merge-sort (car (split xs))) (merge-sort (cdr (split xs))))))
+
+(merge-sort '(1 32 6 1 2))
+

@@ -1,0 +1,74 @@
+#lang racket
+
+
+(define (code-converter l)
+   (match l
+      ["._" "A"]
+      ["_..." "B"]
+      ["_._." "C"]
+      ["_.." "D"]
+      ["." "E"]
+      [".._." "F"]
+      ["__." "G"]
+      ["...." "H"]
+      [".." "I"]
+      [".___" "J"]
+      ["_._" "K"]
+      [".__.." "L"]
+      ["__" "M"]
+      ["_." "N"]
+      ["___" "O"]
+      [".__." "P"]
+      ["__._" "Q"]
+      ["._." "R"]
+      ["..." "S"]
+      ["_" "T"]
+      [".._" "U"]
+      ["..._" "V"]
+      [".__" "W"]
+      ["_.._" "X"]
+      ["_.__" "Y"]
+      ["__.." "Z"]
+      [".____" "1"]
+      ["..___" "2"]
+      ["...__" "3"]
+      ["...._" "4"]
+      ["....." "5"]
+      ["____." "6"]
+      ["___._" "7"]
+      ["__..__" "8"]
+      ["_.___" "9"]
+      ["_____." "0"]
+      [".___..___." "."]
+      ["__..__" ","]
+      ["..__.__.." "?"]
+      [#\space " "]
+      [_ l]
+  ))
+
+(define (trim-additional-spaces xs)
+  ; prev = #t gdy poprzedni element był spacją
+  ;str - analizowany str, res - wynik, tj lista strong'ów, help - kod morse'a wygenerowany
+  (define (it prev str res help)
+    (cond
+      [(null? str) res] ;dno rekursji, res to lista złożona ze spacji i symboli morse'a
+       ;jeżeli poprzedni i obecny są spacjami to chcemy dodać jedną spację
+      [(and prev (char-whitespace? (car str)))
+       ;dodajemy spację i helpa, z naszym słowem
+       (it (char-whitespace? (car str)) (cdr str) (append res (list (car str))) help)
+       ]
+      ;obecny jest spacją, ale poprzedni już nią nie jest, tzn że słowo się skończyło i można je dodać do res
+      [(and (not prev) (char-whitespace? (car str))) (it (char-whitespace? (car str)) (cdr str) (append res (list help)) "")] 
+      ;wpp dodajemy kody do helpa
+      [else (it (char-whitespace? (car str)) (cdr str) res (string-append help (string (car str))))]
+    ))
+  (it #f xs '() ""))
+
+;(string->list "  __ . __.  .. ___ _____ .. ___ .. ___")
+;(trim-additional-spaces (string->list "  __ . __.  .. ___ _____ .. ___ .. ___"))
+
+(define (morse-decode xs)
+  (apply string-append (map code-converter (trim-additional-spaces (string->list xs))))
+)
+
+( morse-decode " __ .__.  ..___ _____. ..___ ..___ ")

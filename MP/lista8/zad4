@@ -1,0 +1,48 @@
+#lang plait
+
+
+(define-type Op
+  (op-add) (op-mul) (op-sub) (op-div))
+
+
+(define (parse-Op s)
+  (let ([sym (s-exp->symbol s)])
+  (cond
+    [(equal? sym '+) (op-add)]
+    [(equal? sym '-) (op-sub)]
+    [(equal? sym '*) (op-mul)]
+    [(equal? sym '/) (op-div)])))
+
+; IMPLEMENTACJA
+;aby zrealizować zadanie połączę parse-Exp z eval
+
+(define (eval-op op)
+  (type-case Op op
+    [(op-add) +]
+    [(op-sub) -]
+    [(op-mul) *]
+    [(op-div) /]))
+
+
+(define (eval-exp s)
+  (cond
+    ;jak s-wyrażenie jest liczbą, konwertuję s na liczbę
+    [(s-exp-number? s) (s-exp->number s)]
+    ;jak jest listą to obliczam wartość
+    [(s-exp-list? s)
+     (let* ([xs (s-exp->list s)]
+       ;parsuję do odpowiedniego symbolu
+       [op (parse-Op (first xs))])
+       (type-case Op op
+         ;badam jaki mam dostępny symbol i rekurencyjnie obliczam wartości
+           [(op-add) (+ (eval-exp (second xs)) (eval-exp (third xs)))]
+           [(op-sub) (- (eval-exp (second xs)) (eval-exp (third xs)))]
+           [(op-mul) (* (eval-exp (second xs)) (eval-exp (third xs)))]
+           [(op-div) (/ (eval-exp (second xs)) (eval-exp (third xs)))]
+         )
+       )
+     ]
+    )
+  )
+
+

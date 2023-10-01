@@ -1,0 +1,14 @@
+#lang racket
+
+( define/contract ( foldl-map f a xs )
+   (parametric->/c [old_l new_l acc] (-> (-> old_l acc (cons/c new_l acc)) acc (listof old_l) (cons/c (listof new_l) acc)))
+   ( define ( it a xs ys )
+      ( if ( null? xs )
+           ( cons ( reverse ys ) a)
+           ( let [( p (f ( car xs ) a))]
+              ( it ( cdr p)
+                   ( cdr xs )
+                   ( cons ( car p) ys )))))
+   ( it a xs null ))
+
+( foldl-map ( lambda (x a) ( cons a (+ a x))) 0 '(1 2 3) )

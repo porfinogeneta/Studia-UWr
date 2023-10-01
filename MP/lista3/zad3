@@ -1,0 +1,16 @@
+#lang racket
+
+;zadanie 3
+; 1 jest aplikowane do x; 2 jest aplikowane do y, potem następuje redukcja wyrażenia
+;(( lambda (1 2) (+ 1 (* 1 2))) 1 2) -> 3
+(( lambda (x y) (+ x (* x y))) 1 2)
+
+; lewa zaaplikuje do x prawą i lewa wywoła się dla prawej, zwracając samą siebie ( lambda (x) x) -> x
+(( lambda (x) x) ( lambda (x) x))
+
+; (lambda (x) x ( lambda (x) x)) -> (lambda (x) x) -> x
+(( lambda (x) (x x)) ( lambda (x) x))
+
+;lewa wywoła się dla prawej zwracając ( (lambda (x) (x x))  (lambda (x) (x x)) ), potem nowa prawa znowu się zaaplikuje do lewej i tak w kółko
+;( (lambda (x) (x x))  (lambda (x) (x x)) ) -> ((lambda (x) ((lambda (x) (x x)) (lambda (x) (x x))) )) -> ((lambda (x) ((lambda (x) ((lambda (x) (x x)) (lambda (x) (x x)))) ) ))
+(( lambda (x) (x x)) ( lambda (x) (x x)))

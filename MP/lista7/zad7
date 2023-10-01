@@ -1,0 +1,126 @@
+#lang racket
+
+
+;kogo obwinić
+(define (raise-contract-violation pol val)
+  (error "Contract violation\nBlaming:"
+                (if pol 'Programmer 'User)))
+
+;struct do konktraktów, jak kontrakty będą aplikowane do wartości
+(struct contract [wrap])
+
+;kontrakt i zgłaszanie błędów
+(define (wrap-contract c v)
+  (wrap-with-polarity #t c v))
+
+(define (wrap-with-polarity pol c v)
+  ;jeżeli jest to kontrakt
+  (if (contract? c)
+      ((contract-wrap c) pol v)
+      ;jeżeli c reprezentuje wartość 
+      (if (c v)
+          v
+          (raise-contract-violation pol v))))
+
+;zdefiniowanie ogólnego kontraktu, pozwalającego na branie dowolnych wartości
+(define any/c (contract (lambda (pol v) v)))
+
+
+
+;zdefiniowanie kontraktu dla funkcji mogących przyjmować inne funkcje jako argumenty
+;bierze listę cs kontraktów
+;funkcja ma przestrzegać kontraktu dla inputu i outputu
+(define (->/c . cs)
+  (define arity (- (length cs) 1))
+  (define val/c (last cs))
+  (define arg/cs (take cs arity))
+  (define (wrap pol f)
+    (lambda xs
+      (define args
+        (map (curry wrap-with-polarity (not pol))
+             arg/cs
+             xs))
+      (wrap-with-polarity pol val/c (apply f args))))
+  (contract wrap))
+
+
+
+;kontrakt dla list, zastrzeżeniem, że każdy element listy musi go przestrzegać
+(define (list/c c)
+  (define (wrap pol xs)
+    (if (list? xs)
+        (map (curry wrap-with-polarity pol c) xs)
+        (raise-contract-violation pol xs)))
+  (contract wrap))
+
+;struktura do przechowywanie kontraktów, z konkretnym tagiem
+(struct box [tag val])
+
+;sprawdzenie czy wprowadzona wartość jest typu box
+(define (box/c tag)
+  (define (wrap pol val)
+    (if pol
+        (if (and (box? val) (eq? tag (box-tag val)))
+            (box-val val)
+            (raise-contract-violation pol val))
+        (box tag val)))
+  (contract wrap))
+
+;MANKAMENT
+;nie będziemy w stanie rozróżnić tagów z różnych wywołań funkcji,
+;bo tagi powstają w momencie owijania w kontrakt za pomocą  parametric/c
+;dokładnie linijka - (define cs (map (lambda (i) (box/c (gensym))) (range arity)))
+
+;można to naprawić owijając w kontrakt dopiero na etapie wywołania funkcji
+
+;bierze body - ciało funkcji jako argument
+;tworzy listę kontraktów dla argumentów funkcji
+;zakłada, że wkładana funkcja potrzebuje kontraktów dla każdego argumentu
+(define (parametric/c body)
+  (define arity (procedure-arity body));ile jest argumentów
+  (define cs (map (lambda (i) (box/c (gensym))) (range arity)));lista kontraktów, na początku dajemy gensym jako tagi
+  (define (param-wrap f)
+    (define (wrap pol xs)
+      ;tworzymy listę nowych kontraktów z nowych tagów
+      (define fresh-cs
+        (map (lambda (c) (box/c (gensym))) (range arity))) ;<- tu dodaję nowe tagi
+      ;wykorzystujemy świeże kontrakty do zapakowania ciała funkcji
+      (define wrappers
+        (apply body fresh-cs))
+      ;wykorzystuję wrap-with-polarity, aby użyć funkcji opakowującej dla każdego argumentu funkcji
+      (wrap-with-polarity pol (apply wrappers cs) xs))
+      (contract wrap))
+  (apply body cs));na ciele funkcji aplikujemy kontrakty
+
+#;( define foo
+   ( wrap-contract
+     ( parametric/c ( lambda [a]
+                       (->/c boolean? a (->/c a any/c ) any/c )))
+     ( lambda (b x f)
+        ( if b x (f (f x))))))
+
+
+;( foo #f ( foo #t 42 identity ) identity )
+
+;; Testowy kod
+(define foo
+  (wrap-contract
+   (parametric/c
+    (lambda [a]
+      (->/c a (->/c a any/c))))
+   (lambda (x f)
+     (f (f x)))))
+
+(define (print-box-tags a f)
+  (printf "Tag for a: ~a\n" (box-tag a))
+  (printf "Tag for f: ~a\n" (box-tag f)))
+
+(define wrapped-f1
+  (foo (box (gensym) identity)))
+
+(define wrapped-f2
+  (foo (box (gensym) identity)))
+
+(print-box-tags (foo (box (gensym) identity)))
+(print-box-tags wrapped-f1)
+(print-box-tags wrapped-f2)

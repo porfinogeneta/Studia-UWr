@@ -1,0 +1,27 @@
+#|
+WYKŁAD
+kontynuuacja, przekazywanie funkcji do wykonania
+eval teraz używa kontynuuacji
+kontynuuacja początkowa to musi być identyczność, żeby zwrócić Value
+
+callcc - uruchamianie funkcji z obecną kontynuuacją
+contV - przechwycone kontynuuacje
+
+możemy też zaaplikować przechwyconą kontynuuację (funkcja apply), podmieniamy wcześniejszą kontynuuację na naszą nową
+=============================
+dodajemy nowe typy
+typ identyczność to typ zmiennych, bo identyczność może przyjąć zbyt dużo różnych typów
+
+inferencja typów, czyli wyprowadzenie typów
+chcemy mieć ogólny typ, z których można wyprowadzić dowolny typ
+
+chcemy zrobić kontrolę typów, przy pomocy środowiska
+
+unify - rozwiązywanie równać z typami, unify zwróci przporządkowanie zmiennym typy,
+sunstitute, wykonanie naszego podstawienia
+
+uruchamiamy program i zwracamy parę wyniku i tego czy typy się zgodziły
+
+append jest po to że jeśli nie jedno podstawienie nie uwzględnia drugiego, musimy je zapamiętać
+
+|#

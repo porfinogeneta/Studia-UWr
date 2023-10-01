@@ -1,0 +1,169 @@
+#lang plait
+
+
+{let x 1 {+ x 1}} - mamy zmienną i jedno wiązanie, wylicza się to do 2
+
+jak zdefiniować różne? to jest u nas semantycznie to samo
+{let y 1 {+ y 1}}
+
+{}
+
+chcemy mieć uniwersalność semantyczną
+
+robimy sobie zbiów, z podstaowwymi funkcjami: union,remove, singleton
+
+na bazie zbioru chcemy dostać zbiór zmiennych wolnych w wyrażeniach
+
+stałe nie mają zmiennych wolnych
+zwracamy zbiór pusty
+zbieramy zmienne wolne w obu wyrażeniach left i right
+spotkamy zmienną, zwracamy singleton
+zmienne wolne, to to wszystk co jest w e1 i e2 ale bez x, który był deklarowany
+
+fv - free variables
+
+{let x 2
+{let x {+ x 1}}} - x to zmienna wolna, gdzieś zadeklarowana, nie pochodzi z zadeklarowania x (mowa o drugim let)
+
+co znaczy związać x z wartością wyrażąneia w let?
+{let x 1 {+ x 1}}
+zbudujemy model podstawieniowy języka, uruchomimo to tylko dla zmiennych wolnych, dla zmiennych wolnych (varE) zwrócimy error
+obliczamy w let watość e1 i nazywamy to v1 (Number albo String)
+w e2 wartawimy wartość wyrażenia z podstawionym x, e2 obliczanie wyrażeń ze zmienną
+subst, operacja podstawienia, co, gdzie, za co
+{+ e1 e2}[x = a]
+{+ e1[x = a] e2[x = a]} ;wchodzimy z posdstawieniem do gałęzi
+
+
+[(letE y e1 e2)
+     ;podstaw w lewym podwyrażeniu
+     (let ([e1-new (subst e1 x a)] ;podstawiamy wyrażenie 'a' za zmienną 'x' aby móc właściwie obliczyć wartość przypisaną do y
+           [e2-new (if (eq? x y) ; czy x i y są takie same, czli czy x jest zmienną, do której przypisujemy wartość w let
+                       e2 ;x został przesłonięty przez przypisanie do y, jak zmienne są takie same zostawiamy to wyrażenie
+                       (subst e2 x a))]) ;jeśli zmienne są różne to trzeba podstawić wyrażenie 'a' za x w naszym wyrażeniu x,
+       ;to znaczy że mamy jeszcze jakąś inną zmienną w e2, której nie zdefiniowaliśmy za pomocą y
+       (letE y e1-new e2-new))]
+
+dla {+ x y}[x = a]
+{+ a y} y zostawiam w spokoku
+jak x != y wstawiam w e2 jeden term wolny, zastępuję ją termem zamkniętym
+
+{let x 4 {let x 1 {+ x x}}} - przechwycenie zmiennej
+{let x 2 {let y 3 {let x 4 {+ {* y x} {+ x y}}}}} - alfa równośći
+{let x 1 {+ y 1}}[y = x], u nas się zrobi
+{let x 1  {+ x 1}},przechwycenie zmiennej, my napiszemy podstawienie bez tego błędu
+żeby się tego pozbyć to zmieniam zmienne deklarowane w let na inne niż te zastępowane,
+przeminowuję zmienne, można np zrobić takie ogólne podstawienie, które robi podstawienie dla zmiennych deklarowanych i zwykłe podstawienie
+potrzebujemy generator do zmiennych - gensym np
+za każdym razem urychamiamy podstawienie wszędzie
+;środowisko ====================================================
+środowisko, opóźnione podstawienie, zapamiętać że x ma pewną wartość i pójście dalej
+
+Env to lista wiązań, wiązanie para - nazwa, wartość
+puste środowisko
+extend - dodawanie wiązania do środowiska
+looku-env szukanie nazwy środowiskowej
+rekurencyjnie szukamy danej zmiennej środowiskowej
+
+teraz env bierze wyrażenie i środowisko
+stałe interpretujemy bez środowiska
+cały czas przekazujemy środowisko
+dla zmiennej poszukujemy za pomocą lookup jej wartości
+środowisko rośnie po wejściu w leta
+
+u nas dla
+{let x 1 {let x 2 x}}
+x nam zostanie zeewaluowany przez środowisko - env
+
+; porównywanie alpha równoważne ================
+{let x 1 {+ x 1}} oba są alpha równoważne {let y 1 {+ y 1}}
+musimy sprawdzić czy oba let są takie same
+
+{let x 1
+  {let y 2
+    {let z x
+      (+ z y)
+      }
+    }
+  }
+[] - mamy puste środowisko
+[(x ,1)] x z wartością 1
+[(y, 2), (x ,1)]
+[(z, 1) (y, 2), (x ,1)] (+ z y), wystarczy mi wiedzieć który element ze środowiska mam użyć
+nazwy nie są zatem istotne, zamiast używać nazw, my będziemy mówić, jak dalego jesteśmy od początku bindera, listy ze zmiennymi
+bez nazw
+{let 1
+  {let 2
+    {let (index to 1) trzeba było przejść przez 1 indeks aby dotrzeć do x
+      (+ (index 0) (index 1)) <- mamy rozszerzone środowisko -> [1,2,1] biorę indeks 0 i indeks 1 -> indeksy deBrauna term
+      - zmienna jest reprezentowana przez liczbę naturalną oznaczająca dystans wystąpienie w środowisku
+      }
+    }
+  }
+
+
+;implementacja ======================================
+język ma być bez nazw, zmienne mają adresy
+środowisko to lista wartości
+środowisko rozszerzone - dokładam wartość
+poszukiwanie w środowisku, dajem index, szukamy n-tej wartości
+
+translate, tłumaczy wynik parsowania na wyrażenie bez nazw, i ewaluację uruchomimy przy pustym środowisku
+dla zmiennej lookup n + środowisku
+let wrzucamy pierwszą ewaluację do środowiska
+środowisko - lista nazw zmiennych
+
+
+{let x 1                  []
+  {let y 2                [x]
+    {let z x              [y x]
+      (+ z y)             [z y x], kompilacja, szukam indeksu danej zmiennej w lisćie, address-of, szuka adresu
+      }
+    }
+  }
+
+szukam adresu zmiennej w środowisku
+{let x 1 {+ y 1} {+ x y}}[y] => {let {index 0} 1} - oba te wyrażanie na górze i na dole są w innym środowisku, każdy let zmienia środowisko
+                          [x,y] (index 0) (index 1), później w ewaluacji skorzystamy sobie z tych indeków, i będziemy tam wrzucać wartości
+
+dzięki temu wszystkie możliwe termy, nawet o różnych nazwach skonwertują się do tego samego np (index 0)
+zrobimy translację a później zeewaluujemy to dla naszych wygenerowanych indeksów
+
+{let x 1 {+ x 1}} => {let 1 {+ (index 0) 1}}
+
+
+;dodajemy funkcje do języka =====================================
+funkcja labmbda oraz aplikacja tej funkcji
+idea: {lambda {x} {+ x 1}} wiązemy x za pomocą parametru funkcji
+appE e1 powinno policzyć się do funkcji e2 - argument tej funkcji
+zanim dojdziemy do aplikacji funkcji, wyliczamy jej wartość
+{e1 e2}, e2=lambda{x}e1 e2->v2 , najpierw policzymy wartość v2
+druga opcja call by name - nie liczę e2, liczę funkcję tylko gdy będzie potrzebna wartość x (call by need - zooptymalizowana wersja call by name)
+call by name - jak pojawi się x to liczę
+call by value - liczę wartość na starcie wartość przekazuję - 1 raz
+call by need - policz 0 albo 1
+
+
+teraz nasza Value
+Value to teraz typ zawierający funkcje Value -> Value
+
+eval
+funkcję budujemy jako funkcję z Value -> Value, jak lambda dostanie wartość uruchomimy ją wtedy dla danej wartości zwróconej przez eval
+
+
+apply
+policz wartość e1 i e2 przekaż to do apply, liczymy w apply wartość funkcji dla metajęzyka
+
+dla naszego języka nie zawsze otrzymamy wartość
+{lambda {x} {x x}}
+
+{lambda {x} {x x}
+  {lambda {x} {x x}}
+  } ;mamy zapętlenie, nie ma terminacji w naszym języku
+
+
+
+
+
+
+

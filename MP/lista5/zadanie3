@@ -1,0 +1,160 @@
+#lang plait
+
+
+( define ( apply f x) (f x))
+;(('a -> 'b) 'a -> 'b) argument f to funkcja ('a -> 'b) arg x to 'a; apply zwraca to co wyliczy f
+( define ( compose f g) ( lambda (x) (f (g x))))
+;(('a -> 'b) ('c -> 'a) -> ('c -> 'b))
+;f to ('a -> 'b) g to ('c -> 'a), w lambdzie mamy złożenie ('c -> 'b)
+( define ( flip f) ( lambda (x y) (f y x)))
+;(('a 'b -> 'c) -> ('b 'a -> 'c))
+;f to ('a 'b -> 'c), czyli funkcja wywołująca się dla dwóch argumentów z lambdy;
+;nasza lambda to funkcja f z odwóconymi argumentami
+( define ( curry f) ( lambda (x) ( lambda (y) (f x y))))
+;(('a 'b -> 'c) -> ('a -> ('b -> 'c))) f to ('a 'b -> 'c)
+;curry przyjmuje funkcję dwuargumentową f
+;curry zwraca złożenie dwóch funkcji, lambda,obliczają się one do elementu zwracanego przez f
+;lambdy niejako definiują nam kształt funkcji f, to one dają argumenty
+
+( curry compose )
+; curry bierze jako argument compose
+; (('_a -> '_b) -> (('_c -> '_a) -> ('_c -> '_b))) - odp.
+
+; (('a 'b -> 'c) -> ('a -> ('b -> 'c))) == curry
+; (('x -> 'y) ('z -> 'x) -> ('z -> 'y)) == compose
+;curry bierze na wejściu funkcję biorącą parę i zwracającą jakieś 'c;
+;podejemy więc na argument funkcję compose, spełniającą tą specyfikację
+;'a = ('x -> 'y)
+;'b = ('z -> 'x)
+;'c = ('z -> 'y)
+; [('x -> 'y) ('z -> 'x) -> ('z -> 'y)] -> [('x -> 'y) => (('z -> 'x) -> ('z -> 'y))] <- funkcja którą chcieliśmy
+; po znormalizowaniu (podmianie nazw zmiennych) otrzymamy: [('a -> 'b) -> (('c -> 'a) -> ('c -> 'b))] - wartość funkcji to to co zwraca plait
+
+
+
+(( curry compose ) ( curry compose ))
+;podstawienie za argument odpowiednich wartości drugiej funkcji -> dojście do ZW -> podstawienie
+; argument to byłoby (curry compose)
+;(('_a -> ('_b -> '_c)) -> ('_a -> (('_d -> '_b) -> ('_d -> '_c)))) - odp
+; zwykłe (curry compose):
+;(('_a -> '_b) -> (('_c -> '_a) -> ('_c -> '_b)))
+ ;(('x -> 'y) -> (('z -> 'x) -> ('z -> 'y))) ( curry compose ), to wstawiamy za argument lewego ( curry compose )
+;curry compose bierze w argumencie funkcję i zwraca funkcje w funkcję, dobierzmy więc argumenty
+; '_a = ('x -> 'y)
+; '_b = (('z -> 'x) -> ('z -> 'y)), po podstawieniu otrzymamy
+; [('x -> 'y) -> (('z -> 'x) -> ('z -> 'y))] => [('_c -> ('x -> 'y)) -> ('_c -> (('z -> 'x) -> ('z -> 'y))) ]
+; podmieniamy zmienne
+; 'c = 'a , x = 'b, y = 'c, z = 'd
+; ['a -> ('b -> 'c)] -> ('a -> ('d -> 'b) -> ('d -> 'c))
+
+
+
+(( curry compose ) ( curry apply ))
+;(('_a -> ('_b -> '_c)) -> ('_a -> ('_b -> '_c)))
+
+; co zwraca (curry apply)
+; (('x -> 'y) 'x -> 'y) apply
+; (('a 'b -> 'c) -> ('a -> ('b -> 'c))) curry
+; argumentem curry jest apply; gdzie curry przyjmuje (para) -> 'c
+; 'a = ('x -> 'y)
+; 'b = 'x
+; 'c = 'y
+; podstawiamy argumenty
+; (('x -> 'y) 'x) -> [('x -> 'y) -> ('x -> 'y)] <- to zostanie zwrócone z (curry apply) i zostaie przekazane do (curry compose)
+; to jest (curry compose) ; (('_a -> '_b) -> (('_c -> '_a) -> ('_c -> '_b)) wstawmy teraz argumenty w odpowiednich miejscach
+;(curry compose) przyjmuje jako argument zwykłą funkcję, zatem weźmy
+; '_a = ('x -> 'y)
+; '_b = ('x -> 'y)
+; podstawiając do funkcji otrzymamy:
+; (('x -> 'y) -> ('x -> 'y) => [('c -> ('x -> 'y)) -> ('c -> ('x -> 'y))])
+; otrzymaliśmy [('c -> ('x -> 'y)) -> ('c -> ('x -> 'y))], teraz normalizacja:
+; 'c = 'a
+; 'x = 'b
+; 'y = 'c
+; [('a -> ('b -> 'c)) -> ('a -> ('b -> 'c))]
+
+
+
+(( curry apply ) ( curry compose ))
+;(('_a -> '_b) -> (('_c -> '_a) -> ('_c -> '_b))) - odp
+
+;(('_a -> '_b) -> (('_c -> '_a) -> ('_c -> '_b))) <- curry compose, przetłumaczmy zmienne
+;(('x -> 'y) -> (('z -> 'x) -> ('z -> 'y)))
+
+; co zwraca (curry apply) ? z poprzedniego wiadomo, że (('_a -> '_b) -> ('_a -> '_b)), tak więc potrzebujemy funkcji X -> Y jako argumentu, dostarczy nam ją ( curry compose )
+; zatem podstawiając za odpowiednie zmienne otrzymamy
+; '_a = ('x -> 'y)
+; '_b = (('z -> 'x) -> ('z -> 'y))
+; (('_a -> '_b) -> ('_a -> '_b)) => (( ('x -> 'y) -> (('z -> 'x) -> ('z -> 'y))) => (('x -> 'y) -> (('z -> 'x) -> ('z -> 'y))))
+; znormalizujmy teraz nazwy zmiennych
+; 'x = '_a
+; 'y = '_b
+; 'z = '_c
+;(('_a -> '_b) -> (('_c -> '_a) -> ('_c -> '_b))))
+
+( compose curry flip )
+;(('_a '_b -> '_c) -> ('_b -> ('_a -> '_c)))
+
+;FLIP (('a 'b -> 'c) -> ('b 'a -> 'c))
+;CURRY (('a 'b -> 'c) -> ('a -> ('b -> 'c)))
+;COMPOSE (('k -> 'l) ('m -> 'k) -> ('m -> 'l))
+
+;COMPOSE na wejściu bierze parę, załóżmy, że jest to para funkcji curry i flip
+; funkcja korzysta z zaaplikowania flip do curry
+
+;('k -> 'l) = (('a 'b -> 'c) -> ('a -> ('b -> 'c))) - curry
+; ('m -> 'k) = (('a 'b -> 'c) -> ('b 'a -> 'c)) - flip
+; wstawiam to do COMPOSE
+;               CURRY                                 FLIP          podmiana 'a z 'b, wynikająca z zaaplikowania flip do curry
+; (('a 'b -> 'c) -> ('a -> ('b -> 'c))) (('a 'b -> 'c) -> ('b 'a -> 'c)) => ('b 'a -> 'c) -> ('a -> ('b -> 'c))
+
+
+
+(( curry compose ) ( curry apply ))
+
+#|
+apply: (('a -> 'b) 'a) -> 'b
+curry: (('X 'Y -> 'C) -> ('X -> ('Y -> 'C)))
+compose: (('E -> 'F) ('G -> 'E) -> ('G -> 'F))
+
+aplikujemy  apply do curry, jednocześnie aplikując compose do curry, póżniej aplikujemy wynik prawego do lewego
+
+( curry apply )
+curry przyjmuje funkcję, zatem otrzymamy
+X = ('a -> 'b)
+Y = 'a
+C = 'b
+
+[('a -> 'b) 'a -> 'b] -> [('a -> 'b) -> ('a -> 'b)]
+
+wynik: [('a -> 'b) -> ('a -> 'b)]
+
+
+(curry compose)
+X = ('E -> 'F)
+Y = ('G -> 'E)
+C = ('G -> 'F)
+
+[('E -> 'F) ('G -> 'E) -> ('G -> 'F)] -> [('E -> 'F) -> [('G -> 'E) -> ('G -> 'F)]]
+
+wynik:  [('E -> 'F) -> [('G -> 'E) -> ('G -> 'F)]]
+
+
+;teraz aplikujemy do wyniku [curry compose] nasz wynik [curry apply]
+
+E = ('a -> 'b)
+
+F = ('a -> 'b)
+
+(( curry compose ) ( curry apply ))
+
+[('a -> 'b) -> ('a -> 'b)] => [('G -> ('a -> 'b)) -> ('G -> ('a -> 'b))]
+
+WYNIK OSTATECZNY:  [('G -> ('a -> 'b)) -> ('G -> ('a -> 'b))]
+|#
+
+
+
+
+
+

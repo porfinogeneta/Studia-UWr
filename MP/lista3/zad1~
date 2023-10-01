@@ -1,0 +1,13 @@
+#lang racket
+
+;zadanie 1
+; z całości tworzę parę aby dostać . robię cons na a i b,
+; list zabierze ' przed *
+; list pozbywa się '
+(list (list 'car (cons 'a 'b)) (list '* '2)) 
+
+
+(list ',(car '(a . b)) ', (* 2) )
+
+; tworzę listy z symboli, na zewnątrz jest jedna lista, żeby dodać nawiasy
+(list (list '+ 1 2 3) (list 'cons) (list 'cons 'a 'b))

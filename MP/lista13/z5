@@ -1,0 +1,108 @@
+#lang racket
+
+;; processing data sequences with lists --------------------
+
+(define-syntax-rule
+  (delay c)
+  (memo-proc (λ () c)))
+
+(define (force t)
+  (t))
+
+(define (memo-proc proc)
+  (let ([already-run? false]
+        [result false])
+    (lambda ()
+      (if (not already-run?)
+          (begin (set! result (proc))
+                 (set! already-run? true)
+                 result)
+          result))))
+
+
+
+;; streams aka lazy lists ---------------------------------
+
+;; delay and force
+
+(define-syntax-rule
+  (stream-cons v s)
+  (cons v (delay s)))
+
+(define stream-car car)
+
+(define (stream-cdr s)
+  (force (cdr s)))
+
+(define stream-null null)
+(define stream-null? null?)
+
+;; operations on streams
+
+(define (stream-ref s n)
+  (if (= n 0)
+      (stream-car s)
+      (stream-ref (stream-cdr s) (- n 1))))
+
+(define (stream-filter p s)
+  (if (stream-null? s)
+      stream-null
+      (if (p (stream-car s))
+          (stream-cons (stream-car s)
+                       (stream-filter p (stream-cdr s)))
+          (stream-filter p (stream-cdr s)))))
+
+(define (stream-enumerate-interval a b)
+  (if (> a b)
+      stream-null
+      (stream-cons a (stream-enumerate-interval (+ a 1) b))))
+
+
+;zadanie 5
+;złączanie strumieni
+;funkcja merge przyjmuje w argumecie dwa strumienie
+(define (merge s t)
+  (let ([scar (stream-car s)]
+        [tcar (stream-car s)]
+        )
+  (cond
+    [(= scar tcar) (stream-cons scar (merge (stream-cdr s) (stream-cdr t)))] ;strumień nie może zawierać powtórzeń
+    [(< scar tcar) (stream-cons scar (merge (stream-cdr s) t))] ;strumień t pozostaje bez zmian
+    [(> scar tcar) (stream-cons tcar (merge s (stream-cdr t)))] ;strumień s pozostaje bez zmian
+    ))
+  )
+
+;przemnożenie strumienia przez skalar
+(define (scale s n)
+  (stream-cons (* n (stream-car s)) (scale (stream-cdr s) n)) ;przemnażam każdy element strumienia przez skalar
+  )
+
+(define (hamming-stream)
+  (letrec (
+           [s2 (stream-cons 2 (merge (scale s2 2) (merge (scale s2 3) (scale s2 5))))] ;strumień 2 składa się z samej dwójki i jej wielokroności z 2, 3 i 5
+           [s3 (stream-cons 3 (merge (scale s3 2) (merge (scale s3 3) (scale s3 5))))]
+           [s5 (stream-cons 5 (merge (scale s5 2) (merge (scale s5 3) (scale s5 5))))]
+           )
+    (merge s2 (merge s3 s5)) ;na końcu łączymy te strumienie w jeden, dzięki czemu pozbywam się powtórzeń i buduję rosnący ciąg
+    )
+  )
+
+(stream-ref (hamming-stream) 13)
+
+
+ ;; combining (infinite) streams 
+
+;wykonujemy funkcję f na dwóch strumieniach xs i ys
+(define (map2 f xs ys)
+  (stream-cons
+   (f (stream-car xs)
+      (stream-car ys)) ;pierwszy element pary
+   (map2 f (stream-cdr xs) (stream-cdr ys)))) ;drugi element pary
+
+
+#|
+nats2    0 1 2 ...
+ones     1 1 1 ...
+---------------------------------------
+nats2  0 1 2 3 ...
+|#

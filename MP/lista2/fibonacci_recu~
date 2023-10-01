@@ -1,0 +1,31 @@
+#lang racket
+
+(define (fib n)
+  (cond [ (= n 0) 0 ]
+        [(= n 1) 1]
+        [else (+ (fib (- n 1))   (fib (- n 2)) )  ]
+        )
+
+  )
+
+(fib 10)
+
+(define (fib-iter n)
+
+  (cond
+    [(= n 0) 0]
+    [(= n 1) 1]
+    [else
+
+    (define (it n prev1 prev2)
+      (if (= n 2) ;bez pierwszych dwóch
+          (+ prev1 prev2)
+          (it (- n 1) prev2 (+ prev1 prev2) )
+          )
+      )
+    (it n 0 1)
+     ]
+    )
+  )
+
+(fib-iter 10)

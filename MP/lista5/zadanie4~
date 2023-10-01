@@ -1,0 +1,12 @@
+#lang plait
+
+
+(define (permutations lst)
+  (cond
+    ((empty? lst) '(()))
+    ((= (length lst) 1) (list lst))
+    (else (append-map
+           (lambda (x)
+             (map (lambda (xs) (cons x xs))
+                  (permutations (remove x lst))))
+           lst))))

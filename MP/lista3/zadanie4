@@ -1,0 +1,24 @@
+#lang racket
+
+(define (square x)
+  (* x x)
+  )
+
+(define (inc x)
+  (+ x 1)
+  )
+
+(define (my-compose square inc)
+  (lambda (x) (square (inc x) ))
+  )
+
+; na początku zwiększam x o 1, później podnoszę go do kwadratu
+( (my-compose square inc) 2)
+; podnoszę 5 do kwadratu i dodaję 1
+(( my-compose inc square ) 5)
+
+;((my-compose square inc) 5)
+;((lambda (x) (square (inc x))) 5)
+;(square (inc 5))
+;(square 6)
+;36

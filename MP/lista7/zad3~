@@ -1,0 +1,15 @@
+#lang racket
+
+
+(define (suffixes xs)
+ (define (suff-help xs acc)
+   (if (null? xs)
+       acc
+       ;dodaj do listy list każdą listę pochodzącą z wywołania rekurencyjnego
+       (suff-help (rest xs) (cons xs acc) )
+       )
+   )
+  (suff-help xs '())
+  )
+
+(suffixes (list 0 1 2 3 4 5 6 7))

@@ -1,0 +1,68 @@
+#lang racket
+
+
+(define-struct leaf () #:transparent)
+(define-struct node (l elem r) #:transparent)
+
+; drzewo to:
+; - albo (leaf)
+; - albo (node l elem r), gdzie l i r to drzewa
+
+(define (tree? x)
+  (cond [(leaf? x) #t]
+        [(node? x) (and (tree? (node-l x))
+                        (tree? (node-r x)))]
+        [else #f]))
+
+
+;będziemy sprawdzać czy drzewo jest w range
+(define (bst? t)
+  (define (bst-help t rMin rMax)
+    (cond
+      [(leaf? t) #t]
+      ;jak jestem w zakresie
+      [(and (<= rMin (node-elem t)) (<= (node-elem t) rMax))
+       ;zmieniam max lewego
+       (and (bst-help (node-l t) rMin (node-elem t))
+            ;zmieniam min prawego
+            (bst-help (node-r t) (node-elem t) rMax))]
+      [else #f]))
+  (bst-help t -inf.0 +inf.0))
+
+
+
+
+
+(define example-tree
+  (node (node (leaf) 1 (leaf))
+        2
+        (node (node (leaf) 3 (leaf))
+              4
+              (leaf))))
+
+(bst? example-tree) ;test
+
+( define example-treev2
+( node
+( node ( leaf ) 2 ( leaf ))
+5
+( node ( node ( leaf ) 6 ( leaf ))
+8
+( node ( leaf ) 9 ( leaf )))))
+
+(define (sum-paths t)
+  (define (sum-help t sum)
+    (cond
+      [(leaf? t) (leaf)]
+      ;utworzenie nowego drzewa
+      [(node? t) (node
+                  (sum-help (node-l t) (+ sum (node-elem t)))
+                  (+ sum (node-elem t))
+                  (sum-help (node-r t) (+ sum (node-elem t)))
+                  ) ]
+      )
+    )
+  (sum-help t 0)
+  )
+
+(sum-paths example-treev2) ;test

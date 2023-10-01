@@ -1,0 +1,63 @@
+#lang racket
+
+
+
+(define-struct leaf () #:transparent)
+(define-struct node (l elem r) #:transparent)
+
+; drzewo to:
+; - albo (leaf)
+; - albo (node l elem r), gdzie l i r to drzewa
+
+(define (tree? x)
+  (cond [(leaf? x) #t]
+        [(node? x) (and (tree? (node-l x))
+                        (tree? (node-r x)))]
+        [else #f]))
+
+(define (insert-bst_v2 x t)
+  (cond [(leaf? t) (node (leaf) x (leaf))]
+        [(node? t)
+         (cond   [(< x (node-elem t))
+                 (node (insert-bst_v2 x (node-l t))
+                       (node-elem t)
+                       (node-r t))]
+                [else
+                 (node (node-l t)
+                       (node-elem t)
+                       (insert-bst_v2 x (node-r t)))])]))
+
+( define example-treev2
+   ( node
+     ( node ( leaf ) 2 ( leaf ))
+     5
+     ( node ( node ( leaf ) 6 ( leaf ))
+            8
+            ( node ( leaf ) 9 ( leaf )))))
+
+(insert-bst_v2 5 example-treev2) ;test
+
+
+
+(define (infix-tree t ys)
+  (if (leaf? t)
+      ys
+      (append (infix-tree (node-l t) (cons (node-elem t) (infix-tree (node-r t) ys)))
+              )))
+
+
+(define (treesort xs)
+  (define (it xs t)
+    (if (null? xs)
+        (infix-tree t '())
+        ;utworzenie drzewa z listy
+        (it (rest xs) (insert-bst_v2 (first xs) t))
+        )
+    )
+  (it xs (leaf))
+ 
+  )
+
+(treesort (list 1 3 4 2 10 2))
+
+

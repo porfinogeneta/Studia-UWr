@@ -1,0 +1,11 @@
+#lang racket
+(require data/heap)
+
+(define a-heap (make-heap <=))
+
+(heap-add! a-heap 2)
+(heap-add! a-heap 1000)
+(heap-add! a-heap 2009)
+
+
+(heap-min a-heap)

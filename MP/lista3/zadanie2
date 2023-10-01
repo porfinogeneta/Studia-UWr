@@ -1,0 +1,20 @@
+#lang racket
+
+(define (my-foldl f x xs)
+  (define (it xs acc)
+    (if (null? xs)
+        acc
+        (it (cdr xs) (f (car xs) acc))))
+  (it xs x))
+
+
+(define (product xs)
+  (if (null? xs)
+      0
+      (my-foldl * 1 xs)
+      )
+  )
+
+(define t( list 1 4 5 2))
+
+(product t)

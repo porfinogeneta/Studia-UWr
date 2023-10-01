@@ -1,0 +1,18 @@
+#lang racket
+
+
+S -> `(Elem) | `Constants | <- jakieś stałe, typy + List
+Elem -> Symbol | Number | String | Cons | Boolean | ,Elem | ,@Elem  | List | Elem (s-wyrażenie w s-wyrażeniu) | Expressions |
+
+;prawdopodobnie trzeba by było zrobić wyprowadzenie dla listy konkretnych typów, bo listy w plait mają konkretny typ
+List -> '(ListContent)
+ListContent -> Elem | Elem Rest
+Rest -> Elem | ListContent
+
+Expressions -> lambda i pozostałe
+Symbol -> 'S
+Number -> n
+String -> "Any_String"
+Cons -> (ANY . ANY) ;też pewnie trzeba dla konkretnych typów
+Boolean -> #t / #f
+

@@ -1,0 +1,64 @@
+#lang racket
+
+
+;zadanie 5
+(define lista (cons 1 (cons 1 (cons 3 null))))
+
+
+(define (elem? x xs)
+  (if (null? xs)
+      #f
+      (if
+       (equal? (first xs)  x)
+       #t
+       (elem? x (rest xs))
+          )
+
+      )
+  )
+
+(elem? 1 lista)
+
+;zadanie 6
+(define (maximum xs)
+  (define (find-max list max)
+    (if (null? list)
+        max
+        ;puszczamy maxa przez argument
+        [if (> (first list) max)
+            (find-max (rest list) (first list) )
+            (find-max (rest list) max )
+            ]
+
+        ))
+  (find-max xs 0))
+
+
+(maximum lista)
+
+;zadanie 7
+(define (suffixes xs)
+  (if (null? xs)
+      (list '())
+      (cons xs (suffixes (rest xs) ) )
+  )
+)
+( suffixes ( list 1 2 3 4) )
+
+
+;zadanie 8
+(define (sorted? xs)
+  (define (deter list prev)
+    (if (null? list)
+        #t
+        ;puszczamy poprzedni element przez argument z góry
+        (if (< (first list) prev)
+            #f ;nie jest posortowana niemalejąco
+            (deter (rest list) (first list) )
+            )
+
+        ))
+  (deter xs (first xs))
+  )
+
+(sorted? lista)

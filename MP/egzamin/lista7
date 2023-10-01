@@ -1,0 +1,85 @@
+#lang racket
+
+
+
+
+;z3
+(define/contract (suffixes xs)
+  (parametric->/c [a] (-> (listof a) (listof (listof a))))
+  (if (empty? xs)
+      (cons null null)
+      (cons xs (suffixes (rest xs)))))
+
+(suffixes '(1 2 3 4 5))
+
+
+;z4
+;X - pozytywne
+;x - negatywne
+
+; - użytkownik zawinił
+; + zła implementacja
+( parametric->/c [a b] (- > a b a))
+;-> a b A
+(define/contract (ex1 a b)
+  ( parametric->/c [a b] (-> a b a))
+  a)
+
+( parametric->/c [a b c] (- > (- > a b c) (- > a b) a c))
+;(- > (- > A B c) (- > A b) a C)
+(define/contract (ex2 f g a)
+  ( parametric->/c [a b c] (-> (-> a b c) (-> a b) a c))
+  (f a (g a)))
+
+( parametric->/c [a b c] (-> (-> b c) (-> a b) (-> a c)))
+;(- > (- > B c) (- > A b) (- > a C))
+(define/contract (ex3 f g)
+  ( parametric->/c [a b c] (-> (-> b c) (-> a b) (-> a c)))
+  (lambda (a) (f (g a))))
+
+( parametric->/c [a] (-> (-> (-> a a) a) a))
+;(- > (- > (- > a A) a) A)
+(define/contract (ex4 f)
+  ( parametric->/c [a] (-> (-> (-> a a) a) a))
+  (f (lambda (a) (lambda (a) a) a)))
+
+;z5
+( define/contract ( foldl-map f a xs )
+   (parametric->/c [old_l new_l acc] (-> (-> old_l acc (cons/c new_l acc)) acc (listof old_l) (cons/c (listof new_l) acc)))
+   ( define ( it a xs ys )
+      ( if ( null? xs )
+           ( cons ( reverse ys ) a)
+           ( let [( p (f ( car xs ) a))]
+              ( it ( cdr p)
+                   ( cdr xs )
+                   ( cons ( car p) ys )))))
+   ( it a xs null ))
+
+( foldl-map ( lambda (x a) ( cons a (+ a x))) 0 '(1 2 3) )
+
+;z6
+#;(define (fold-right f acc xs)
+  ( parametric->/c [a b] (-> (-> a b b) b ( listof a) b))
+  (if (empty? xs)
+      acc
+      (f (first xs) (fold-right f acc (rest xs)))))
+
+(define/contract (fold-right-broken f acc xs)
+  ;( parametric->/c [a b] (-> (-> a b b) b ( listof a) b))
+  ( parametric->/c [a] (-> (-> a a a) a ( listof a) a))
+  (if (empty? xs)
+      acc
+      (f (first xs) (fold-right-broken f (first xs) (rest xs)))))
+
+
+(fold-right-broken (lambda (a acc) (+ a acc)) 0 '(1 2 3))
+
+#;(define (fold-right-broken f acc xs)
+  ( parametric->/c [a b] (-> (-> a b b) b ( listof a) b))
+  ;( parametric->/c [a] (-> (-> a a a) a ( listof a) a))
+  (if (empty? xs)
+      acc
+      (f (first xs) (fold-right-broken f (first xs) (rest xs)))))
+
+;z7
+

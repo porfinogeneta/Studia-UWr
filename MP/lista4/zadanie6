@@ -1,0 +1,87 @@
+#lang racket
+
+
+(define-struct leaf () #:transparent)
+(define-struct node (l elem r) #:transparent)
+
+; drzewo to:
+; - albo (leaf)
+; - albo (node l elem r), gdzie l i r to drzewa
+
+(define (tree? x)
+  (cond [(leaf? x) #t]
+        [(node? x) (and (tree? (node-l x))
+                        (tree? (node-r x)))]
+        [else #f]))
+
+
+(define (find-successor t)
+  
+  (if
+   (leaf? (node-l t))
+   ;jak nie ma nic mniejszego
+   (node-elem t)
+   ;wpp
+   (find-successor (node-l t))
+   )
+  )
+
+
+(define (delete t x)
+  (cond [(leaf? t) (leaf)]
+        ;jeżeli element do usunięcia jest większy od aktualnego elementu
+        ;usuwamy w prawej gałęzi
+        [
+         (< (node-elem t) x)
+         ;utworzenie nowego drzewa
+         (node
+          (node-l t)
+          (node-elem t)
+          (delete (node-r t) x)
+          )
+         ]
+        ;jeżeli usuwany element będzie mniejszy niż aktualny element
+        [
+         (> (node-elem t) x)
+         ;utworzenie nowego drzewa
+         (node
+          (delete (node-l t) x)
+          (node-elem t)
+          (node-r t)
+          )
+         ]
+        ;jak węzeł do usunięcia został znaleziony
+        [else
+         (cond
+           ; węzeł nie ma dzieci
+           [(and (leaf? (node-l t)) (leaf? (node-r t))) (leaf)]
+           ;nie ma lewej gałęzi, to po prostu zwracamy prawą gałąź
+           [(leaf? (node-l t)) (node-r t)]
+           ;nie ma prawej gałęzi
+           [(leaf? (node-r t)) (node-l t)]
+           ;są obie gałęzie, wtedy musimy znaleźć najmniejszy element większy niż korzeń
+           [else
+            (let ([successor (find-successor (node-r t))])
+              ;utworzenie nowego drzewa, z usuniętym successorem z dołu i zamienionym z aktualną wartością
+              (node
+               (node-l t)
+               successor
+               (delete (node-r t) successor)
+               )
+              )
+            ]
+           )
+         ]
+        )
+  )
+
+
+( define example-treev2
+   ( node
+     ( node ( leaf ) 2 ( leaf ))
+     5
+     ( node ( node ( leaf ) 6 ( leaf ))
+            8
+            ( node ( leaf ) 9 ( leaf )))))
+
+(delete example-treev2 5)

@@ -1,0 +1,6 @@
+#lang plait
+(lambda (x) (lambda (y) (lambda (z) ((x z) (y z)))))
+;('a -> ('b -> 'c))-> (('a -> c) ('b -> 'c))
+
+(lambda (x) (lambda (y) (x y)))
+;'a -> ('b -> 'b)

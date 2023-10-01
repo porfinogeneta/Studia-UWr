@@ -1,0 +1,133 @@
+#lang plait
+(require "syntax.rkt")
+
+;trzeba zamienić naszą gramatykę, żeby łączność była w lewo
+;nasza gramatyka
+;nasza gramatyka
+;E0 -> E0 R0
+;R0 -> OP0 E1
+;E0 -> E1
+;E1 -> E1 R1
+;R1 -> OP1 E2
+;E1 -> E2
+;E2 -> n
+;E2 -> (E0)
+
+
+;================
+;nasza gramatyka
+;E0 -> E1 R0
+;R0 -> OP0 E0
+;E0 -> E1
+;E1 -> E2 R1
+;R1 -> OP1 E1
+;E1 -> E2
+;E2 -> n
+;E2 -> (E0)
+
+;kontynuuacje - funkcje prowadzą obliczenia, a później wynik jest przekazywany do dalszych oblizeń
+; jest jakiś context obliczeń i tam wrzucam wyniki obliczeń do dalszego obliczenia
+; kontynuuacja - funkcja do której wrzucam wyniki obliczonych wyżej funkcji
+; kontynuuacje nie zwracają wyniku, ale przekazują go do funkcji idenetycznościowej, która zwraca wynik
+; kontynuuacje dostaje w argumentach wynik obliczeń z poprzednoego i dalesze kontytuuacje
+
+
+
+
+
+
+
+(define-type (ParseResult 'a)
+  (parse-err) 
+  (parse-ok [v : 'a] [rest : (Listof S-Exp)]))
+
+
+
+
+(define (parse-op0 ss)
+  (type-case (Listof S-Exp) ss
+    [empty (parse-err)] ;jak jest pusty
+    [(cons op rest) ;jak jest parą
+     (cond
+       [(s-exp-match? `+ op) (parse-ok (op-add) rest)] 
+       [(s-exp-match? `- op) (parse-ok (op-sub) rest)] 
+       [else (parse-err)])]))
+
+(define (parse-op1 ss)
+  (type-case (Listof S-Exp) ss
+    [empty (parse-err)]
+    [(cons op rest)
+     (cond
+       [(s-exp-match? `* op) (parse-ok (op-mul) rest)]
+       [(s-exp-match? `/ op) (parse-ok (op-div) rest)]
+       [else (parse-err)])]))
+
+;w parse-exp0, parsuję resztę wyrażenia
+;E0 -> E1 R0
+;R0 -> (null)
+;R0 -> OP0 E1
+(define (parse-exp0 ss)
+  (type-case (ParseResult Exp) (parse-exp1 ss) ;EO -> E1 R0
+    [(parse-err) (parse-err)] 
+    [(parse-ok e1 rest) 
+     (type-case (ParseResult Op) (parse-op0 rest) ;z R0 -> OP0 E1
+       [(parse-err)         (parse-ok e1 rest)] 
+       [(parse-ok op rest2) 
+        (type-case (ParseResult Exp) (parse-exp1 rest2)
+          [(parse-err) (parse-err)]
+          [(parse-ok e2 rest3) (parse-ok (exp-op op e1 e2) rest3)])])
+     ]))
+
+
+
+;E1 -> E2 R1
+;R1 -> OP1 E2
+;R1 -> (null)
+(define (parse-exp1 ss)
+  (type-case (ParseResult Exp) (parse-exp2 ss) ;E1 -> E2 R1
+    [(parse-err) (parse-err)]
+    [(parse-ok e1 rest)
+     (type-case (ParseResult Op) (parse-op1 rest) ;z R1 -> OP1 E2
+       [(parse-err)         (parse-ok e1 rest)] 
+       [(parse-ok op rest2) 
+        (type-case (ParseResult Exp) (parse-exp1 rest2)
+          [(parse-err) (parse-err)] 
+          [(parse-ok e2 rest3) (parse-ok (exp-op op e1 e2) rest3)])])
+        ]))
+
+;E2 -> N
+;E2 -> (E0)
+(define (parse-exp2 ss)
+  (type-case (Listof S-Exp) ss
+    [empty (parse-err)]
+    [(cons s rest)
+     (cond
+       [(s-exp-number? s) (parse-ok (exp-number (s-exp->number s)) rest)] ; E2 -> N
+       [(s-exp-list? s) ;albo (E0)
+        (type-case (ParseResult Exp) (parse-exp0 (s-exp->list s)) ; E1 -> (E0)
+          [(parse-err) (parse-err)]
+          [(parse-ok e rest2)
+           (if (empty? rest2)
+               (parse-ok e rest) ;zwraca E0, jak już nie ma co parsować
+               (parse-err))])])])) ;;nic nie zostało w E0, nie może tak być
+
+
+
+
+;(parse-exp0 (s-exp->list `(2 - 2 - 2)))
+
+
+;błędna gramatyka, poprawiona, właściwa na zdj
+;lewostronna faktoryzacja
+(define (parse-exp s)
+  (type-case (ParseResult Exp) (parse-exp0 (list s))
+    [(parse-err) (error 'parse-exp "Syntax error")]
+    [(parse-ok e rest)
+     (if (empty? rest)
+         e
+         (error 'parse-exp "Syntax error"))]))
+(parse-exp `(2 / 2 * 2))
+
+
+;(exp-op (exp-op (op-mul) (op-div) (exp-number 2) (exp-number 2)) (exp-number 2)))
+(exp-op (op-mul) (exp-op (op-div) (exp-number 2) (exp-number 2)) (exp-number 2))

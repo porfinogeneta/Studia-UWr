@@ -1,0 +1,82 @@
+#lang racket
+
+;;force and delay
+(define (memo-proc proc)
+  (let ([already-run? false]
+        [result false])
+    (lambda ()
+      (if (not already-run?)
+          (begin (set! result (proc))
+                 (set! already-run? true)
+                 result)
+          result))))
+
+(define-syntax-rule
+  (delay c)
+  (memo-proc (λ () c)))
+
+(define (force t)
+  (t))
+
+;utilities
+(define (divides? a b)
+  (= (remainder b a) 0))
+
+
+;; delay and force
+
+;stream to lista złożona z par wartość i opóźnione obliczenia
+(define-syntax-rule
+  (stream-cons v s)
+  (cons v (delay s)))
+
+(define stream-car car)
+
+;obliczenie cdr
+(define (stream-cdr s)
+  (force (cdr s)))
+
+(define stream-null null)
+(define stream-null? null?)
+
+;; operations on streams
+
+;wzięcie ze strumienia elementu o danym indeksie
+(define (stream-ref s n)
+  (if (= n 0)
+      (stream-car s)
+      (stream-ref (stream-cdr s) (- n 1))))
+
+;filtrowanie elementów
+(define (stream-filter p s)
+  (if (stream-null? s)
+      stream-null
+      ;p jakaś reguła filtrowania
+      (if (p (stream-car s))
+          (stream-cons (stream-car s) ;jak zgodził się warunek, to zwracam parę z elementem spełniającym
+                       (stream-filter p (stream-cdr s)))
+          (stream-filter p (stream-cdr s)))))
+
+;zliczanie elementów w danym przedziale
+(define (stream-enumerate-interval a b)
+  (if (> a b)
+      stream-null
+      (stream-cons a (stream-enumerate-interval (+ a 1) b))))
+
+
+;strumień wszystkich liczb pierwszych
+
+;badamy podzielność kolejnych elementów w strumieniu
+(define (prime? n s)
+  (cond [(stream-null? s) #t]
+        [(divides? (stream-car s) n) #f]
+        [else (prime? n (stream-cdr s))]))
+
+;robimy strumień liczb pierwszych
+(define (prime-stream n s)
+  (if (prime? n s)
+      (stream-cons n (prime-stream (+ n 1) (stream-cons n s))) ;zwiększamy dostępną liczbę o 1 i tworzymy nowy strumień
+      (prime-stream (+ n 1) s)))
+
+(define primes (prime-stream 2 stream-null))
+(stream-car (stream-cdr (stream-cdr primes)))

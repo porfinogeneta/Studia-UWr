@@ -1,0 +1,32 @@
+#lang racket
+
+#|
+Przeanalizuj notatki oraz listy zadań z pierwszej tercji wykładu, a następnie przygotuj
+pytanie (może być więcej niż jedno) dotyczące tej porcji materiału, które będziesz
+chciał(a) zadać na ostatnich ćwiczeniach przed egzaminem.
+
+- zadania z modelu podstawieniowego
+- wytłumaczenie jeszcze raz zbiorów przyużyciu lambd
+- omówienie jeszcze raz kopców lewicowych
+
+
+
+Przeanalizuj notatki oraz listy zadań z drugiej tercji wykładu, a następnie przygotuj
+pytanie (może być więcej niż jedno) dotyczące tej porcji materiału, które będziesz
+chciał(a) zadać na ostatnich ćwiczeniach przed egzaminem.
+
+- implementacja funkcji na podstawie typów
+- omówienie implementacji permutacji
+- wystąpnia negatywne i pozytywne w typach parametrycznych
+
+
+
+
+Przeanalizuj notatki oraz listy zadań z trzeciej tercji wykładu, a następnie przygotuj
+pytanie (może być więcej niż jedno) dotyczące tej porcji materiału, które będziesz
+chciał(a) zadać na ostatnich ćwiczeniach przed egzaminem.
+
+- gramatyki, powtórzenie
+- jeszcze raz o strumieniach
+
+|#

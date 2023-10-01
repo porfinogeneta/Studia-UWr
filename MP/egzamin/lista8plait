@@ -1,0 +1,171 @@
+#lang plait
+
+;z4
+
+#|
+(define-type Op
+  (op-add) (op-mul) (op-sub) (op-div))
+
+(define-type Exp
+  (exp-number [n : Number])
+  (exp-op [op : Op] [e1 : Exp] [e2 : Exp]))
+
+(define (parse-Op-eval s)
+  (let ([sym (s-exp->symbol s)])
+  (cond
+    [(equal? sym '+) (lambda (x y) (+ x y))]
+    [(equal? sym '-) (lambda (x y) (- x y))]
+    [(equal? sym '*) (lambda (x y) (* x y))]
+    [(equal? sym '/) (lambda (x y) (/ x y))])))
+
+(define (parse-Exp-eval s)
+  (cond
+    [(s-exp-number? s) (s-exp->number s)]
+    [(s-exp-list? s)
+     (let ([xs (s-exp->list s)])
+       ((parse-Op-eval  (first  xs))
+               (parse-Exp-eval (second xs))
+               (parse-Exp-eval (third  xs))))]))
+
+; ==============================================
+
+(parse-Exp-eval `(+ (+ 1 2) (/ 2 2)))
+
+#;(define (eval-op op)
+  (type-case Op op
+    [(op-add) +]
+    [(op-sub) -]
+    [(op-mul) *]
+    [(op-div) /]))
+
+#;(define (eval e)
+  (type-case Exp e
+    [(exp-number n)    n]
+    [(exp-op op e1 e2)
+     ((eval-op op) (eval e1) (eval e2))]))
+
+|#
+
+#|
+;z5
+(define-type Op
+  (op-add) (op-mul) (op-sub) (op-div) (op-exp))
+
+(define-type Op1
+  (op-fact) (op-un))
+
+(define-type Exp
+  (exp-number [n : Number])
+  (exp-op [op : Op] [e1 : Exp] [e2 : Exp])
+  (exp-op1 [op : Op1] [e : Exp]))
+
+(define (parse-Op s)
+  (let ([sym (s-exp->symbol s)])
+  (cond
+    [(equal? sym '+) (op-add)]
+    [(equal? sym '-) (op-sub)]
+    [(equal? sym '*) (op-mul)]
+    [(equal? sym '/) (op-div)]
+    [(equal? sym '^) (op-exp)])))
+
+(define (parse-Op1 s)
+  (let ([sym (s-exp->symbol s)])
+  (cond
+    [(equal? sym '!) (op-fact)]
+    [(equal? sym 'u) (op-un)])))
+
+(define (parse-Exp s)
+  (cond
+    [(s-exp-number? s) (exp-number (s-exp->number s))]
+    [(s-exp-list? s)
+     (let ([xs (s-exp->list s)])
+       (if (= 2 (length xs))
+           (exp-op1 (parse-Op1 (first xs))
+                    (parse-Exp (second xs)))
+           (exp-op (parse-Op  (first  xs))
+               (parse-Exp (second xs))
+               (parse-Exp (third  xs)))))]))
+
+; ==============================================
+
+(define (power base exp)
+  (if (= exp 0)
+      1
+      (if (even? exp)
+      (power (* base base) (/ exp 2))
+      (* base (power (* base base) (/ (- exp 1) 2))))))
+
+
+(define (fact x)
+  (if (= x 0)
+      1
+      (* x (fact (- x 1)))))
+
+
+(define (eval-op op)
+  (type-case Op op
+    [(op-add) +]
+    [(op-sub) -]
+    [(op-mul) *]
+    [(op-div) /]
+    [(op-exp) (lambda (b e) (power b e))]))
+
+
+(define (eval-op1 op)
+  (type-case Op1 op
+  [(op-fact) (lambda (x) (fact x))]
+  [(op-un) (lambda (x) (* -1 x))]))
+
+(define (eval e)
+  (type-case Exp e
+    [(exp-number n)    n]
+    [(exp-op op e1 e2)
+     ((eval-op op) (eval e1) (eval e2))]
+    [(exp-op1 op1 e)
+     ((eval-op1 op1) (eval e))]))
+
+(eval (parse-Exp `(u (^ (! (- (+ 1 3) 2)) 2))))
+|#
+
+;z6i7
+
+
+(define-type Exp
+  (exp-number [n : Number])
+  (exp-var [var : Symbol])
+  (exp-lambda [arg : Symbol] [body : Exp])
+  (exp-app [fun : Exp] [arg : (Listof Exp)])
+  (exp-let [var : Symbol] [val : Exp] [body : Exp])
+  (exp-if [condi : Exp] [true : Exp] [false : Exp])
+  (exp-cond [clauses : (Listof (Exp * Exp))]))
+
+
+
+(define (parse-Exp exp)
+  (cond
+    [(s-exp-number? exp) (exp-number (s-exp->number exp))]
+    [(s-exp-symbol? exp) (exp-var (s-exp->symbol exp))]
+    [(s-exp-list? exp)
+     (let [(xs (s-exp->list exp))]
+       (cond [(equal? (first xs) `lambda) (exp-lambda (s-exp->symbol (second xs)) (parse-Exp (third xs)))]
+             [(equal? (first xs) `apply)
+              (let ([args-type (first (s-exp->list (third xs)))])
+                (exp-app (parse-Exp (second xs))
+                         (list (cond [(equal? args-type `list)
+                                      (parse-Exp (second (s-exp->list (third xs))))] 
+                                     [(equal? args-type `quote)
+                                      (parse-Exp (first (s-exp->list (second (s-exp->list (third xs))))))]))))]
+             [(equal? (first xs) `let)
+              (let ([let-list (s-exp->list (first (s-exp->list (second xs))))])
+                (exp-let (s-exp->symbol (first let-list))
+                         (parse-Exp (second let-list))
+                         (parse-Exp (third xs))))]
+             [(equal? (first xs) `if)
+              (exp-if (parse-Exp (second xs)) (parse-Exp (second xs)) (parse-Exp (second xs)))]
+             [(equal? (first xs) `cond)
+              (exp-cond (map (lambda (p) (let ([cond-pair (s-exp->list p)])
+                                              (pair (parse-Exp (first cond-pair)) (parse-Exp (second cond-pair))))) (rest xs)))]))]))
+
+
+
+(parse-Exp `(apply + '(1 2 3)))

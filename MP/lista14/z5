@@ -1,0 +1,276 @@
+#lang plait
+
+(module+ test
+  (print-only-errors #t))
+
+;; abstract syntax -------------------------------
+
+(define-type Op
+  (add) (sub) (mul))
+
+(define-type Exp
+  (numE [n : Number])
+  (opE [op : Op] [e1 : Exp] [e2 : Exp])
+  (varE [x : Symbol])
+  (lamE [x : Symbol] [e : Exp])
+  (appE [e0 : Exp] [e1 : Exp])
+  (writeE [e : Exp]) ;dodanie writeE do składni
+  (beginE [e1 : Exp] [e2 : Exp])) ;dodanie begin'a 
+
+
+;definujemy sobie monadę wyjścia
+( define-type-alias Output ( Listof Number ))
+( define-type-alias (M 'a) ('a * Output ))
+
+;dodajemy do naszych monad output'y, zmienia się zatem typ zwracany
+;zwracamy parę wartości i pustej listy output, bo return miał zwrócić wartość
+(define (returnM [v : 'a]) : (M 'a)
+  (pair v '()))
+
+(define (bindM [c : (M 'a)] [f : ('a -> (M 'b))]) : (M 'b)
+  (let ([result (f (fst c))]) ;wywołujemy funkcję na pierwszym elemencie, typu 'a
+        (pair (fst result) (append (snd c) (snd result))))) ;zwracamy parę wynik pierwszego i poszerzony output, czyli drugi element danego c o wynik pary wyliczonej
+
+(define (errorM [l : Symbol] [m : String]) : (M 'a)
+  (error l m))
+
+(define (showM [c : (M Value)]) : String
+  (value->string c))
+
+(define-type Value
+  (numV [n : Number])
+  (funV [f : (Value -> (M Value))])
+  (voidV)) ;dodanie void'a
+
+;złączanie elementów listy z odstępami
+(define (join lst)
+  (if (empty? lst)
+      ""
+      (foldl (lambda (s acc) (string-append acc (string-append " " s)))
+         (first lst)
+         (rest  lst))))
+
+;lista liczb na listę stringów z tych liczb
+(define (list->string [lst : (Listof Number)]) : [Listof String]
+  (foldr (lambda (n acc) (cons (to-string n) acc)) '() lst))
+
+;odpowiednio zmodyfikowany value->string
+(define (value->string [v : (Value * Output)]) : String
+  (type-case Value (fst v)
+    [(numV n) (string-append (string-append (string-append "value: " (to-string n)) " output: ") (join (list->string (snd v))))]
+    [(funV _) (string-append "value: " "#<procedure>")]
+    [(voidV) (string-append "value: #<void>, output: " (join (list->string (snd v))))]))
+
+;; environments
+
+(define-type Binding
+  (bind [name : Symbol]
+        [val : Value]))
+
+(define-type-alias Env (Listof Binding))
+
+(define mt-env empty)
+
+(define (extend-env [env : Env] [x : Symbol] [v : Value]) : Env
+  (cons (bind x v) env))
+
+(define (lookup-env [x : Symbol] [env : Env]) : (M Value)
+  (type-case (Listof Binding) env
+    [empty
+     (errorM 'lookup-env "unbound variable")] ;dodajemy pustą listę z output'u do każdej monady
+    [(cons b rst-env)
+     (cond
+       [(eq? x (bind-name b))
+        (returnM (bind-val b))]
+       [else
+        (lookup-env x rst-env)])]))
+
+;; primitive operations
+
+(define (op-num-num->proc [f : (Number Number -> Number)]) : (Value Value -> (M Value))
+  (λ (v1 v2)
+    (type-case Value v1
+      [(numV n1)
+       (type-case Value v2
+         [(numV n2)
+          (returnM (numV (f n1 n2)))]
+         [else
+          (errorM 'prim-op "not a number")])]
+      [else
+       (errorM 'prim-op "not a number")])))
+
+(define (op->proc [op : Op]) : (Value Value -> (M Value))
+  (type-case Op op
+    [(add) (op-num-num->proc +)]
+    [(sub) (op-num-num->proc -)]
+    [(mul) (op-num-num->proc *)]))
+
+;; evaluation function (eval/apply)
+
+(define (eval [e : Exp] [env : Env]) : (M Value)
+  (type-case Exp e
+    [(numE n)
+     (returnM (numV n))]
+    [(opE o e1 e2)
+     (bindM (eval e1 env)
+            (λ (v1) (bindM (eval e2 env)
+                           (λ (v2) ((op->proc o) v1 v2)))))]
+    ;rozszerzam ewaluator o begin
+    [(beginE e1 e2)
+     (bindM (eval e1 env)
+            (λ (v1) 
+              (bindM (eval e2 env)
+                     (λ (v2) (returnM v2)))))] ;wykonuję pierwsze obliczenia, z nimi kolejne i zwracam wynik ostanich obliczeń
+    [(writeE e)
+     (bindM (eval e env)
+            (lambda (v) (pair (voidV) (list (numV-n v)))))] ;przy wypisaniu zwracamy parę voidV i wynik obliczeń jako listę output'u, w bindM zostanie to dodane do aktualnego output'u
+    [(varE x)
+     (lookup-env x env)]
+    [(lamE x b)
+     (returnM (funV (λ (v) (eval b (extend-env env x v)))))]
+    [(appE e0 e1)
+     (bindM (eval e0 env)
+            (λ (v0) (bindM (eval e1 env)
+                           (λ (v1) (apply v0 v1)))))]))
+
+(define (apply [v0 : Value] [v1 : Value]) : (M Value)
+  (type-case Value v0
+    [(funV f) (f v1)]
+    [else (errorM 'apply "not a function")]))
+
+(define (run [e : S-Exp]) : String
+  (showM (eval (parse e) mt-env)))
+
+(module+ test
+  (test (run `2)
+        "value: 2 output: ")
+  (test (run `{+ 2 1})
+        "value: 3 output: ")
+  (test (run `{* 2 1})
+        "value: 2 output: ")
+  (test (run `{+ {* 2 3} {+ 5 8}})
+        "value: 19 output: ")
+  (test (run `{{lambda {x} {+ x 1}} 5})
+        "value: 6 output: ")
+  (test (run `{lambda {x} {+ x 1}})
+        "value: #<procedure>")
+  (test/exn (run `{1 2})
+            "not a function")
+  (test/exn (run `x)
+            "unbound variable")
+  (test/exn (run `{+ 1 {lambda {x} x}})
+            "not a number")
+  (test (run `{ write {{ lambda {x} { begin {write x} {+ x 1}}} 5}})
+       "value: #<void>, output: 5 6")
+  )
+
+;; parse ----------------------------------------
+;UPEWNIENIE SIĘ ŻE JEST TO MONADA
+;#1 prawo dla monad
+(define (f [x : Number]) : (M Number)
+  (pair (* 2 x) (list x)))
+
+(define (test-condition [a : Number]) : Boolean
+  (let ([lhs (bindM (returnM a) f)]
+        [rhs (f a)])
+    (equal? lhs rhs)))
+
+(test-condition 2)
+
+;#2 prawo dla monad
+;tworzy monadę, czyli parę, liczba, output
+(define (create-monad [x : Number] [output : (Listof Number)]) : (M Number)
+  (pair x output))
+
+(define (test-condition-2 [c : (M Number)]) : Boolean
+  (let ([lhs (bindM c returnM)]
+        [rhs c])
+    (equal? lhs rhs)))
+
+(test-condition-2 (create-monad 2 '()))
+
+;#3 prawo dla monad
+(define (f1 [x : Number]) : (M Number)
+  (pair (* 2 x) (list x)))
+
+(define (g1 [x : Number]) : (M Number)
+  (pair (+ 3 x) (list x)))
+
+(define (test-condition-3 [c : (M Number)]) : Boolean
+  (let ([lhs (bindM (bindM c f1) g1)]
+        [rhs (bindM c (λ (a) (bindM (f1 a) g1)))])
+    (equal? lhs rhs)))
+
+(test-condition-3 (create-monad 3 '()))
+
+
+#|
+(define (f [x : Number]) : (M Number)
+  (pair (* 2 x) (list x)))
+
+(define (test-condition [a : Number]) : Boolean
+  (let ([lhs (bindM (returnM a) f)]
+        [rhs (f a)])
+    (equal? lhs rhs)))
+
+
+DOWÓD PRAW MONADYCZNYCH
+( bindM ( returnM a) f) ≡ (f a)
+( bindM c returnM ) ≡ c
+( bindM ( bindM c f) g) ≡ ( bindM c (λ (a) ( bindM (f a) g)))
+
+( define-type-alias Output ( Listof Number ))
+( define-type-alias (M 'a) ('a * Output ))
+
+
+(define (returnM [v : 'a]) : (M 'a)
+  (pair v '()))
+
+(define (bindM [c : (M 'a)] [f : ('a -> (M 'b))]) : (M 'b)
+  (let ([result (f (fst c))])
+        (pair (fst result) (append (snd c) (snd result)))))
+
+Niech (f (pair x y)) będzie realizacją definicji bindM, czyli wykonaniem funkcji na odpowiednich elementach pary
+1# ( bindM ( returnM a) f) => (bindM (pair v '()) f) (f (pair v '())) ≡ (f a)
+
+Niech c = ('a * Output )
+
+2# ( bindM c returnM ) => (pair 'a (append Output '())) => ('a * Output) = ('a * Output )
+
+3# ( bindM ( bindM c f) g) ≡ ( bindM c (λ (a) ( bindM (f a) g)))
+(bindM ((fst (fst f 'a)) * '(Output (snd (fst f 'a))) ) g) => (g (fst (f 'a)) *)
+|#
+
+(define (parse [s : S-Exp]) : Exp
+  (cond
+    [(s-exp-match? `NUMBER s)
+     (numE (s-exp->number s))]
+    ;dodanie write do parsera
+    [(s-exp-match? `{write ANY} s)
+     (writeE (parse (second (s-exp->list s))))]
+    ;dodanie begin do parsera
+    [(s-exp-match? `{begin ANY ANY} s)
+     (beginE (parse (second (s-exp->list s))) (parse (third (s-exp->list s))))]
+    [(s-exp-match? `{lambda {SYMBOL} ANY} s)
+     (lamE (s-exp->symbol
+            (first (s-exp->list 
+                    (second (s-exp->list s)))))
+           (parse (third (s-exp->list s))))]
+    [(s-exp-match? `{SYMBOL ANY ANY} s)
+     (opE (parse-op (s-exp->symbol (first (s-exp->list s))))
+          (parse (second (s-exp->list s)))
+          (parse (third (s-exp->list s))))]
+    [(s-exp-match? `SYMBOL s)
+     (varE (s-exp->symbol s))]
+    [(s-exp-match? `{ANY ANY} s)
+     (appE (parse (first (s-exp->list s)))
+           (parse (second (s-exp->list s))))]
+    [else (error 'parse "invalid input")]))
+
+(define (parse-op [op : Symbol]) : Op
+  (cond
+    [(eq? op '+) (add)]
+    [(eq? op '-) (sub)]
+    [(eq? op '*) (mul)]
+    [else (error 'parse "unknown operator")]))
+

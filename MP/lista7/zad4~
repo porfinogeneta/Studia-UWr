@@ -1,0 +1,6 @@
+#lang racket
+
+( parametric->/ c [a b] (-> a b a))
+( parametric->/ c [a b c] (-> (-> a b c) (-> a b) a c))
+( parametric->/ c [a b c] (-> (-> b c) (-> a b) (-> a c)))
+( parametric->/ c [a] (-> (-> (-> a a) a) a))

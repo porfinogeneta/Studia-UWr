@@ -1,0 +1,80 @@
+#lang racket
+
+(require "syntax.rkt")
+(require (only-in plait s-exp-content))
+(provide parse-Exp)
+
+
+;only in -> tylko to bierzemy z plait, bo inaczej require będzie od nas wymagał żeby cały plik był w plaitcie 
+
+;nasz własny s-exp-match?
+;w plaitcie trzeba wydłubać eleemnty z s-expression, tworzymy wrapper na to
+
+
+;#fałsz jak się nie udało dopasować, wpp zwracam po prostu wyrażenia
+
+; andy zwracają element jak wszystko jest true
+; dla consa robię listę rzeczy które mnie interesują
+; jak jest parą to badam result jednego i drugiego, na końcu robię append
+
+; pat - pattern, który jest obecny w s-expression, s-expression do sprawdzenia ze wzorcem
+(define (match-sexp pat s)
+  (match pat
+    ['ANY    (list s)] ;nasze s-exp będzie listą
+    ['SYMBOL (and (symbol? s) (list s))] ;sprawdzenie czy s-exp to symbol, jeśli tak to zwracam listę z tego symbolu, wpp zwracam #f
+    ['NUMBER (and (number? s) (list s))] ;to samo tutaj tylko dla liczby
+    ['()     (and (null? s)   null)] ;jak jest pustą listą to zwracam nulla, wpp znowu #f
+    [(cons p1 p2) ;jeżeli nasz wzorzec to jakiś cons, to robimy to ↓
+     (and (pair? s) ;czy jest parą
+          (let ([r1 (match-sexp p1 (car s))])
+            (and r1
+                 (let ([r2 (match-sexp p2 (cdr s))]) ;sprawdzamy wzorzec dla jednej i drugiej części i sklejamy jak było ok
+                   (and r2 (append r1 r2))))))]
+    [_  ;dla pozostałych typów
+     (cond
+       ;jak sam pattern to symbol, sprawdzamy czy z wyrażenie to także symbol, jak tak zwracamy pustą listę (null), mamy dokładny match, nie ma potrzeby dopasowywać dalej
+       [(symbol? pat) (and (symbol? s) (eq? pat s) null)])]))
+
+
+
+;exp-parser
+;zwracamy funkcje, reprezentujące, parametr, który dostaliśmy
+(define op-parser
+  `((+ ,op-add)
+    (- ,op-sub)
+    (* ,op-mul)
+    (/ ,op-div)))
+
+(define exp-parser
+  `((NUMBER ,exp-number)
+    ((SYMBOL ANY ANY) ,(lambda (op e1 e2)
+                         (exp-op (parse-op op)
+                                 (parse-exp e1))))))
+
+;run-parser bierze parser i wyrażenie
+; p to lista par, pattern do sprawdzenia oraz co zrobić jak było ok
+; s to wyrażenie do sparsowania i sprawdzenia
+; para wzorzec, akcja
+; jak nie dopasowałem się do wzorca, przechodzę bo kolejnych elementach
+; wpp aplikuję action
+(define (run-parser p s)
+  (match p
+    ['() (error "Syntax error")]
+    [(cons (list pat action) rest-p) ;pobieramy pattern i funkcję z listy wzorców 
+     (let ([r (match-sexp pat s)]); stara się dopasować s-exp do wzorca
+       (if r
+           (apply action r) ;jak udało się dopasować do wzorca aplikujemy funkcję do wyniku dopasowania
+           (run-parser rest-p s)))])) ;jak nie udało się dopasować do wzorca sprawdzam kolejne na liście
+
+;przez zastosowanie stringów jako kluczy parsera, mielibyśmy bardziej schludną implementację, nie będziemy tego robić
+
+(define (parse-op s)
+  (run-parser op-parser s))
+
+(define (parse-exp s)
+  (run-parser exp-parser s))
+
+(define (parse-Exp s)
+  (parse-exp (s-exp-content s)))
+
+

@@ -1,0 +1,31 @@
+#lang plait
+
+
+;funkcja do usuwania konkretnego elementu z listy
+(define (remove x lst)
+  (cond
+    ((empty? lst) '())  ; jeśli lista jest pusta, zwracamy pustą listę
+    ((eq? x (first lst)) (remove x (rest lst))) ; jeśli pierwszy element listy to x, to pomijamy go i rekurencyjnie usuwamy z reszty listy
+    (else (cons (first lst) (remove x (rest lst)))))) ; w przeciwnym przypadku zachowujemy pierwszy element i rekurencyjnie usuwamy z reszty listy
+
+;funkcja przechodzi po liście
+;wykonuje na poszczególnych elementach funkcję f
+; i na końcu złącza je w jedną listę
+(define (append-map f lst)
+  (foldr (lambda (x acc)
+           (append (f x) acc))
+         '()
+         lst))
+
+(define (perms lst)
+  ;przypadek bazowy
+  (if (empty? lst)
+      '(())
+      ;append-map, która na każdym elemencie wykona lambde - to ona tworzy listę list
+      (append-map (lambda (x)
+                    (map (lambda (p) (cons x p)) ;dodaje aktualny element na początek listy
+                         ;oblicza permutacje bez aktualnego elementu
+                         (perms (remove x lst))))
+                  lst)))
+
+(perms (list 1 2 3))

@@ -1,0 +1,60 @@
+#lang racket
+
+;czy element był w liście
+(define (elem? e xs)
+  (foldr (lambda (x acc) (or acc (equal? x e))) #f xs)
+  )
+
+;filtr [(a -> bool) [a]] ->
+(define (filter p xs)
+  (foldr (lambda (x acc) (if(p x)
+                          (cons x acc)
+                          acc
+                          )) '() xs))
+
+;[x1 x2 x3 x4... xn]
+;[x1 n x2 n x3 n ... n xn]
+(define (foo n xs)
+  (foldr (lambda (x acc) 
+                         (if (cdr acc)
+                             (cons (cons x n) (car acc))
+                             acc
+                          )) (cons '() #f) xs))
+
+
+#|
+pokażemy jednego fold'a za pomocą drugiego
+FOLDR
+xs = [x1, x2, x3, ..., xn]
+(foldr f acc xs) == fx1 (fx2 (fx3 ... (fxn acc))))
+FOLDL
+(foldl f acc xs) == (acc fx1 (fx2  .... fxn))))
+|#
+
+;lista gdzie najmniejszy element to singleton
+(define-type L 'a
+  (singleton [x : 'a])
+  (cons [xs : L] [x : 'a]))
+
+#|
+zasada indukcji
+Niech P będzie najmniejszym zbiorem spełniającym predykat, wtedy
+zachodzi P(x), gdzie x jest singleton'em typu 'a
+zachodzi P(xs) => P(cons x xs) to P zachodzi dla wszystkich lista L 'a
+|#
+;drzewo może mieć liść z wartością i bez wartości
+(define-type RoseTree 'a
+  (rnode [el : (Listof (RoseTree 'a))] [v : 'a])
+  (rleaf)
+  )
+#|
+P - własność RoseTree
+Q - własność List
+Niech P zachodzi dla wszystkich wartości typu RoseTree, jeśli
+- P(rleaf)
+- dla wszystkich el typu (RoseTree 'a)
+- dla wszystkich v typu 'a
+- dla każdego r w el zachodzi P(r) <- to sobie rozwiniemy w zasadę indukcji dla list, a potem pokażemy dla P(rnode el r)
+|#
+
+

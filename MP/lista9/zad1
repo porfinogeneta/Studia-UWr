@@ -1,0 +1,36 @@
+#lang racket
+
+; operatory o najwyższym priorytecie muszą być najpóźniej w hierarchi
+; zostaną obliczone po rozpisaniu całego wyrażenie jako pierwsze, co sprawi że będą miały najwyższy priorytet 
+; S - symbol startowy
+; D - +/-
+; M - *//
+; E - ^
+; U - -1
+; F - !
+
+S -> D
+S -> D +/- M
+D -> M
+M -> M *// E
+M -> E
+E -> E ^ U
+E -> U
+U -> -F
+U -> F
+F -> F!
+F -> (S)
+F -> N
+N -> Number
+
+S->W
+S->S+W
+S->S-W
+W-> T*W | T/W | T
+T-> F^T | F
+F-> N | -F | F! | (S)
+N-> Number
+
+2 + 3 * 4! - 1 ^ 2
+
+

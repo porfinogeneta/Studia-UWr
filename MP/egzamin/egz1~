@@ -1,0 +1,5 @@
+#lang plait
+
+(define (elem? e xs)
+  (foldr (lambda (x acc) (or acc (equal? x e))) #f xs)
+  )

@@ -1,0 +1,398 @@
+#lang racket
+
+(provide (struct-out column-info)
+         (struct-out table)
+         (struct-out and-f)
+         (struct-out or-f)
+         (struct-out not-f)
+         (struct-out eq-f)
+         (struct-out eq2-f)
+         (struct-out lt-f)
+         table-insert
+         table-project
+         table-sort
+         table-select
+         table-rename
+         table-cross-join
+         table-natural-join)
+
+(define-struct column-info (name type) #:transparent)
+
+(define-struct table (schema rows) #:transparent)
+
+( define-struct and-f (l r)) ; koniunkcja formuł
+
+( define-struct or-f (l r)) ; dysjunkcja formuł
+
+( define-struct not-f (e)) ; negacja formuły
+
+( define-struct eq-f ( name val )) ; wartość kolumny name równa val
+
+( define-struct eq2-f ( name name2 )) ; wartości kolumn name i name2 równe
+
+( define-struct lt-f ( name val )) ; wartość kolumny name mniejsza niż val
+
+
+(define cities
+  (table
+   (list (column-info 'city    'string)
+         (column-info 'country 'string)
+         (column-info 'area    'number)
+         (column-info 'capital 'boolean))
+   (list (list "Wrocław" "Poland"  293 #f)
+         (list "Warsaw"  "Poland"  517 #t)
+         (list "Poznań"  "Poland"  262 #f)
+         (list "Berlin"  "Germany" 892 #t)
+         (list "Munich"  "Germany" 310 #f)
+         (list "Paris"   "France"  105 #t)
+         (list "Rennes"  "France"   50 #f))))
+
+(define countries
+  (table
+   (list (column-info 'country 'string)
+         (column-info 'population 'number))
+   (list (list "Poland" 38)
+         (list "Germany" 83)
+         (list "France" 67)
+         (list "Spain" 47))))
+
+(define (empty-table columns) (table columns '()))
+
+
+;HELPERS
+
+; map przekazująca również index wywołania
+;tworzy pary f(elem, index) reszta listy
+(define (map-index f lst)
+  (define (iter i xs acc)
+    (if (null? xs)
+        ;odracamy akumulator, wtedy elementy będą po kolei
+        (reverse acc)
+        (iter (+ i 1) (rest xs) (cons (f (first xs) i) acc))
+        )
+    )
+  (iter 0 lst '())
+  )
+
+(define (new-row-match? row schema)
+  (if (not (equal? (length row) (length schema)))
+      #f
+      ;sprawdzenie typów
+      (andmap (lambda (x) (eq? x #t))
+             (map-index
+               ;sprawdzam czy typ danych zgadza się z typem na konkretnej pozycji w tabeli
+              (lambda (elem index)
+                (equal? (determine-type elem) (column-info-type (list-ref schema index))))
+              row))))
+
+
+; wzięcie nazw kolumn
+(define (schema-names schema)
+  (map (lambda (c) (column-info-name c)) schema))
+
+
+
+
+; wskazanie indexu
+(define (indexof x xs i)
+  (if (null? xs)
+      -1
+      (if (equal? (first xs) x)
+          i
+          (indexof x (rest xs) (+ 1 i))
+          )
+      )
+  )
+
+
+;utwórz listę tylko tych nazw, które są w nazwach kolumn
+;będzie to index wystąpienia w podstawowej tabeli
+(define (filter-cols cols table)
+  (let (
+        (schema-names (schema-names (table-schema table)))
+        )
+    ;filtruję i aplikuję funkcję
+    (filter-map
+     (lambda (c)
+       (if (member c schema-names)
+           (indexof c schema-names 0)
+           #f
+       )
+
+            ) cols)))
+
+
+; cols to indexy kolumn
+(define (extract-sorting-values row cols)
+  (map (lambda (index) (list-ref row index) ) cols)
+  )
+
+
+;funkcja pomocnicza dla sort
+(define (compare-lexico vals-a vals-b)
+  (cond
+    ;nie da się porównać
+    ((null? vals-a) #f)
+    ;jak są równe
+    ((equal? (first vals-a) (first vals-b) ) (compare-lexico (rest vals-a) (rest vals-b) ) )
+    ;jak jeden jest mniejszy
+    (else (comparator (first vals-a) (first vals-b)))
+    )
+  )
+
+
+
+;funkcja umożliwiająca porównywanie różnych typów
+(define (comparator a b)
+  (cond ((and (number? a) (number? b)) (< a b))
+        ((and (string? a) (string? b)) (string<? a b))
+        ((and (boolean? a) (boolean? b)) (not (and a (not b))))
+        (else (error "Cannot compare values of different types"))))
+
+; utworzenie narzędzia do typowania
+(define (determine-type val)
+  (cond ((number? val) 'number)
+        ((string? val) 'string)
+        ((symbol? val) 'symbol)
+        ((boolean? val) 'boolean)
+        (else 'unknown)))
+
+;wartość kolumny name równa val
+(define (equal-vals-in-col row schema col-name col-val)
+  (if (not (symbol? col-name))
+      (error "Not Valid Name")
+      (let* ([col-index (indexof col-name (schema-names schema) 0)]
+            [needed-val (column-info-type (list-ref schema col-index))]
+            )
+        (if (equal? (determine-type col-val) needed-val )
+            (if (equal? (list-ref row col-index) col-val ) #t #f)
+            (error "Not Valid Type")
+            )
+        )))
+
+;utworzenie listy wierszy, w których wartości w kolumnie name = name2
+(define (equal-both-names row schema name1 name2)
+  (if (not (and (symbol? name1) (symbol? name2)))
+      (error "Not Valid Name")
+      (let* ([col1-index (indexof name1 (schema-names schema) 0)]
+            [col2-index (indexof name2 (schema-names schema) 0)])
+        (if (equal? (list-ref row col1-index) (list-ref row col2-index) ) #t #f))))
+
+;utworzenie listy wierszy, w których wartość kolumny name jest mniejsza niż val
+(define (lesser-than-val row schema name val)
+  (if (not (symbol? name))
+           (error "Not Valid Name")
+           (let* ([col-index (indexof name (schema-names schema) 0)]
+                 [needed-val (column-info-type (list-ref schema col-index))]
+                 )
+     (if (equal? (determine-type val) needed-val )
+            (if (comparator (list-ref row col-index) val) #t #f)
+            (error "Not Valid Type")
+            )        
+    ))
+  )
+
+
+
+;f. wylicza prawdę i fałsz na konkretym wierszu
+;później jest to wykorzystywane w procedurze - filter
+(define (eval-formula form row schema)
+  (cond ((and-f? form)
+         (let ((l (and-f-l form))
+               (r (and-f-r form)))
+           (and (eval-formula l row schema) (eval-formula r row schema))))
+        ((or-f? form)
+         (let ((l (or-f-l form))
+               (r (or-f-r form)))
+           (or (eval-formula l row schema) (eval-formula r row schema))))
+        ((not-f? form)
+         (not (eval-formula (not-f-e form) row schema)))
+        ((eq-f? form)
+         (equal-vals-in-col row schema (eq-f-name form) (eq-f-val form)))
+        ((eq2-f? form)
+         (equal-both-names row schema (eq2-f-name form) (eq2-f-name2 form)))
+        ((lt-f? form)
+         (lesser-than-val row schema (lt-f-name form) (lt-f-val form)))
+        (else
+         (error "Invalid formula"))))
+
+(define (concat-extend xs ys)
+  (let* ([len-xs (length xs)]
+         [len-ys (length ys)]
+         [diff-len (abs (- len-xs len-ys))])
+    (map (lambda (x)
+           (map (lambda (y) (append x y) ) ys)
+           )  xs )
+    )
+  )
+
+; znajdziemy indeksy tych samych kolumn
+(define (indexof-same schema1 schema2 acc)
+  (if (null? schema1)
+      acc
+      (if (member (first schema1) schema2)
+          (indexof-same (rest schema1) schema2 (cons (indexof (first schema1) schema2 0) acc))
+          (indexof-same (rest schema1) schema2 acc)
+          )
+      )
+  )
+
+
+;czy można połączyć wiersz
+(define (merge-able row1 row2 same-cols1 same-cols2)
+  (map-index (lambda (idx i)
+               ;porównanie wartości w opowiednich kolumnach
+              (equal? (list-ref row1 (list-ref same-cols1 i) ) (list-ref row2 (list-ref same-cols2 i) ))
+               )same-cols1
+  ) )
+
+
+(define (row-columnless row idx-cols)
+  (define (keep? idx) (not (member idx idx-cols)))
+  (let loop ([row row]
+             [idx 0]
+             [result '()])
+    (cond
+      [(null? row) (reverse result)]
+      [(keep? idx) (loop (cdr row) (+ idx 1) (cons (car row) result))]
+      [else (loop (cdr row) (+ idx 1) result)])))
+
+
+
+(define (merge-rows row1 row2 same-cols1 same-cols2)
+  (if (merge-able row1 row2 same-cols1 same-cols2)
+      (append row1 (row-columnless row2 same-cols2))
+      '()
+      )
+  ) 
+
+
+
+
+;SOLUTION
+
+(define (table-insert row tab)
+  [let ([schema (table-schema tab)]
+        [rows (table-rows tab)]
+        )
+    (if (new-row-match? row schema)
+        (table schema (cons row rows))
+        (error "Invalid Input")
+        )
+    
+    ]
+  )
+
+
+(define (table-project cols tab)
+
+  ;funkcja do wyciągania danych         (filter-cols-results (filter-cols cols tab)) z wiersza
+  (define (extract-row-cols row cols)
+    (map (lambda (index) (list-ref row index) ) cols)
+    )
+  
+  (let (
+        [rows (table-rows tab)] ;nasze rzędy
+        [col-indx (filter-cols cols tab)] ;kolumny, które potrzebujemy, ich indexy
+        [schema (table-schema tab)]
+        )
+    ;iterujemy po danych w tabeli
+    (map (lambda (elem) (extract-row-cols elem col-indx) ) rows)
+
+    )
+  
+  )
+
+
+(define (table-rename col ncol tab)
+  (let ([schema (table-schema tab)]
+        [rows (table-rows tab)]
+        )
+    ;będziemy robić nową tabelkę
+    (table (map
+            (lambda (c)
+              ;jak name aktualnie spr kolumny się pokryje ze zmianą
+              (if (eq? (column-info-name c) col)
+                  ;zamieniam kolumnę na nową
+                  (column-info ncol (column-info-type c))
+                  c ;zostawiam starą
+                  )
+              )
+            schema
+            )rows )
+    )
+  )
+
+
+(define (table-sort cols tab)
+  (let ([schema (table-schema tab)]
+        [rows (table-rows tab)]
+        [keys (filter-cols cols tab)] ;indexy kolumn - kluczy
+        )
+    ;utworzymy nową tabelę
+    (table
+     keys
+     (sort
+      rows
+      (lambda (a b)
+        ;pobierzemy wartości do porównań
+        (let
+            ((a-vals (extract-sorting-values a keys))
+            (b-vals (extract-sorting-values b keys)))
+          (compare-lexico a-vals b-vals)
+          )
+        )
+      )
+     )
+
+    )
+
+  )
+
+
+(define (table-select form tab)
+  (let ([rows (table-rows tab)]
+        [schema (table-schema  tab)]
+        )
+    (filter (lambda (row) (eval-formula form row schema) ) rows)
+    )
+  )
+
+
+
+
+
+(define (table-cross-join tab1 tab2)
+  ;deklarujemy nową tabelkę
+  (table
+   (append (table-schema tab1) (table-schema tab2) )
+   (concat-extend (table-rows tab1) (table-rows tab2) )
+   )
+  )
+
+
+(define (table-natural-join tab1 tab2)
+  (let* (
+        [schema1 (table-schema tab1)]
+        [schema2 (table-schema tab2)]
+        [same-cols2 (indexof-same schema1 schema2 '())]
+        [same-cols1 (indexof-same schema2 schema1 '())]
+        [merged-schema (append schema1 (filter (lambda (col2) (not (member col2 schema1)) ) schema2) )]
+        [rows1 (table-rows tab1)]
+        [rows2 (table-rows tab2)] 
+        [merged-rows
+         (map
+     (lambda (row1)
+       (map
+        (lambda (row2)
+          ;połączenie wierszy jeśli są równe w odpowiedniej kolumnie
+          (merge-rows row1 row2 same-cols1 same-cols2) 
+          )
+        rows2) )
+         rows1)
+         ]
+        )
+    (table merged-schema merged-rows)
+    )
+  )
+

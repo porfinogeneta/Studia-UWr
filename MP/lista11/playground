@@ -1,0 +1,54 @@
+#lang plait
+
+(module+ test
+  (print-only-errors #t))
+
+;; abstract syntax -------------------------------
+
+(define-type Op
+  (add) (sub) (mul) (div) (eql) (leq))
+
+
+(define-type Exp
+  (numE [n : Number])
+  (opE [op : Op] [l : Exp] [r : Exp])
+  (ifE [b : Exp] [l : Exp] [r : Exp])
+  (varE [x : Symbol])
+  (letE [bindings : (Listof (Symbol * Exp))] [e2 : Exp]))
+
+;; parse ----------------------------------------
+
+(define (parse [s : S-Exp]) : Exp
+  (cond
+    [(s-exp-match? `NUMBER s)
+     (numE (s-exp->number s))]
+    [(s-exp-match? `(let ((SYMBOL ANY) ...) ANY) s)
+      (letE (map
+             (lambda (binding)
+               (pair (s-exp->symbol (first (s-exp->list binding))) (parse (second (s-exp->list binding)))))
+             (s-exp->list (second (s-exp->list s))))
+            (parse (third (s-exp->list s))))]
+    [(s-exp-match? `{SYMBOL ANY ANY} s)
+     (opE (parse-op (s-exp->symbol (first (s-exp->list s))))
+          (parse (second (s-exp->list s)))
+          (parse (third (s-exp->list s))))]
+    [(s-exp-match? `{if ANY ANY ANY} s)
+     (ifE (parse (second (s-exp->list s)))
+          (parse (third (s-exp->list s)))
+          (parse (fourth (s-exp->list s))))]
+    [(s-exp-match? `SYMBOL s)
+     (varE (s-exp->symbol s))]
+     
+     [else (error 'parse "invalid input")]))
+
+
+(define (parse-op [op : Symbol]) : Op
+  (cond
+    [(eq? op '+) (add)]
+    [(eq? op '-) (sub)]
+    [(eq? op '*) (mul)]
+    [(eq? op '/) (div)]
+    [(eq? op '=) (eql)]
+    [(eq? op '<=) (leq)]
+    [else (error op "unknown operator")]
+    ))

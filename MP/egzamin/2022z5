@@ -1,0 +1,31 @@
+#lang racket
+
+;z5
+(define-struct node (elem [next #:mutable] [next-next #:mutable]))
+
+(define (insert-after-next node elem)
+  (let* ([1next (node-next node)] ;wskażnik na element obok
+         [2next (node-next-next node)] ;wskaźnik na następnik
+         [new-node (make-node elem null null)]) ;utworzenie nowe węzła
+    (begin
+      (set-node-next! node new-node)
+      (set-node-next-next! node 1next)
+      (set-node-next! new-node 1next)
+      (set-node-next-next! new-node 2next))
+    ))
+
+
+(define t4 (make-node 5 null null))
+(define t3 (make-node 4 t4 null))
+(define t2 (make-node 2 t3 t4 ))
+(define t1 (make-node 1 t2 t3))
+
+(define (print node nr)
+  (if (equal? nr 0)
+      (void)
+      (begin
+        (displayln (node-elem node))
+        (print (node-next node) (- nr 1)))))
+
+(insert-after-next t4 10)
+(print t1 5)

@@ -1,0 +1,83 @@
+#lang plait
+
+
+(define-type (Tree 'a)
+  (leaf)
+  (node [l : (Tree 'a)] [elem : 'a] [r : (Tree 'a)]))
+
+(define example-tree
+  (node (node (leaf) 1 (leaf))
+        2
+        (node (leaf)
+              3
+              (node (leaf) 4 (leaf)))))
+
+;(( ' a 'b 'c 'b -> 'b) ; procedura dla węzła
+;( 'a - > 'b) ; procedura dla liścia
+;( 'a 'c - > 'a) ; akumulacja dla lewej gałęzi
+;( 'a 'c - > 'a) ; akumulacja dla prawej gałęzi
+;'a ; wartość akumulatora
+;( Tree 'c )
+;- >
+;'b )
+
+(define (process-tree f-branch f-leaf f-acc-left f-acc-right acc tree)
+  ; wywołujemy osobną funkcję dla liścia
+  (cond [(leaf? tree) (f-leaf tree)]
+        [else
+         ; osobna funkcja w węźle
+         (f-branch
+          acc
+          ; funkcja lewa oblicza wartość akumulatora lewego
+          (process-tree f-branch f-leaf f-acc-left f-acc-right (f-acc-left acc (node-elem tree)) (node-l tree))
+          (node-elem tree)
+          ; funkcja prawa oblicza wartość akumulatora prawego
+          (process-tree f-branch f-leaf f-acc-left f-acc-right (f-acc-right acc (node-elem tree)) (node-r tree))
+          )
+         ]
+        )
+  )
+
+
+(define (bst? t)
+  (process-tree
+        ;j czy jesteśmy w range
+        (lambda (acc l val r) (and (<= (fst acc) val) (>= (snd acc) val) l r))
+        ; dno rekursji
+        (lambda (leaf) #t)
+        ;ograniczenie góra/dół na lewym i prawym 
+        (lambda (acc v) (pair (fst acc) v))
+        (lambda (acc v) (pair v (snd acc)))
+        (pair -inf.0 +inf.0) ;acc
+        t
+       )
+      
+      )
+
+
+
+
+(bst? example-tree)
+(define ex2 (node (node (leaf) 1 (node (leaf) 3 (leaf))) 2 (leaf)))
+(bst? ex2)
+
+
+(define (sum-paths t)
+  (process-tree
+       ; f-branch - utworzenie nowego drzewa
+       (lambda (acc l e r)
+         (node l (+ e acc) r))  
+       ; f-leaf
+       (lambda (x) (leaf))
+       ; f-acc-left, dodawanie poprzednich elementów w lewym
+       (lambda (acc l) (+ acc l))
+       ; f-acc-right, dodawanie poprzednich elementów w prawym
+       (lambda (acc r) (+ acc r))
+       ; acc
+       0
+       ; tree
+       t
+       )
+  )
+
+(sum-paths example-tree)

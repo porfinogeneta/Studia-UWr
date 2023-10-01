@@ -1,0 +1,83 @@
+#lang racket
+
+
+(define-struct leaf () #:transparent)
+(define-struct node (l elem r) #:transparent)
+
+(define (tree? x)
+  (cond [(leaf? x) #t]
+        [(node? x) (and (tree? (node-l x))
+                        (tree? (node-r x)))]
+        [else #f]))
+
+(define example-tree
+  (node (node (leaf) 1 (leaf))
+        2
+        (node (node (leaf) 3 (leaf))
+              4
+              (leaf))))
+
+( define example_v2
+( node
+( node ( leaf ) 2 ( leaf ))
+5
+( node ( node ( leaf ) 6 ( leaf ))
+8
+( node ( leaf ) 9 ( leaf )))))
+
+(define (fold-tree f bt t)
+  (if (leaf? t)
+      bt
+      ;wywołaj funkcję f z trzema argumentami
+      (f
+       (node-elem t)
+       (fold-tree f bt (node-l t))
+       (fold-tree f bt (node-r t))
+       )
+      )
+  )
+
+(define (tree-sum t)
+  (fold-tree (lambda (e l r ) (+ e l r)) 0 t))
+
+
+(tree-sum example-tree) ;test
+
+(define (tree-flip t)
+  (fold-tree (lambda (e l r) (node r e l)) (leaf) t)
+  )
+
+
+(tree-flip example-tree) ;test
+
+;przed
+;(node (node (leaf) 1 (leaf)) 2 (node (node (leaf) 3 (leaf)) 4 (leaf)))
+;po
+;(node (node (leaf) 4 (node (leaf) 3 (leaf))) 2 (node (leaf) 1 (leaf)))
+
+
+(define (tree-height t)
+  (fold-tree (lambda (e lh rh )  (+ 1 (max lh rh) ))
+            0 t
+             )
+  )
+(tree-height example_v2) ;test
+
+;min max funkcje wbudowane
+(define (tree-span t)
+  (let ([min-val (fold-tree (lambda (e l r ) (min l e)) +inf.0 t)]
+        [max-val (fold-tree (lambda (e l r ) (max r e)) -inf.0 t)])
+    (cons min-val max-val)))
+
+
+(tree-span example-tree) ;test
+
+
+
+(define (flatten t)
+  (fold-tree (lambda (e l r )
+               (append l (cons e r)))
+             '() t))
+
+
+(flatten example-tree) ;test

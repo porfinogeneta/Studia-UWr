@@ -1,0 +1,143 @@
+#lang racket
+
+
+(define (len xs)
+  (if (empty? xs)
+      0
+      (+ 1 (len (rest xs))))
+  )
+
+;(len '(1 2 3 4 5))
+
+(define (fltr p lst)
+  (cond [(empty? lst) '()]
+        [(p (car lst)) (cons (car lst) (fltr p (cdr lst)))]
+        [else (fltr p (cdr lst))]))
+
+;(fltr even? '(1 2 3 4 5 6))
+
+#;(define (fldr f acc lst)
+  (if (empty? lst)
+      acc
+      (f (car lst) (fldr f acc lst))))
+
+#;(define (fldl f acc lst)
+  (if (empty? lst)
+      acc
+      (fldl f (f (car lst) acc) (cdr lst))))
+
+
+;(map f (filter (lambda (x) (p (f x))) xs))
+
+
+
+#;(fldl + 0 '(1 2 3 4 5))
+#;(foldl cons '() '(1 2 3 4 5))
+
+
+#;(fldr cons '() '(1 2 3 4 5))
+#;(foldr cons '() '(1 2 3 4 5))
+
+; (f 1    (f 2    (f 3    (f 4 v))))) <- foldr
+; (f 4 (f 3 (f 2 (f 1 v)))) <- foldl
+
+
+(define (even_pos lst)
+  (reverse (cdr (foldl (lambda (x acc)
+           (if (even? (car acc))
+               (cons (+ 1(car acc)) (cons x (cdr acc)))
+               (cons (+ 1 (car acc)) (cdr acc))))
+         (cons 0 '()) lst))))
+
+(even_pos '(1 2 3 1))
+
+
+(define (uzip zlst)
+  (foldr (lambda (px acc) (cons (first px) (cons (second px) acc))) '() zlst))
+
+(uzip '((1 2) (3 4) (5 6)))
+
+(define (zip xs ys)
+  (second (foldr (lambda (x acc)
+           (list (cdr (first acc)) (cons (cons x (first (first acc))) (second acc))))
+         (list ys '()) xs)))
+
+#;(define (zip xs ys)
+  (reverse (foldl (lambda (x acc)
+           (if (empty? acc) acc
+               ;konstruujemy nowy akumulator, dodajemy pierwszy element z pierwszej listy w akumulatorze do listy wynikowej (second acc)
+               (list (cdr (first acc)) (cons (cons x (first (first acc))) (second acc)))))
+         (list xs '()) ys))
+  )
+
+(zip '(2 4 5 8) '(1 3 5 7))
+;(uzip (zip '(2 4 5 8) '(1 3 5 7)))
+
+(define (flatten lst)
+  (if (empty? lst)
+      '()
+      (append (first lst) (flatten (rest lst)))
+      ))
+
+(flatten '((1 2 3) (1 2)))
+
+#|
+
+n - to liczba strzałek, które muszę minąć i to jest wzór dla argumentu (-1)^n, wynik funkcji (-1)^(n+1)
+
+- zawinił użytkownik
++ zawiniła implementacja, np dostarczyliśmy zły argument
+
++ (parametric->/ c [a b] (-> (-> a b) a b))
+(define (f1 f a)
+   (f a)
+)
+
++ (parametric->/ c [a b c] (-> (-> a b c) (-> ( cons/c a b) c)))
+(define (f2 f)
+(lambda (x) (cons (f (car x) (cdr x)))
+)
+
+
++ (parametric->/ c [a b] (-> ( listof (-> a b)) ( listof a) ( listof b)))
+(define (f3 fs)
+ (flatten (map (lambda (d) (map f as)) ) fs))
+)
+
+
++ (parametric->/ c [a b] (-> (-> b ( or/c false/c ( cons/c a b))) b ( listof a)))
+to samo co
+(b -> (False | (a . b)) -> (b -> [a])), [a] lista typów a; ta funkcja to jest jakiś unfold
+
+(define (unfold g)
+ (lambda (state)
+  (case (g state)
+  False => []
+  (v, 's) => (cons v ((unfold g) 's))
+   )
+  )
+)
+
+'s nowy stan
+
+
++ (parametric->/ c [a] (-> (-> a boolean?) ( listof a) ( cons/c ( listof a) ( listof a))))
+- jedna lista dla prawdy, druga dla fałszu
+(define (split p as)
+ (foldl (lambda (x acc)
+    (if (p x)
+    (cons x ())))
+ ('() '()) as)
+)
+
+
++ (parametric->/c [a b] (-> (-> a b) (listof a) (-> b (listof a))))
+(define (groupby f as)
+  (lambda (b) (filter (lambda (a)
+    (eq? (f a) b)))))
+
+|#
+
+
+
+

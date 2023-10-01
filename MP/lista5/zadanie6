@@ -1,0 +1,37 @@
+#lang plait
+
+(define-type (RoseTree 'a)
+  (leaf [elem : 'a])
+  (node [children : (Listof (RoseTree 'a))]))
+
+
+(define example-rose
+  (node (list (leaf "A")
+              (node (list (leaf "B")
+                          (leaf "C")))
+              (leaf "D")
+              (node (list (node (list (leaf "E")
+                                       (leaf "F")))
+                          (leaf "G"))))))
+
+
+
+(define (rose [r : (RoseTree 'a)]) : (Listof 'a)
+  (local ;dzięki temu funkcje wewnętrzne nie mają konfliktu typu
+    ;funkcja do łączenia listy list w jedą listę
+    [(define (my-flatten [l : (Listof (Listof 'a))]) : (Listof 'a)
+       (if (empty? l)
+           '()
+           (append (first l) (my-flatten (rest l)))))]
+
+  (cond
+    ;jak dotrzemy do liścia zwracamy listę jednoelementową
+    [(leaf? r) (list (leaf-elem r))]
+    [else
+     ; wpp robimy jedną listę z połączonych elementów od lewej strony
+     (my-flatten (map rose (node-children r)))])))
+
+
+(rose example-rose)
+
+

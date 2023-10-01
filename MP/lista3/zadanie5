@@ -1,0 +1,35 @@
+#lang racket
+
+; liczby ujemne od -1, a nie od 0, stąd +1
+(define (negatives n)
+  (build-list n (lambda (x) (* -1 (+ 1 x))) )
+  )
+
+(negatives 10)
+
+;+ 1 żeby nie dzielić przez 0
+(define (reciprocals n)
+  (build-list n (lambda (x) (/ 1 (+ x 1) )) )
+
+  )
+
+(reciprocals 10)
+
+; ma być n liczb parzystych, a nie parzystych wśród n
+(define (evens n)
+  (build-list n (lambda (x) (* x 2) ))
+
+  )
+
+(evens 10)
+
+(define (identityM n)
+  (build-list n
+              (lambda (i)
+                (build-list n (lambda (j)  (if (= i j) 1 0 )  ) )
+                )
+              
+              )
+  )
+
+(identityM 5)

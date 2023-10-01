@@ -1,0 +1,61 @@
+#lang racket
+
+(define (list->llist xs)
+  (lambda (ys) (append xs ys))
+  )
+;argument podany na wejściu to pierwotnej funkcji '(1 2), potem '(3 4)
+((list->llist '(1 2)) '(3 4)) ;test
+;(define w (list->llist '(1 2)))
+;(w '(3 4))
+
+(define (llist->list f) (f empty))
+
+;podaję funkcję, zwracam listę
+;(llist->list w) ;test
+
+(define (llist-null)
+  (lambda (x) (append `() x)))
+
+(llist->list (llist-null))
+
+((llist-null) '(13 22))
+
+(define (llist-singleton x)
+  (lambda (ys) (append (list x) ys))
+  )
+
+(llist->list (llist-singleton 3)) ;test
+
+; wywołuję g(x), a później f(g(x))
+(define (llist-append f g)
+  (lambda (x) (f (g x)))
+  )
+
+
+(define xd (llist-append (list->llist '(1 2 3)) (list->llist '(4 5 6))))
+
+;(append (f (g null) null) x)
+(xd '())
+
+
+
+;przy pierwszym wywołaniu będzie y=5 x=null
+(define (foldr-llist-reverse list)
+  (llist->list
+   (foldr
+    (lambda (y ys) (llist-append ys (llist-singleton y) ) ) (llist-null) list
+    )
+   )
+  )
+
+
+;(cons 1 (cons 2 (cons 3 (cons 4 (cons 5 null))))
+;(f 1 (f 2 (f 3 (f 4 (llist-append(5 {}))))))
+;(f 1 (f 2 (f 3 (llist-append(4 {5}))))
+;(f 1 (f 2 (llist-append(3 {5 4}))))
+;...
+;(llist-append 1 {2 3 4 5}
+;llist->list(llist->append {1 2 3 4 5} {})
+;{1 2 3 4 5}
+
+(foldr-llist-reverse '(1 2 3 4 5))

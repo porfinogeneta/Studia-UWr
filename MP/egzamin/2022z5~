@@ -1,0 +1,19 @@
+#lang racket
+
+;z5
+(define-struct node (elem [next #:mutable] [next-next #:mutable]))
+
+;(define t4 (make-node 5 null null))
+;(define t3 (make-node 4 t4 null))
+;(define t2 (make-node 2 t3 t4 ))
+;(define t1 (make-node 1 t2 t3))
+
+#;(define (print n step)
+  (if (= 0 step)
+      void
+      (begin
+        (displayln (node-elem n))
+        (print (node-next n) (- step 1)))))
+
+
+#;(print n4 3)

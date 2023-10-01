@@ -1,0 +1,55 @@
+#lang racket
+
+;w pliku docelowym
+;(require "mqueue.rkt") - drugi moduł
+;w module
+;provide?
+;mqueue?
+;nonempty?mqueue?
+;make-mqueue
+;no i reszta funkcji -> implementacja dba o niezmienniki
+;podpięcie kontraktów
+;(contract-out
+; [mqueue-empty? (-> mqueue? boolean?)]
+
+;set! - forma specjalna, bo funkcje przyjmują wartości a nie referencje jak set!
+
+(set! x (cons 1 2)) ;-> x to referencja na parę
+
+;listy nie są mutowalne (list)
+;(cons) są niemutowalne, nigdy ani wkaźnik ani wartość się nie zmienią
+
+(define p (mcons 1 2)) ;mutowalny cons
+;set-mcar! p 3 - ustawienie pierwszego elementu
+
+(cons 1 (mcons 1 2) 4)
+
+
+;cons po policzeniu funkcji na nim nie zmienia zawartości wpd do mcons
+
+;KOLEJKI
+;mutowalna struktura
+(struct mqueue (
+                [front #:mutable]
+                [back #:mutable]))
+
+;push i pop
+;wynik funkcji to wyniki ostatniego wyrażenia
+;begin - obliczam wyrażenia i ostatniche z nich jest wynikiem
+;podpinanie jednych kolejek do drugich, to po prostu przepięcie pointera mqueue-join
+;nie można współdzielić elementów kolejek, dlatego ustawiamy w join element w niepotrzebnej liście na null
+
+;deklarujemy jakieś niezmienniki i korzystamy z naszego kodu, przy ich zachowaniu
+
+(define q (mqueue 1 2))
+(set-mqueue-front! q 3)
+
+(define (make-queue)
+  (mqueue null null)
+  )
+
+(define (mqueue-push q x)
+  (define p (mcons x null))
+  (set-mcdr! (mqueue-back q) p)
+  (set-mqueue-back! q p)
+  )

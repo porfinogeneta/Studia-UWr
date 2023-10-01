@@ -1,0 +1,154 @@
+#lang racket
+
+;z2
+(define-struct leaf () #:transparent)
+(define-struct node (l elem r) #:transparent)
+
+
+(define (fold-tree t f acc)
+  (cond [(leaf? t) acc]
+        [(node? t)
+         (f (fold-tree (node-l t) f acc)
+            (node-elem t)
+            (fold-tree (node-r t) f acc))]
+        ))
+
+(define t7
+   (node
+     (node (leaf) 2 (leaf))
+     5
+     (node (node(leaf) 6 (node (leaf) 7 (leaf)))
+           8
+           (node (leaf) 9 (leaf)))))
+
+
+(define (tree-sum t)
+  (fold-tree t + 0))
+
+(tree-sum t7)
+
+(define (tree-flip t)
+  (fold-tree t
+             (lambda (l e r) (make-node r e l)) (leaf)))
+
+;t7
+;(tree-flip t7)
+
+(define (tree-height t)
+  (fold-tree t (lambda (l e r) (+ 1 (max l r))) 0))
+
+(tree-height t7)
+
+
+(define (tree-span t)
+  (let [(min (fold-tree t (lambda (l e r) (min l e)) +inf.0))
+        (max (fold-tree t (lambda (l e r) (max r e)) -inf.0))]
+    (cons min max))
+  )
+
+(tree-span t7)
+
+(define (flatten t)
+  (fold-tree t (lambda (l e r) (append l (list e) r)) empty))
+
+(flatten t7)
+
+;z3
+
+(define (bst? t)
+  (define (help-bst Min t Max)
+    (cond [(leaf? t) #t]
+          [(and (> (node-elem t) Min) (<= (node-elem t) Max))
+           (and (help-bst Min (node-l t) (node-elem t)) (help-bst (node-elem t) (node-r t) Max))]
+          [else #f]))
+  (help-bst -inf.0 t +inf.0))
+
+(bst? t7)
+
+(define (sum-paths T)
+  (define (help-sum t sum)
+    (cond [(leaf? t) (leaf)]
+          [(node? t) (node (help-sum (node-l t) (+ sum (node-elem t)))
+                           (+ sum (node-elem t))
+                           (help-sum (node-r t) (+ sum (node-elem t))))]))
+  (help-sum T 0))
+
+(sum-paths t7)
+
+;z5
+
+(define (insert-bst x t)
+  (cond [(leaf? t) (node (leaf) x (leaf))]
+        [(node? t)
+         (cond [(< x (node-elem t))
+                 (node (insert-bst x (node-l t))
+                       (node-elem t)
+                       (node-r t))]
+                [else
+                 (node (node-l t)
+                       (node-elem t)
+                       (insert-bst x (node-r t)))])]))
+
+(insert-bst 5 t7)
+
+(define (infix t ys)
+  (cond [(leaf?  t) ys]
+        [(node? t) (append (infix (node-l t) (cons (node-elem t) (infix (node-r t) ys))))]))
+
+(define (treesort xs)
+  (infix (foldr insert-bst (leaf) xs) '()))
+
+(treesort '(1 2 3 1 10 2))
+
+;z6
+
+;szukamy następcy w lewym poddrzewie
+(define (find-sucessor t)
+  (if (leaf? (node-l t))
+      (node-elem t)
+      (find-sucessor (node-l t))))
+
+(define (delete x t)
+  (cond [(leaf? t) (leaf)]
+        [(< (node-elem t) x)
+         (node (node-l t) (node-elem t) (delete x (node-r t)))]
+        [(> (node-elem t) x)
+         (node (delete x (node-l t)) (node-elem t) (node-r t))]
+        [else (cond
+                [(and (leaf? (node-l t)) (leaf? (node-r t))) (leaf)]
+                [(leaf? (node-l t)) (node-r t)]
+                [(leaf? (node-r t)) (node-l t)]
+                [else (node (node-l t) (find-sucessor (node-r t)) (delete (node-r t) (find-sucessor (node-r t))))])]))
+
+(delete 6 t7)
+
+;z7
+
+#;( define empty-queue ; pusta kolejka
+   null )
+#;( define ( empty ? q) ; czy kolejka jest pusta ?
+   ( null ? q))
+#;( define ( push-back x q) ; dodaj element na koniec kolejki
+   ( append q ( list x)))
+#;( define ( front q) ; podejrzyj element na poczatku kolejki
+   ( car q))
+#;( define ( pop q) ; zdejmij element z przodu kolejki
+   ( cdr q))
+
+(define empty-queue (cons '() '()))
+
+(define (empty? q )
+  (and (empty? (car q)) (empty? (cdr q))))
+
+(define (push-back x q)
+  (cons (car q) (cons x (cdr q)) )
+  )
+
+(define (front q)
+      (car (car q)))
+
+(define (pop q)
+  (if (empty? (car q))
+      (cons (cdr (reverse (cdr q))) '())
+      (cons (cdr (car q)) (cdr q))))
+

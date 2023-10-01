@@ -1,0 +1,40 @@
+#lang racket
+
+
+;( define t
+ ;  ( node
+  ;   ( node ( leaf ) 2 ( leaf ))
+   ;  5
+    ; ( node ( node ( leaf ) 6 ( leaf ))
+     ;       8
+      ;      ( node ( leaf ) 9 ( leaf )))))
+
+;(define (insert-bst x t)
+ ; (cond [(leaf? t) (node (leaf) x (leaf))]
+      ;  [(node? t)
+      ;   (cond [(= x (node-elem t)) t]
+       ;         [(< x (node-elem t))
+      ;           (node (insert-bst x (node-l t))
+     ;                  (node-elem t)
+    ;                   (node-r t))]
+   ;             [else
+  ;               (node (node-l t)
+ ;                      (node-elem t)
+;                       (insert-bst x (node-r t)))])]))
+
+
+;       5
+ ;     / \
+  ;   2   8
+   ;     / \
+    ;   6   9
+
+;       5
+ ;     / \
+  ;   2   8
+   ;     / \
+    ;   6   9
+;         \
+;           7
+
+; współdzielony fragment to poprzednie drzewo bez odgałęzienia do 7; ewentualnie pień poprzedniego i lewa odnoga bo tamtych nie modyfikowaliśmy przekazując w dół funkcji

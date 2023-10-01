@@ -1,0 +1,17 @@
+#lang plait
+
+
+( define ( apply f x) (f x))
+;(('a -> 'b) 'a -> 'b) argument f to funkcja ('a -> 'b) arg x to 'a; apply zwraca to co wyliczy f
+( define ( compose f g) ( lambda (x) (f (g x))))
+;(('a -> 'b) ('c -> 'a) -> ('c -> 'b))
+;f to ('a -> 'b) g to ('c -> 'a), w lambdzie mamy złożenie ('c -> 'b)
+( define ( flip f) ( lambda (x y) (f y x)))
+;(('a 'b -> 'c) -> ('b 'a -> 'c))
+;f to ('a 'b -> 'c), czyli funkcja wywołująca się dla dwóch argumentów z lambdy;
+;nasza lambda to funkcja f z odwóconymi argumentami
+( define ( curry f) ( lambda (x) ( lambda (y) (f x y))))
+;(('a 'b -> 'c) -> ('a -> ('b -> 'c))) f to ('a 'b -> 'c)
+;curry przyjmuje funkcję dwuargumentową f
+;curry zwraca złożenie dwóch funkcji, lambda, obliczają się one do elementu zwracanego przez f
+;lambdy niejako definiują nam kształt funkcji f, to one dają argumenty

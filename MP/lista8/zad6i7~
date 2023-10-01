@@ -1,0 +1,34 @@
+#lang plait
+
+
+;w tym zadaniu mamy wyrazić formy specjalne z Racketa za pomocą typów w plait
+;wyrażenia składające się z:
+;-zmiennych (typ Symbol)
+;-liczb
+;-lambda-wyrażenia
+;-aplikacje (wywołania funkcji)
+;-let
+;-if
+;-cond
+
+(define-type binding
+  (rtype-binding  (var : Symbol) (value : RacketSyntax) )
+  )
+
+(define-type cond-branch
+  (rtype-cond (condition : RacketSyntax) (result : RacketSyntax))
+  )
+
+(define-type RacketSyntax
+  [rtype-var (s : Symbol)] ;zmienna
+  [rtype-number (n : Number) ] ;liczba
+  [rtype-lambda (args : (Listof Symbol)) (body : RacketSyntax)] ;lambda n argumentów i ciało funkcji
+  [rtype-app (args : (Listof RacketSyntax)) (body : RacketSyntax)] ;zwykła funkcja - n argumentów typu zgodnego ze składnią i ciało funkcji
+  [rtype-let (bindings : (Listof binding)) (body : RacketSyntax)] ;let - n złączeń w let oraz ciało let'a
+  [rtype-if (conditional : RacketSyntax) (then-part : RacketSyntax) (else-part : RacketSyntax)] ;if - warunek oraz dwie gałęzie
+  [rtype-condi (conditions : (Listof cond-branch))] ;cond  - lista warunków i wartości od nich zależnych
+  )
+
+
+
+

@@ -1,0 +1,250 @@
+#lang plait
+
+w naszym gesnsym c jest tylko dostępne wewnątrz gensym
+
+env[c -> l] , gdzieś w pamięci jest komórka o adresie l i tam jest wartść 0,
+zwrócenie c to zwrócenie wartości c
+
+w środowisku trzymam referencję i w pamięci jest wartość
+
+(foo x) env x -> 42 (wskazuje przez adres)
+
+w momencie aplikacji alokujemy pamięć na zmienne
+env[z->l] ,gdzie l' -> 42, zwiększenie z o 1 ale l->42, poprzednie wskazania się nie zmieniają, dalej trzymamy wartości pod starymi adresami
+
+unbox idź pod adres l i przynieś mi tą wartość
+jak zmienna była wcześniej przekazana, to przekazuję jej adres
+
+w metajęzyku używamy referencji z metajęzyka
+
+teraz w Env trzymamy
+
+(x : Symbol
+   l : (Boxof Value)
+   )
+
+set-car!
+set-cdr!
+
+pierwotnie mieliśmy jeden wskaźnik na miejsce w pamięci i ten wskaźnik modyfikujemy przez kolejne wywołania (gensym)
+
+
+teraz zrobimy naszą stertę
+
+sterta to jest po prostu u nas lista, location indeks na naszej sterci (liście)
+
+alloc dostaje stertę zwraca adres i zupdatowaną pamięć, następny wolny adres jest kolejnym możliwym indeksem
+
+dereferencja szukamy wartości w sto pod adresem l
+
+update-sto zmiana wartości na stercie
+
+środowisko trzyma nazwę zmiennej i jej lokalizację na stercie
+
+rozszerzamy środowisko i stan
+
+wynikiem wyrażenia (Answer) jest para Value i sterta
+
+
+obecnie mamy
+fA : AxS -> BxS - S - stan
+
+monada - pomaga uniknąć zagnieżdżonych obliczeń
+
+monada stanu
+fA : A -> (S -> BxS) x - produkt karteziański S -stan
+
+monady
+M alfa - M to monada konstruujemy nowy typ
+M alfa = alfa + err - albo wartość albo error to wynik monady
+
+mieliśmy return i bind:
+
+return - dostaje wartość i tworzy obliczenie, monadę
+return : alfa -> M
+
+return v = val A v - value to Asnwer z wartością
+
+bind : M alfa -> (d - > My) -> Mz
+       obliczenie w monadzie
+
+bind c f = match c with
+         valA v -> f x
+         errA -> errA
+
+
+Monada stanu
+
+M alfa = s -> alfaxs
+return : lambda s . <v, s>
+       notacja z kropką - funkcja biorąca s
+
+bind c f = lambda s let <x,s'> = cs
+                          in f v s'
+
+===========================================
+
+delay zwraca obietnicę
+force realizuje obietnicę
+różni się to od lambdy bezargumentowej tym że jak raz wywołamy force to będziemy jego wartość wykorzystywać
+
+strumień do zbiór par wartości i odroczonego obliczenia
+
+dzięki leniwym obliczeniom nie wyliczymy całego przedziału
+
+korzystamy z prefixu ciągu aby go zbudwać, w przypadku robienia delay na ciągu
+
+
+rozszerzamy język o strumienie - cons car i cdr, strumień, lista leniwa, para głowa i obietnica wyliczenia reszty
+
+Thunk - odroczone obliczenia, mamy wyrażenie ze środowiskiem, żeby zrobić wiązanie statyczne
+Thunk albo był kiedyś policzony albo jest do policzenia
+
+=========================================
+#lang racket
+
+;; processing data sequences with lists --------------------
+
+(define (second-prime-in-interval a b)
+  (car (cdr (filter prime?
+                    (enumerate-interval a b)))))
+
+; (second-prime-in-interval 10000 5000000)
+
+(define (enumerate-interval a b)
+  (if (> a b)
+      '()
+      (cons a (enumerate-interval (+ a 1) b))))
+
+(define (square x)
+  (* x x))
+
+(define (smallest-divisor n)
+  (find-divisor n 2))
+
+(define (find-divisor n test-divisor)
+  (cond ((> (square test-divisor) n) n)
+        ((divides? test-divisor n) test-divisor)
+        (else (find-divisor n (+ test-divisor 1)))))
+
+(define (divides? a b)
+  (= (remainder b a) 0))
+
+(define (prime? n)
+  (= n (smallest-divisor n)))
+
+;; streams aka lazy lists ---------------------------------
+
+;; delay and force
+
+;zdefiniowanie leniwej listy, pierwszy element to wartość, kolejny to obietnica policzenia wartości
+(define-syntax-rule
+  (stream-cons v s)
+  (cons v (delay s)))
+
+(define stream-car car)
+
+;policzenie faktycznej wartości
+(define (stream-cdr s)
+  (force (cdr s)))
+
+(define stream-null null)
+(define stream-null? null?)
+
+;; operations on streams
+;dostanie się do n-tego elementu listy
+(define (stream-ref s n)
+  (if (= n 0)
+      (stream-car s)
+      (stream-ref (stream-cdr s) (- n 1))))
+
+;przejście przez całą listę i wykonanie na niej operacji
+(define (stream-filter p s)
+  (if (stream-null? s)
+      stream-null
+      (if (p (stream-car s))
+          (stream-cons (stream-car s)
+                       (stream-filter p (stream-cdr s)))
+          (stream-filter p (stream-cdr s)))))
+
+;policzenie długości listy
+(define (stream-enumerate-interval a b)
+  (if (> a b)
+      stream-null
+      (stream-cons a (stream-enumerate-interval (+ a 1) b))))
+
+(define (stream-second-prime-in-interval a b)
+  (stream-car
+   (stream-cdr
+    (stream-filter prime?
+                   (stream-enumerate-interval a b)))))
+
+;; infinite streams
+
+(define ones (stream-cons 1 ones))
+
+(define (integers-from n)
+  (stream-cons n (integers-from (+ n 1))))
+
+(define nats (integers-from 0))
+
+(define (sieve s)
+  (stream-cons
+   (stream-car s)
+   (sieve
+    (stream-filter
+     (λ (x) (not (divides? (stream-car s) x)))
+     (stream-cdr s)))))
+
+(define primes (sieve (integers-from 2)))
+
+ ;; combining (infinite) streams 
+
+(define (map2 f xs ys)
+  (stream-cons
+   (f (stream-car xs)
+      (stream-car ys))
+   (map2 f (stream-cdr xs) (stream-cdr ys))))
+
+(define nats2 (stream-cons 0 (map2 + nats2 ones)))
+
+#|
+nats2    0 1 2 ...
+ones     1 1 1 ...
+---------------------------------------
+nats2  0 1 2 3 ...
+|#
+
+(define fibs
+  (stream-cons 0 (stream-cons 1 (map2 + fibs (stream-cdr fibs)))))
+
+#|
+fib            0 1 1 2 3 ...  
+(cdr fib)      1 1 2 3 ...
+-----------------------------------------
+fib        0 1 1 2 3 5 ...
+
+|#
+
+;; our own implementation of delay and force (needs to be moved at the top of the file)
+
+#|
+(define (memo-proc proc)
+  (let ([already-run? false]
+        [result false])
+    (lambda ()
+      (if (not already-run?)
+          (begin (set! result (proc))
+                 (set! already-run? true)
+                 result)
+          result))))
+
+(define-syntax-rule
+  (delay c)
+  (memo-proc (λ () c)))
+
+(define (force t)
+  (t))
+|#
+
+

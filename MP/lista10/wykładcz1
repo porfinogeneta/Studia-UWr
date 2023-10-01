@@ -1,0 +1,103 @@
+#lang racket
+
+; rozszerz parser - składnia + parser + interpreter
+;parser - przyjmuje wyrażenie w prostej postaci i zamienia na drzewko składniowe
+
+;dla s-wyrażeń `{+  2 2}
+
+; + to symbol
+; ANY ANY jakiekolwiek s-wyrażenia
+;s-exp->list - tworzy listę s-wyrażeń, każde trzeba przekonwertować
+
+;deklarowanie testów - module+ test można zdefiniować na samym początku, testy są opóźnione względem definicji
+;test/exp - zbadanie składni, na poziomie testów
+
+;interpretowanie - nadanie znaczenia programom
+;alias typu - Value to od też będzie Number
+
+;op->proc - konwersja operatora na procedurę; procedura, deklarujemy w delaracji funkcji co bierze i co zwraca
+
+;==============================================================================================================
+; inną opcją jest stworzenie maszyny abstrakcyjnej
+; jak gamma1 -> gamma2 ;jak gamma1 przechodzi do gamma2; wszystko potrzebujemy  - stertę, stos, śledzenie stanów pośrednich
+;gamma0 -> gamma1 -> gamma2 -> ... -> gammaN
+
+;mamy jakiś stos do pilnowania stanu
+;{+ {- 3 2} {+ 3 1}}
+;odkładam na prawą stronę s-wyrażenie
+; lewa strona przechowuje obliczenia
+
+;exalM - opis bierzącej konfiguracji gamma
+; prawa strona - obliczenie, lewa strona dalsza ewaluacja
+; tylko lewa strona może być wyliczona
+
+
+; <e, s> -> <e', s'>c - eval continue
+;         -> <e', s>
+
+;INTERPRETER
+; S-Exp -> Parser -> AST - drzewo składni abstrakcyjnej -> EVAL -> Value
+;                                                        typowanie, optymalizacja tutaj
+
+; KOMPILATOR
+;S-exp -> Parser -> AST -> EVAL - dopasownaie do architektury, optymalizacja itp -> TRANSLATOR -> BYTE CODE(np maszyna wirtulana Javy, liniowy kod z sekwencji prostych instrukcji do interpretacji)
+;                                                                                           BYTE CODE -> VM - virtual machine -> Value
+
+;będziemy mieli proste instrukcje, ich listę
+; interpreter dla maszyny wirtulanej
+
+
+;VM
+; jak nie ma nic na stosie jest już pusty po zdjęciu
+; jak jest i oraz c
+; sprawdzamy jaką mamy instrukcję
+; maszyna wirtualna ewaluuje składnię
+
+;n2 szczyt stosu, s2 reszta stosu, teraz właściwy stos
+; na stos s0 wrzucam wynik operacji na dwóch pierwszych elementach stosu
+
+;{ cond { {= 1 0} 32}
+;         { {= 1 1} 7 }}
+;}
+
+
+;wyrażenie złożone z symbolu cond i jakichkolwiek s-wyrażeń
+
+;{cond ANY ...}
+
+
+; lukier syntaktyczny, poprawiona, usprawniona składania, która upraszcza już istniejące rzeczy w języku, ale nie zmienia pod spodem jego składni (np nasz cond)
+; na etapie parsowania, nie chcemy wyrzucać błędów związanych z konwersją języka
+
+;mamy konstruckję dla errora
+
+;typy funkcji nie zawsze oznaczają że funkcja dojedzie do mety
+
+
+;chcemy wysyłać error w sposób bardziej schludny
+; jaka jest odpowiedź interpretera w przypadku gdy nie udało się do końca policzyć
+;interpreter zwraca pewne odpowiedzi Answer, nasza odpowiedź to błąd
+; informacja o błędzie albo wartość
+; teraz intrpreter daje albo wartość, albo błąd
+;error loaction i source, jeżeli jakakolwiek wartość wyliczana była errorrem, to error jest propagowany w górę programu
+
+
+
+; na końcu utworzeony przez nas input
+
+;monada to także wartość, zawinięta w obliczenia
+;monada - sposób na narzucenie programowi danej struktury,typ odpowiedzi + return - poprawne obliczenia, bind, jak złożyć obliczenia
+;(bind) jak obliczenie np z błędem połączyć z innym obliczeniem, bind złożenie rzeczy z a z tym co ma się wydarzyć dalej
+
+
+;makro - forma specjalna, narzędzie syntaktyczne, służące do odroczenia obliczeń
+;do let* ,ale zachowuje możliwość wykrycia błędu, pod spodem jest jakiś bind, wykrywający błąd
+
+
+;define-syntax nazwa
+; lista zmienna, wyrażenie
+; najpierw tłumaczenie, później odpowiedź error lub nie
+
+
+
+

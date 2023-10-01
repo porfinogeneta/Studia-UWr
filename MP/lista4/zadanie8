@@ -1,0 +1,98 @@
+#lang racket
+
+(require rackunit)
+; Zadanie 8
+
+(define-struct ord (val priority) #:transparent)
+(define-struct hleaf ())
+(define-struct hnode (elem rank l r) #:transparent)
+
+(define (make-node elem heap-a heap-b)
+  (define rank-a (rank heap-a))
+  (define rank-b (rank heap-b))
+  (if (>= rank-a rank-b)
+      (hnode elem (+ 1 rank-b) heap-a heap-b)
+      (hnode elem (+ 1 rank-a) heap-b heap-a)))
+
+(define (hord? p h)
+  (or (hleaf? h)
+      (<= p (ord-priority (hnode-elem h)))))
+
+(define (rank h)
+  (if (hleaf? h)
+      0
+      (hnode-rank h)))
+
+(define (heap? h)
+  (or (hleaf? h)
+      (and (hnode? h) (heap? (hnode-l h))
+           (heap? (hnode-r h))
+           (<= (rank (hnode-r h))
+               (rank (hnode-l h)))
+           (= (hnode-rank h)
+              (+ 1 (hnode-rank (hnode-r h))))
+           (hord? (ord-priority (hnode-elem h))
+                  (hnode-l h))
+           (hord? (ord-priority (hnode-elem h))
+                  (hnode-r h)))))
+
+(define (heap-merge heap-a heap-b)
+  (cond [(hleaf? heap-a) heap-b]
+        [(hleaf? heap-b) heap-a]
+        [(< (ord-priority (hnode-elem heap-a))
+            (ord-priority (hnode-elem heap-b)))
+         (make-node (hnode-elem heap-a)
+                    (hnode-l heap-a)
+                    (heap-merge (hnode-r heap-a) heap-b))]
+        [(>= (ord-priority (hnode-elem heap-a))
+             (ord-priority (hnode-elem heap-b)))
+         (make-node (hnode-elem heap-b)
+                    (hnode-l heap-b)
+                    (heap-merge heap-a (hnode-r heap-b)))]))
+                    
+                    
+(define (heap-merge h1 h2)
+    (cond
+        [(hleaf? h1) h2]
+        [(hleaf? h2) h1]
+        [else
+            (let   ((h (if (>  (heap_min_prior h1) (heap_min_prior h2)) h1 h2))
+                    (H (if (<= (heap_min_prior h1) (heap_min_prior h2)) h1 h2))
+                    (e (if (<= (heap_min_prior h1) (heap_min_prior h2)) (hnode-elem h1) (hnode-elem h2))))
+                (make-node e (hnode-l H) (heap-merge (hnode-r H) h)))]))
+
+
+; Zadanie 9
+
+(define empty-pq (hleaf))
+
+(define (pq-empty? pq)
+  (hleaf? pq))
+
+(define (pq-insert elem pq)
+  (heap-merge (hnode (ord elem elem) 1 (hleaf) (hleaf))
+              pq))
+
+(define (pq-pop pq)
+  (heap-merge (hnode-l pq) (hnode-r pq)))
+
+(define (pq-min pq)
+  (ord-val (hnode-elem pq)))
+
+(define (pqsort xs)
+  
+  (define (create-pq acc xs)
+    (if (null? xs)
+        acc
+        (create-pq (pq-insert (car xs) acc)
+                              (cdr xs))))
+
+  (define (sorting acc lheap)
+    (if (pq-empty? lheap)
+        acc
+        (cons (pq-min lheap) (sorting acc (pq-pop lheap)))))
+
+  (sorting null (create-pq empty-pq xs)))
+
+(check-equal? (pqsort '(12 342 654 234 5324 123))
+              '(12 123 234 342 654 5324))

@@ -1,0 +1,39 @@
+#lang racket
+
+
+(define (len xs)
+  (if (empty? xs)
+      0
+      (+ 1 (len (rest xs))))
+  )
+
+(len '(1 2 3 4 5))
+
+(define (fltr p lst)
+  (cond [(empty? lst) '()]
+        [(p (car lst)) (cons (car lst) (fltr p (cdr lst)))]
+        [else (fltr p (cdr lst))]))
+
+(fltr even? '(1 2 3 4 5 6))
+
+
+;(map f (filter (lambda (x) (p (f x))) xs))
+
+(define (fldl f acc lst)
+  (if (empty? lst)
+      acc
+      (fldl f (cons (car lst) acc) (cdr lst))))
+
+(fldl cons '() '(1 2 3 4 5))
+(foldl cons '() '(1 2 3 4 5))
+
+(define (fldr f acc lst)
+  (if (empty? lst)
+      acc
+      (f (car lst) (fldr f acc (cdr lst)))))
+
+(fldr cons '() '(1 2 3 4 5))
+(foldr cons '() '(1 2 3 4 5))
+
+; (f 1    (f 2    (f 3    (f 4 v))))) <- foldr
+; (f 4 (f 3 (f 2 (f 1 v)))) <- foldl

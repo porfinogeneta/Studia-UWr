@@ -1,0 +1,49 @@
+#lang plait
+
+
+;( ' a 'b - > 'a)
+(define (my-func1 x y)
+  x)
+
+
+;(( ' a 'b - > 'c) ( ' a -> 'b) 'a -> 'c)
+;f-lewa funkcja g -prawa
+(define (my-func2 f g a)
+  (f a (g a))
+  )
+
+
+
+
+;((( ' a - > 'a) -> 'a) -> 'a)
+; dzięki [f : (('a -> 'a) -> 'a)] podpowiadamy kompilatorowi jak działa f - bierze inną funkcję identycznościową
+(define (my-func3 [f : (('a -> 'a) -> 'a)])
+  (f (lambda (x) x))
+  )
+
+
+
+
+
+;(( ' a - > 'b) (' a -> 'c) -> ( 'a -> ( ' b * 'c)))
+; biorę dwie funkcje i zwracam funkcję tworzącą parę, to jest nasza lambda
+(define (my-func4 f g)
+  (lambda (x) (pair (f x) (g x) ))
+  )
+
+
+
+;(( ' a - > ( Optionof ( 'a * 'b))) 'a -> ( Listof 'b))
+; funkcja f zwraca nam parę, z której wybieram drugi element, który reprezentuje jakąś wartość,
+;później konwertuję go na listę
+(define (my-func5 [f : ('a -> (Optionof ('a * 'b)))]  a)
+  ;przypadek dla pustej listy
+  (if
+   (some? (f a));jak coś się wyprosukuje
+   (cons (second (some-v (f a))) (first (some-v f)) ;tworzę pary elementu pierwszego i drugiego
+   (list (snd (some-v (f a)))))
+   '()
+      )
+  
+  )
+

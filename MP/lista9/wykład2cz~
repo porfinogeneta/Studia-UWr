@@ -1,0 +1,28 @@
+#lang plait
+
+
+;parser wyrażeń infixowych, znaki w normalnych miejscach
+;naszą gramatykę rozbijemy na poszczególne elemnety
+
+;mamy typ parse-result, a to jest to co parsujemy
+; ma konstruktor parse-result, wartość i reszta (lista s-wyrażeń)
+
+
+;parse op0 czy wyrażenie powastało z e0
+; jak jest pusty to nie udało się sparsować
+;no i badamy operatory
+
+;w parse-exp0, parsuję resztę wyrażenia
+
+;parsowanie wyrażenia E1
+; parse-err
+; nasze E1 może reprezentować albo liczbę listę s-wyrażeń (E0) [z gramatyki, którą zdefiniowaliśmy], parsujemy wtedy tą listę E0
+
+;nic nie zostało w E0, nie może tak być
+
+
+(parse-exp0 (s-exp->list (2 - 2 - 2)))
+
+
+;błędna gramatyka, poprawiona, właściwa na zdj
+;lewostronna faktoryzacja

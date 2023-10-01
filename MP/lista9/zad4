@@ -1,0 +1,87 @@
+#lang racket
+
+(define (letter-converter l)
+  (let ([l (string (char-downcase l))])
+    (match l
+      ["a" "._"]
+      ["b" "_..."]
+      ["c" "_._."]
+      ["d" "_.."]
+      ["e" "."]
+      ["f" ".._."]
+      ["g" "__."]
+      ["h" "...."]
+      ["i" ".."]
+      ["j" ".___"]
+      ["k" "_._"]
+      ["l" "._.."]
+      ["m" "__"]
+      ["n" "_."]
+      ["o" "___"]
+      ["p" ".__."]
+      ["q" "__._"]
+      ["r" "._."]
+      ["s" "..."]
+      ["t" "_"]
+      ["u" ".._"]
+      ["v" "..._"]
+      ["w" ".__"]
+      ["x" "_.._"]
+      ["y" "_.__"]
+      ["z" "__.."]
+      ["." "._._._"]
+      ["?" "..__.."]
+      ["," "__..__"]
+      ["  " "  "]
+      ["0" "_____"]
+      ["1" ".____"]
+      ["2" "..___"]
+      ["3" "...__"]
+      ["4" "...._"]
+      ["5" "....."]
+      ["6" "_...."]
+      ["7" "__..."]
+      ["8" "___.."]
+      ["9" "____."]
+      [#\space "  "]
+      [_ l]
+    )
+  )
+)
+
+
+
+
+;appendy można zamienić na consy i obrócić
+; funkcja do redukowania nadmiernych spacji i dodawania spacji między znakami
+(define (normalize-spaces xs)
+  (define (it prev str res)
+    (cond
+      [(null? str) res] ;dno rekursji
+      [(and prev (char-whitespace? (car str)) (null? res))
+       (it #t (cdr str) (append res (list #\space (car str))))] ;spacja wiodąca
+      [(and prev (char-whitespace? (car str))) (it #t (cdr str) res)] ;obecny i poprzedni to białe znaki, nie robimy nic
+
+      ;zarówno poprzedni jak i obecny to nie białe znaki, wtedy musi być między nimi odstęp przerwy
+      [(and (not prev) (not (char-whitespace? (car str))))
+       (it (char-whitespace? (car str)) (cdr str) (append res (list #\space (car str))))] 
+      ;tylko obecny jest spacją, wtedy dokładam mu spację, ostatnia jest spacja
+      [(char-whitespace? (car str))
+       (it (char-whitespace? (car str)) (cdr str) (append res (list #\space (car str))))
+       ]
+      ;dla pozostałych znaków, niekodowanych przez Moorse'a, dodaję znak po prostu do listy
+      [else (it (char-whitespace? (car str)) (cdr str) (append res (list (car str))))]))
+  (it #t xs '()))
+
+(normalize-spaces (string->list "Metody?             Programowania.      "))
+
+
+
+;konwersja stringa na odpowienio zakodowany napis
+(define (morse-code xs)
+  (let ([str (normalize-spaces (string->list xs))])
+    (apply string-append (map letter-converter str))
+    )
+  )
+
+( morse-code "?Metody    ,         Programowania      ")
