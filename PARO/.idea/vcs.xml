@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$/TDD/paro2023" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/bflang-cpp-dojo" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/paro" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/paro-stl" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/paro2023-template" vcs="Git" />
+  </component>
+</project>

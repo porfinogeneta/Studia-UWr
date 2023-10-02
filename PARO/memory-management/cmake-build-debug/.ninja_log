@@ -1,0 +1,20 @@
+# ninja log v5
+7	565	1682232997987610980	CMakeFiles/memory_management.dir/research/buddy_allocation/Heap.cpp.o	2fc9ba1e81279ba1
+2	335	1682200705602161642	CMakeFiles/memory_management.dir/exercises/example_leak_exception.cpp.o	3a5eb879f0de3d8a
+2	330	1682200705598161541	CMakeFiles/memory_management.dir/exercises/example_leak.cpp.o	d68d2220472a0236
+2	348	1682233008039808182	CMakeFiles/memory_management.dir/exercises/example_leak_fds.cpp.o	e0c91c04cc4e400
+5	668	1682233054620722103	CMakeFiles/memory_management.dir/research/buddy_allocation/heap_deallocation.cpp.o	aecad45414a729f2
+0	642	1681380455873546534	CMakeFiles/memory_management.dir/exercises/resources/src/kernel_resource.cpp.o	b9d6cd6e4b6999c9
+2	919	1682233070077025390	CMakeFiles/memory_management.dir/research/buddy_allocation/tests_allocation.cpp.o	162b7fb037514912
+1	366	1682200730378790942	CMakeFiles/memory_management.dir/research/buddy_allocation/heap_allocation.cpp.o	e49630171c76fe35
+2	2912	1682233000327656886	CMakeFiles/memory_management.dir/exercises/resources/tests/test_kernel_resource.cpp.o	6f524f9c6639831e
+2	326	1682200730338789914	CMakeFiles/memory_management.dir/exercises/example_leak_array.cpp.o	3dcd9dd23ba0b6a6
+1	224	1682884026425719333	CMakeFiles/memory_management.dir/exercises/example_leak_exception.cpp.o	3a5eb879f0de3d8a
+224	487	1682884026689721766	CMakeFiles/memory_management.dir/exercises/example_leak.cpp.o	d68d2220472a0236
+488	940	1682884027141725928	CMakeFiles/memory_management.dir/research/buddy_allocation/heap_allocation.cpp.o	e49630171c76fe35
+1	1023	1682884027225726701	CMakeFiles/memory_management.dir/exercises/resources/src/kernel_resource.cpp.o	b9d6cd6e4b6999c9
+944	1422	1682884027625730386	CMakeFiles/memory_management.dir/exercises/example_leak_array.cpp.o	3dcd9dd23ba0b6a6
+1024	1479	1682884027681730902	CMakeFiles/memory_management.dir/research/buddy_allocation/Heap.cpp.o	2fc9ba1e81279ba1
+1423	1859	1682884028061734402	CMakeFiles/memory_management.dir/exercises/example_leak_fds.cpp.o	e0c91c04cc4e400
+1859	2273	1682884028477738234	CMakeFiles/memory_management.dir/research/buddy_allocation/heap_deallocation.cpp.o	aecad45414a729f2
+1	2766	1682884028965742729	CMakeFiles/memory_management.dir/exercises/resources/tests/test_kernel_resource.cpp.o	6f524f9c6639831e

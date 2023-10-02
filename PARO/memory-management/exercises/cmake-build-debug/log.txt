@@ -1,0 +1,4 @@
+Starting logger...
+A is working
+B is working
+C is working

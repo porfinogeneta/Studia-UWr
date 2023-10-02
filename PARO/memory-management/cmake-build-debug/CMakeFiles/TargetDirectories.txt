@@ -1,0 +1,3 @@
+/home/szymonm/Documents/PARO/memory-management/cmake-build-debug/CMakeFiles/memory_management.dir
+/home/szymonm/Documents/PARO/memory-management/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/szymonm/Documents/PARO/memory-management/cmake-build-debug/CMakeFiles/rebuild_cache.dir
