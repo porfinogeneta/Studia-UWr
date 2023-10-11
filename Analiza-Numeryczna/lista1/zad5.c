@@ -7,7 +7,7 @@ double* integral(double n){
     double* res = (double*)malloc((n+1) * sizeof(double ));
     res[0] = acc;
     for (double i = 1.0; i <= n; i++){
-        res[(int) i] = 1.0/n - 2023.0*acc;
+        res[(int) i] = 1.0/i - 2023.0*acc;
         acc = res[(int) i];
     }
     return res;

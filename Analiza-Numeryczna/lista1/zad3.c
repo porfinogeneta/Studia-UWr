@@ -13,6 +13,8 @@ double f2d(double x){
 int main(void){
     for (int i = 11; i <= 20; i++){
         printf("Single precision %f \n", f2s(powf(10, (-1 * i))));
+    }
+    for (int i = 11; i <= 20; i++){
         printf("Double precision %lf \n", f2d(pow(10, (-1 * i))));
     }
 }
