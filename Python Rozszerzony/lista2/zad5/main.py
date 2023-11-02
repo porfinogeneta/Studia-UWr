@@ -5,6 +5,8 @@ def compress(text):
     # create a list of list of tuples with compressed words
     # return [list({letter: w.count(letter) for letter in w}.items()) for w in text.split(" ")]
     # generate a list of list of tuples
+    if text == '':
+        return []
     words = text.split(" ")
     compr = []
     for w in words:
@@ -40,6 +42,7 @@ if __name__ == '__main__':
     print(compress('suuuuper maxim'))
     print(compress('maxim'))
     print(decompress(compress('suuuuper maxim')))
+    print(decompress(compress('')))
 
     file = "lalka.txt"
     with open(file, 'r') as file:

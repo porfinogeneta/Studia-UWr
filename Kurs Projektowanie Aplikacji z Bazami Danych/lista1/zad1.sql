@@ -1,0 +1,10 @@
+-- SELECT DISTINCT
+--     A.City
+-- FROM [AdventureWorksLT2022].[SalesLT].[SalesOrderHeader] as H
+-- INNER JOIN
+--     [AdventureWorksLT2022].[SalesLT].Address as A
+-- ON
+--     H.ShipToAddressID = A.AddressID
+-- ORDER BY
+--     A.City
+-- poprawić i dodać where
