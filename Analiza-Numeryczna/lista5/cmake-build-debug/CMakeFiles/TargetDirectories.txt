@@ -1,0 +1,3 @@
+/home/szymonm/Desktop/Studia-UWr/Analiza-Numeryczna/lista5/cmake-build-debug/CMakeFiles/lista5.dir
+/home/szymonm/Desktop/Studia-UWr/Analiza-Numeryczna/lista5/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/szymonm/Desktop/Studia-UWr/Analiza-Numeryczna/lista5/cmake-build-debug/CMakeFiles/rebuild_cache.dir

@@ -70,7 +70,7 @@ def solve_sudoku(board):
         if is_valid(board, i, (x,y)):
             # podpinamy liczbę
             board[x][y] = i
-            # sprawdzenie rekursji, czy działa
+            # sprawdzenie r ekursji, czy działa
             if solve_sudoku(board) != None:
                 return board
             # jak nie działa, podpinamy 0 i próbójemy od ostatniego 'i'
