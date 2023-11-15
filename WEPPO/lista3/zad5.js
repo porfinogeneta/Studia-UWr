@@ -2,10 +2,10 @@ function createGenerator(n) {
     var _state = 0;
     return {
         next : function() {
-        return {
-            value : _state,
-            done : _state++ >= n
-            }
+            return {
+                value : _state,
+                done : _state++ >= n
+                }
         }
     }
 }

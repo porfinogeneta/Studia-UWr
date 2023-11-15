@@ -23,44 +23,61 @@ function fibiter(n){
 
 
 function memoize(funct){
-    let cache = {}
+    var cache = {}
 
     return function(n){
         if (n in cache) {
+            console.log(n);
             return cache[n]
         }else {
-            let result = funct(n)
+            var result = funct(n)
             cache[n] = result
             return result
         }
     }
 }
 
-
+// zapamiętujemy funkcję rekurencyjną
 let fib_memo = memoize(fib_recu)
-// console.log(fib_memo(15));
+// fib_recu = memoize(fib_recu) // <- tak powinno być 
+// console.time('memo');
+// // napełniam cache
+// fib_memo(15)
+// console.timeEnd('memo')
+
+console.time('memo1')
+fib_memo(15)
+fib_memo(15)
+fib_memo(15)
+fib_memo(15)
+console.timeEnd('memo1')
+
+console.time('memo2')
+// korzystam z tego co już tam było w cache
+fib_memo(16)
+console.timeEnd('memo2')
 
 function measureTime(n){
 
-    for (let i = 10; i < n; i++){
+    for (let i = 1; i < n; i += 3){
         console.log(`For n: ${i}`)
         
         //console.log("Recu version:")
         console.time('fibrecu');
-        fib_recu(n);
+        fib_recu(i);
         console.timeEnd('fibrecu');
         
         //console.log("Iter version:")
         console.time('fibiter');
-        fibiter(n);
+        fibiter(i);
         console.timeEnd('fibiter');
 
         //console.log("Recu memoized version:")
         console.time('fibrecu memo');
-        fib_memo(n);
+        fib_memo(i);
         console.timeEnd('fibrecu memo');
         
     }
 }
 
-measureTime(7);
+measureTime(20);
