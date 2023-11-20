@@ -48,17 +48,18 @@ Tree.prototype[Symbol.iterator] = function*() {
     // index, delete_count, element
     queue.splice(0, 0, this)
     while (queue.length > 0){
-        // current = queue[0]
-        // queue.splice(0,1) // usunięcie pierwszego node z kolejki
-        current = queue.pop()
+        current = queue[0]
+        queue.splice(0,1) // usunięcie pierwszego node z kolejki
+        // current = queue.pop()
         if (current.left){
             // dodanie na koniec kolejki
-            // queue.splice(queue.length, 0, current.left)
-            queue.push(current.left)
+            queue.splice(queue.length, 0, current.left)
+            // queue.push(current.left)
         }
         if (current.right){
-            // queue.splice(queue.length,0, current.right)
-            queue.push(current.right)
+            // dodanie na koniec kolejki
+            queue.splice(queue.length,0, current.right)
+            // queue.push(current.right)
         }
         // console.log("Current queue");
         // queue.forEach(nd => console.log(nd.val));

@@ -16,7 +16,7 @@ Object.setPrototypeOf(q, w);
 // console.log( p.name );
 // console.log( p.surname );
 
-// zwraca prawdę, jak pole jest z obiektu, fałsz wpp
+// zwraca prawdę, jak pole jest z obiektu, wpp fałsz 
 let isFromObject = function(obj, field){
     return (Object.keys(obj).includes(field)) 
 }
