@@ -1,0 +1,37 @@
+# return the movies where person A acted in:
+MATCH (p:Person {name: 'Martin Sheen'})-[:ACTED_IN]->(m:Movie) RETURN m
+
+# return the movies where person A was both the actor and the director
+
+Dodajmey jednego z reżyserów do aktorów
+gra w President
+MATCH (rob:Person {name: "Rob Reiner"}), (thePresident:Movie {title: 'The American President'})
+MERGE (rob)-[:ACTED_IN {role: 'The American President'}]->(thePresident)
+reżyseruje i gra w Walstreet
+MATCH (rob:Person {name: "Rob Reiner"}), (wallstreet:Movie {title: 'Wall Street'})
+MERGE (rob)-[:DIRECTED]->(wallstreet), (rob)-[:ACTED_IN {role: 'Specialist'}]->(wallstreet)
+
+OSTATECZNIE:
+MATCH (p:Person {name: "Rob Reiner"})-[:ACTED_IN]->(m:Movie)<-[:DIRECTED]-(director:Person) WHERE p = director RETURN m
+
+# return actors who didn’t play in any movie
+- dodajemy aktora
+CREATE (leonardo:Person {name: 'Leonardo DiCaprio'})
+
+- pobieramy aktorów, którzy nie grali w żadnym filmie, nie pobieramy reżyserów bo interesują nas aktorzy
+MATCH (p:Person) WHERE NOT (p)-[:ACTED_IN]->(:Movie) AND NOT (p)-[:DIRECTED]->(:Movie) RETURN p
+
+# return actors who played in more than 2 movies
+- musimy dodać dwa połączenia ACTED_IN
+- MERGE pozwala uniknąć dodawania tego samego, stworzy tylko jak nie będzie danej własności
+- dodanie nowego filmu  
+CREATE(dontlookup:Movie {title: "Don't look up"})
+
+MATCH (martin:Person {name: "Martin Sheen"}), (mich:Person {name: "Michael Douglas"}), (m:Movie {title: "Don't look up"})
+MERGE (martin)-[:ACTED_IN {role: 'The American President'}]->(m) MERGE (mich)-[:ACTED_IN {role: 'The American II President'}]->(m);
+
+OSTATECZNIE:
+MATCH (p:Person)-[:ACTED_IN]->(:Movie) WITh p, COUNT(*) AS R WHERE R > 2 RETURN p
+
+
+

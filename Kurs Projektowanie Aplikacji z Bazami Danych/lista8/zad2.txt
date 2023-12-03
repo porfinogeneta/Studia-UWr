@@ -1,0 +1,57 @@
+# wszystkie NODE'Y
+MATCH (n)
+RETURN n
+
+# Usuwanie całej bazy:
+match (a) -[r] -> () delete a, r
+match (a) delete a
+
+# Pobranie wszystkich node'ów wraz z krawędziami i ich właściwościami
+Match (n)-[r]->(m)
+Return n,r,m
+
+# Uwaga micheal równie dobrze mógłby być m bo to tylko nazwa zmiennej
+
+# Dodanie 2 aktorów i 2 filmów:
+CREATE(michael:Person {name: 'Michael Douglas'}),(leonardo:Person {name: 'Leonardo DiCaprio'}),(inception:Movie {title: 'Inception'}),(dontlookup:Movie {title: "Don't look up"})
+
+# Dodanie 2 nowych właściwości do filmu:
+MATCH (n:Movie {title: 'Wall Street'})
+SET n.premiere = '11.12.1987', n.reviews = 8.4
+RETURN n.title, n.premiere, n.reviews
+
+# Dodanie 2 relacji ACTED_IN:
+
+1 opcja, to na doda kopię filmu do aktora
+
+MATCH (charlie:Person {name: 'Charlie Sheen'}), (oliver:Person {name: 'Oliver Stone'})
+CREATE (charlie)-[:ACTED_IN {role: 'The American President'}]->(thePresident:Movie {title: 'The American President'}),(oliver)-[:ACTED_IN {role: 'Soemone'}]->(wallStreet:Movie {title: 'Wall Street'})
+
+2 opcja, to nam zrobi iloczyn kartezjański
+
+MATCH (charlie:Person {name: 'Charlie Sheen'}), (oliver:Person {name: 'Oliver Stone'}), (thePresident:Movie {title: 'The American President'}),(wallStreet:Movie {title: 'Wall Street'})
+CREATE (charlie)-[:ACTED_IN {role: 'The American President'}]->(thePresident),(oliver)-[:ACTED_IN {role: 'Soemone'}]->(wallStreet)
+
+# Update właściwości właściwości w jednym filmie:
+MATCH (president:Movie {title: "The American President"}) SET president.title = 'US President' RETURN president
+
+# Usuwanie konkretnej relacji ACTED_IN:
+MATCH (p:Person {name: 'Charlie Sheen'})-[r:ACTED_IN]->(m:Movie {title: 'Wall Street'}) DELETE r
+
+ 
+CREATE
+  (charlie:Person {name: 'Charlie Sheen'}),
+  (martin:Person {name: 'Martin Sheen'}),
+  (michael:Person {name: 'Michael Douglas'}),
+  (oliver:Person {name: 'Oliver Stone'}),
+  (rob:Person {name: 'Rob Reiner'}),
+  (wallStreet:Movie {title: 'Wall Street'}),
+  (charlie)-[:ACTED_IN {role: 'Bud Fox'}]->(wallStreet),
+  (martin)-[:ACTED_IN {role: 'Carl Fox'}]->(wallStreet),
+  (michael)-[:ACTED_IN {role: 'Gordon Gekko'}]->(wallStreet),
+  (oliver)-[:DIRECTED]->(wallStreet),
+  (thePresident:Movie {title: 'The American President'}),
+  (martin)-[:ACTED_IN {role: 'A.J. MacInerney'}]->(thePresident),
+  (michael)-[:ACTED_IN {role: 'President Andrew Shepherd'}]->(thePresident),
+  (rob)-[:DIRECTED]->(thePresident),
+  (martin)-[:FATHER_OF]->(charlie)

@@ -1,0 +1,10 @@
+z5
+- uruchomić kilka 'instancji' bazy
+- mamy różne rodzaje dostępności
+- arbiter wybiera 
+z6
+- sharding - fragmentacja danych między wiele serwerów
+z7
+- agregaty - umożliwiają robienie operacji praktycznie
+    izomorficznych do SQL np możemy zrobić różnegorodzaju operacje SELECT, grupowanie, 
+    segregacja, join

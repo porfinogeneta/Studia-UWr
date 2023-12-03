@@ -1,0 +1,29 @@
+Start:
+sudo systemctl start mongod
+
+
+Shell:
+-
+mongosh
+
+Na jakim porcie:
+sudo lsof -iTCP -sTCP:LISTEN | grep mongo
+
+Lista baz:
+show dbs
+
+Podgląd wszystkich kolekcji w danej bazie
+show collections
+
+Przełączenie się na daną bazę:
+use <nazwa_bazy>
+
+Podgląd kolekcji:
+db.<collection_name>.find()
+
+Usunięcie bazy na której się jest:
+db.dropDatabase()
+
+Kasowanie kolekcji:
+db.collection.drop("books")
+

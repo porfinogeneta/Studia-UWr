@@ -1,0 +1,55 @@
+db.books.drop( { writeConcern: { w: 1 } } ) <- poprawne usuwanie
+
+db.collection.drop("books")
+db.collection.drop("readers")
+
+
+db.createCollection("books")
+
+db.createCollection("readers")
+
+
+db.books.insertMany([
+    {
+        _id: 1, ISBN: '83-246-0279-8',
+        title: 'Microsoft Access. Podrêcznik administratora',
+        author: 'Helen Feddema',
+        published_date: 2006,
+        price: 69,
+        lended_last_month: 0,
+        specimens: [{_id: 1, shelf_mark: 'S0001'}, {_id: 2, shelf_mark: 'S0002'}, {_id: 3, shelf_mark: 'S0003'}]
+    },
+    {
+        _id: 2, ISBN: '83-246-0653-X',
+        title: 'SQL Server 2005. Programowanie. Od podstaw',
+        author: 'Robert Vieira',
+        published_date: 2007,
+        price: 97,
+        lended_last_month: 1,
+        specimens: [{_id: 4, shelf_mark: 'S0004'}, {_id: 5, shelf_mark: 'S0005'}, {_id: 6, shelf_mark: 'S0006'}]
+    }
+])
+
+
+db.readers.insertMany([
+    {
+        _id: 1,
+        PESEL: '55101011111',
+        last_name: 'Kowalski',
+        city: 'Wrocław',
+        birth_date: '1955-10-10',
+        borrowings: [{_id: 1, speciman_id: 4, borrow_date: '2020-02-01', days: 12},
+                    {_id: 2, speciman_id: 3, borrow_date: '2020-10-11', days: 20}]
+    },
+    {
+        _id: 2,
+        PESEL: '55101234567',
+        last_name: 'Nowak',
+        city: 'Łódź',
+        birth_date: '1970-11-09',
+        borrowings: [{_id: 3, speciman_id: 5, borrow_date: '2021-02-01', days: 12},
+                    {_id: 4, speciman_id: 1, borrow_date: '2023-10-11', days: 20}]
+    }
+])
+
+db.<collection_name>.find()

@@ -1,0 +1,47 @@
+// Przykład z dokumentacji
+
+db.inventory.drop( { writeConcern: { w: 1 } } )
+
+db.inventory.insertMany([
+    { item: "journal", qty: 25, size: { h: 14, w: 21, uom: "cm" }, status: "F" },
+    { item: "notebook", qty: 50, size: { h: 8.5, w: 11, uom: "in" }, status: "E" },
+    { item: "paper", qty: 100, size: { h: 8.5, w: 11, uom: "in" }, status: "D" },
+    { item: "planner", qty: 75, size: { h: 22.85, w: 30, uom: "cm" }, status: "C" },
+    { item: "postcard", qty: 45, size: { h: 10, w: 15.25, uom: "cm" }, status: "B" },
+    { item: "postcard2", qty: 45, size: { h: 10, w: 15.25, uom: "cm" }, status: "A" }
+ ]);
+
+// SELECT * FROM inventory
+// Get full documents list:
+
+- db.inventory.find( {} )
+
+// SELECT * FROM article
+// ORDER BY headline ASC;
+// Get full documents list sorted in a specific order:
+
+/*The following sort document sorts results first by year in descending order,
+ and within each year, sort by name in ascending order.*/
+// { year: -1, name: 1 }
+
+- db.inventory.aggregate({$sort : {status : 1}})
+
+
+// Get full documents list sorted in a specific order and limited to the middle 2 items (select a specific page)
+// pomijamy połowę i wybieramy 2 elementy
+
+- db.inventory.find().limit(n)
+- db.inventory.aggregate([
+    {$sort : {status : 1}},
+    {$skip: Math.floor(db.inventory.countDocuments() / 2)},
+    {$limit: 2}
+])
+
+// Get the documents list filtered with some condition applied on the nested structure.
+// wyświetl tylko te dane, które mają size.h >= 10
+
+db.inventory.aggregate({
+    $match: {
+        "size.h": {$gte: 10}
+    }
+})

@@ -1,0 +1,8 @@
+Start:
+sudo systemctl start mongod
+
+
+Shell:
+-
+mongosh
+
