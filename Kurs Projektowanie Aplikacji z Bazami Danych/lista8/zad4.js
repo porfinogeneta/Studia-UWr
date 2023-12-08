@@ -1,11 +1,14 @@
 var neo4j = require('neo4j-driver');
+require('dotenv').config();
+
+
 
 // database connection
 (async () => {
   // URI examples: 'neo4j://localhost', 'neo4j+s://xxx.databases.neo4j.io'
-  const URI = 'neo4j+s://0cf9e4e6.databases.neo4j.io'
+  const URI = process.env.URI
   const USER = 'neo4j'
-  const PASSWORD = 'mBbxO2vvT3xvUmz4_DSzX31LwRlqSyBrNw6mJ4wAtKM'
+  const PASSWORD = process.env.PASSWORD
   let driver
 
   try {

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page 1</title>
+</head>
+<body>
+    <h1>Zapisz deklarację:</h1>
+    <form id="form" action="/print" method="post">
+        <label>Imię: </label><input type="text" name="imie"/><br><br>
+        <label>Nazwisko: </label><input type="text" name="nazwisko"/><br><br>         
+        <label>Nazwa przedmiotu: </label><input type="text" name="przedmiot"><br><br>
+        <input type="hidden" name="cells" id="cells" value="">
+        <table>
+            <thead>
+                <tr>
+                    <th>1</th>
+                    <th>2</th>
+                    <th>3</th>
+                    <th>4</th>
+                    <th>5</th>
+                    <th>6</th>
+                    <th>7</th>
+                    <th>8</th>
+                    <th>9</th>
+                    <th>10</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="text" name="cell_1" value=""></td>
+                    <td><input type="text" name="cell_2" value=""></td>
+                    <td><input type="text" name="cell_3" value=""></td>
+                    <td><input type="text" name="cell_4" value=""></td>
+                    <td><input type="text" name="cell_5" value=""></td>
+                    <td><input type="text" name="cell_6" value=""></td>
+                    <td><input type="text" name="cell_7" value=""></td>
+                    <td><input type="text" name="cell_8" value=""></td>
+                    <td><input type="text" name="cell_9" value=""></td>
+                    <td><input type="text" name="cell_10" value=""></td>
+                </tr>
+            </tbody>
+        <br><br>
+        <input type="submit" value="Submit" />
+    </form>
+    <script>
+        document.querySelector('#form').addEventListener('submit', function () {
+            const cells = []
+            for (let i = 0; i < 10; i++){
+                let value = 0
+                 if (document.querySelector(`[name="cell_${i+1}"]`).value) {
+                    value = document.querySelector(`[name="cell_${i+1}"]`).value
+                 }
+                cells.push(value)
+            }
+            document.getElementById('cells').value = JSON.stringify(cells)
+        })
+    </script>
+</body>
+</html>

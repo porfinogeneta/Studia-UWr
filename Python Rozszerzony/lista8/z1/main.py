@@ -17,7 +17,7 @@ async def fetch_page(session, url):
 async def main():
     API_url = ['https://wolnelektury.pl/api/epochs/', f'https://api.spoonacular.com/recipes/complexSearch?apiKey={api_key}']
     async with aiohttp.ClientSession() as session:
-        requests = [fetch_page(session, url) for url in API_url]
+        requests = [fetch_page(session, url) for url in API_url * 100]
         # * odpakowuje nam listę, tworząc osobne argumenty dla funkcji
         return await asyncio.gather(*requests)
 

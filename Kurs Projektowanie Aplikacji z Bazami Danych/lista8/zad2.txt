@@ -1,3 +1,6 @@
+# w explore piszemy show me a graph, żeby
+zobaczyć wszystkie nody i relacje
+
 # wszystkie NODE'Y
 MATCH (n)
 RETURN n
@@ -32,7 +35,7 @@ CREATE (charlie)-[:ACTED_IN {role: 'The American President'}]->(thePresident:Mov
 MATCH (charlie:Person {name: 'Charlie Sheen'}), (oliver:Person {name: 'Oliver Stone'}), (thePresident:Movie {title: 'The American President'}),(wallStreet:Movie {title: 'Wall Street'})
 CREATE (charlie)-[:ACTED_IN {role: 'The American President'}]->(thePresident),(oliver)-[:ACTED_IN {role: 'Soemone'}]->(wallStreet)
 
-# Update właściwości właściwości w jednym filmie:
+# Update właściwości w jednym filmie:
 MATCH (president:Movie {title: "The American President"}) SET president.title = 'US President' RETURN president
 
 # Usuwanie konkretnej relacji ACTED_IN:

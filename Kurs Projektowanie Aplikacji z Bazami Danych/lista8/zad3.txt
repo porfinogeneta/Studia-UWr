@@ -3,7 +3,7 @@ MATCH (p:Person {name: 'Martin Sheen'})-[:ACTED_IN]->(m:Movie) RETURN m
 
 # return the movies where person A was both the actor and the director
 
-Dodajmey jednego z reżyserów do aktorów
+Dodajemy jednego z reżyserów do aktorów
 gra w President
 MATCH (rob:Person {name: "Rob Reiner"}), (thePresident:Movie {title: 'The American President'})
 MERGE (rob)-[:ACTED_IN {role: 'The American President'}]->(thePresident)
@@ -16,10 +16,10 @@ MATCH (p:Person {name: "Rob Reiner"})-[:ACTED_IN]->(m:Movie)<-[:DIRECTED]-(direc
 
 # return actors who didn’t play in any movie
 - dodajemy aktora
-CREATE (leonardo:Person {name: 'Leonardo DiCaprio'})
+CREATE (leonardo:Person {name: 'Rober De Niro'})
 
 - pobieramy aktorów, którzy nie grali w żadnym filmie, nie pobieramy reżyserów bo interesują nas aktorzy
-MATCH (p:Person) WHERE NOT (p)-[:ACTED_IN]->(:Movie) AND NOT (p)-[:DIRECTED]->(:Movie) RETURN p
+MATCH (p:Person) WHERE NOT EXISTS (p)-[:ACTED_IN]->(:Movie) AND NOT (p)-[:DIRECTED]->(:Movie) RETURN p
 
 # return actors who played in more than 2 movies
 - musimy dodać dwa połączenia ACTED_IN
