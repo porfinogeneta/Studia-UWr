@@ -25,7 +25,7 @@ async def fetch_data(session, url):
             return None
 
 async def get_exchange_rates(years):
-    # ten endpoint daje nam dane od roku 2023 do 2014, + kilka dni z każdego miesiąca
+    # ten endpoint daje nam dane od roku 2023 do 2024, + kilka dni z każdego miesiąca
 
     urls = ["https://www.alphavantage.co/query?function=FX_MONTHLY&from_symbol=USD&to_symbol=PLN&apikey=BC0MD1AENV7OXOVN"]
     # url_template = "http://api.nbp.pl/api/exchangerates/rates/a/usd/{year}-{month}-01/{year}-{month}-31/?format=json"

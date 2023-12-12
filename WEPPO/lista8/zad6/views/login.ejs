@@ -1,0 +1,15 @@
+
+<html>
+<head>
+    <title>Csurf Middleware</title>
+</head>
+ 
+<body>
+    <form action="process" method="post">
+        <input type="hidden" name="_csrf"
+           value="<%= csrfToken %>">
+        <input type="text" name="myname">
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
