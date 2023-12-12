@@ -3,7 +3,8 @@ const csrf = require('csurf');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
-
+// https://www.geeksforgeeks.org/implementing-csurf-middleware-in-node-js/
+// https://github.com/Learn-by-doing/csrf-examples
 
 let csrfProtection = csrf({ cookie: true });
 let parseForm = bodyParser.urlencoded({ extended: false });
