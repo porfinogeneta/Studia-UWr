@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="Collections3" assembly="Collections3" default-lazy="false">
+	<class name="Osoba">
+		<id name="ID">
+			<generator class="native" />
+		</id>
+		<property name="Imie" />
+		<property name="Nazwisko" />
+        <map name="Fotki" table="Fotki">
+            <key column="ID_Osoba"/>
+            <index column="Nazwa" type="String" />
+            <element column="Plik" type="String"/>
+        </map>
+	</class>
+</hibernate-mapping>

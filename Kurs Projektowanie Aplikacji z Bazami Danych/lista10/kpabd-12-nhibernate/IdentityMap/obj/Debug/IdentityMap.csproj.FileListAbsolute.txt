@@ -1,0 +1,26 @@
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\IdentityMap\bin\Debug\hibernate.cfg.xml
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\IdentityMap\bin\Debug\Osoba.hbm.xml
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\IdentityMap\bin\Debug\IdentityMap.exe
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\IdentityMap\bin\Debug\IdentityMap.pdb
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\IdentityMap\bin\Debug\log4net.dll
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\IdentityMap\bin\Debug\NHibernate.ByteCode.LinFu.dll
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\IdentityMap\bin\Debug\NHibernate.dll
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\IdentityMap\bin\Debug\Iesi.Collections.dll
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\IdentityMap\bin\Debug\LinFu.DynamicProxy.dll
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\IdentityMap\bin\Debug\Antlr3.Runtime.dll
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\IdentityMap\obj\Debug\ResolveAssemblyReference.cache
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\IdentityMap\obj\Debug\IdentityMap.exe
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\IdentityMap\obj\Debug\IdentityMap.pdb
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p04\IdentityMap\obj\Debug\IdentityMap.exe
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p04\IdentityMap\obj\Debug\IdentityMap.pdb
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\IdentityMap\bin\Debug\hibernate.cfg.xml
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\IdentityMap\bin\Debug\Osoba.hbm.xml
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\IdentityMap\bin\Debug\IdentityMap.exe
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\IdentityMap\bin\Debug\IdentityMap.pdb
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\IdentityMap\bin\Debug\Iesi.Collections.dll
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\IdentityMap\bin\Debug\NHibernate.dll
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\IdentityMap\bin\Debug\Iesi.Collections.xml
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\IdentityMap\bin\Debug\NHibernate.xml
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\IdentityMap\obj\Debug\IdentityMap.csprojResolveAssemblyReference.cache
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\IdentityMap\obj\Debug\IdentityMap.exe
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\IdentityMap\obj\Debug\IdentityMap.pdb

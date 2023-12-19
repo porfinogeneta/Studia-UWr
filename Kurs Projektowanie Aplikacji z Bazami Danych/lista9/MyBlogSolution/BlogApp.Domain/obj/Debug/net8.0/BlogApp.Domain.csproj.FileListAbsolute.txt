@@ -1,0 +1,12 @@
+/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.Domain/bin/Debug/net8.0/BlogApp.Domain.deps.json
+/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.Domain/bin/Debug/net8.0/BlogApp.Domain.dll
+/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.Domain/bin/Debug/net8.0/BlogApp.Domain.pdb
+/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.Domain/obj/Debug/net8.0/BlogApp.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.Domain/obj/Debug/net8.0/BlogApp.Domain.AssemblyInfoInputs.cache
+/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.Domain/obj/Debug/net8.0/BlogApp.Domain.AssemblyInfo.cs
+/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.Domain/obj/Debug/net8.0/BlogApp.Domain.csproj.CoreCompileInputs.cache
+/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.Domain/obj/Debug/net8.0/BlogApp.Domain.sourcelink.json
+/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.Domain/obj/Debug/net8.0/BlogApp.Domain.dll
+/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.Domain/obj/Debug/net8.0/refint/BlogApp.Domain.dll
+/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.Domain/obj/Debug/net8.0/BlogApp.Domain.pdb
+/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.Domain/obj/Debug/net8.0/ref/BlogApp.Domain.dll

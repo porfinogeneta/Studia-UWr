@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" default-lazy="false" namespace="PersistenceByReachability" assembly="PersistenceByReachability">
+  <class name="Koszyk">
+    <id name="ID" column="ID">
+      <generator class="native"/>
+    </id>
+    <property name="Klient" not-null="true" column="KLIENT" length="50"/>
+    <set name="Atrybuty">
+      <key column="KOSZYK_ID" not-null="true"/>
+      <element column="ATRYBUT" type="string"/>
+    </set>
+    <set name="Produkty" cascade="save-update,delete-orphan">
+		<!--delete-orphan-->
+      <key column="KOSZYK_ID" not-null="true"/>
+      <one-to-many class="Produkt"/>
+    </set>
+  </class>
+</hibernate-mapping>

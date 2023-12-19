@@ -1,0 +1,28 @@
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p04\FetchingStrategies\bin\Debug\hibernate.cfg.xml
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p04\FetchingStrategies\bin\Debug\Koszyk.hbm.xml
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p04\FetchingStrategies\bin\Debug\Produkt.hbm.xml
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p04\FetchingStrategies\bin\Debug\Atrybut.hbm.xml
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p04\FetchingStrategies\bin\Debug\FetchingStrategies.exe
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p04\FetchingStrategies\bin\Debug\FetchingStrategies.pdb
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p04\FetchingStrategies\bin\Debug\Iesi.Collections.dll
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p04\FetchingStrategies\bin\Debug\log4net.dll
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p04\FetchingStrategies\bin\Debug\NHibernate.ByteCode.LinFu.dll
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p04\FetchingStrategies\bin\Debug\NHibernate.dll
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p04\FetchingStrategies\bin\Debug\LinFu.DynamicProxy.dll
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p04\FetchingStrategies\bin\Debug\Antlr3.Runtime.dll
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p04\FetchingStrategies\obj\Debug\ResolveAssemblyReference.cache
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p04\FetchingStrategies\obj\Debug\FetchingStrategies.exe
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p04\FetchingStrategies\obj\Debug\FetchingStrategies.pdb
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\FetchingStrategies\bin\Debug\hibernate.cfg.xml
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\FetchingStrategies\bin\Debug\Koszyk.hbm.xml
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\FetchingStrategies\bin\Debug\Produkt.hbm.xml
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\FetchingStrategies\bin\Debug\Atrybut.hbm.xml
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\FetchingStrategies\bin\Debug\FetchingStrategies.exe
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\FetchingStrategies\bin\Debug\FetchingStrategies.pdb
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\FetchingStrategies\bin\Debug\Iesi.Collections.dll
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\FetchingStrategies\bin\Debug\NHibernate.dll
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\FetchingStrategies\bin\Debug\Iesi.Collections.xml
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\FetchingStrategies\bin\Debug\NHibernate.xml
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\FetchingStrategies\obj\Debug\FetchingStrategies.exe
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\FetchingStrategies\obj\Debug\FetchingStrategies.pdb
+F:\Data\Dydaktyka\II\2015-2016\KursBD\przyklady\db-12-nhibernate\FetchingStrategies\bin\Debug\FetchingStrategies.exe.config

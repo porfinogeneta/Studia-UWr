@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="Collections1" assembly="Collections1" default-lazy="false">
+	<class name="Osoba">
+		<id name="ID">
+			<generator class="native" />
+		</id>
+		<property name="Imie" />
+		<property name="Nazwisko" />
+        <set name="Fotki" cascade="all">
+            <key column="ID_Osoba" />
+            <element column="Fotka" type="String" />
+        </set>
+	</class>
+</hibernate-mapping>

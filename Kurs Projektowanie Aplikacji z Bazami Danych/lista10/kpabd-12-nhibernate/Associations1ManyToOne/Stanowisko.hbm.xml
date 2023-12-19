@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="Associations1ManyToOne" assembly="Associations1ManyToOne" default-lazy="true">
+	<class name="Stanowisko">
+		<id name="ID">
+			<generator class="native" />
+		</id>
+		<property name="Nazwa" />
+		<property name="Pensja" />
+		<set name="Osoby" cascade="persist" inverse="true" lazy="true">
+			<key column="StanowiskoID"/>
+			<one-to-many class="Osoba"/>
+		</set>
+  </class>
+</hibernate-mapping>

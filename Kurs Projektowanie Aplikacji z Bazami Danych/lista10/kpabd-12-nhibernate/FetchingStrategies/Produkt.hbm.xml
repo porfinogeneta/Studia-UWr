@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" default-lazy="false" namespace="FetchingStrategies" assembly="FetchingStrategies">
+    <class name="Produkt">
+        <id name="ID" column="ID">
+            <generator class="native"/>
+        </id>
+        <property name="Nazwa" not-null="true" column="NAZWA" length="50"/>
+        <property name="Cena" not-null="false" column="CENA"/>
+        <many-to-one name="Koszyk" column="KOSZYK_ID" insert="false" update="false" />
+        <set name="Atrybuty" cascade="all" fetch="select" lazy="true" batch-size="4">
+            <key column="PRODUKT_ID" not-null="true"/>
+            <one-to-many class="Atrybut"/>
+        </set>
+    </class>
+</hibernate-mapping>

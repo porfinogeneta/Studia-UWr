@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$/../.." vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../ASK/lista13/pagemap" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../ASK/pracownia/addsb23-porfinogeneta" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../ASK/pracownia/attack23-porfinogeneta" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../ASK/pracownia/bitrev23-porfinogeneta" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../ASK/pracownia/bomb-porfinogeneta" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../ASK/pracownia/clz23-porfinogeneta" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../ASK/pracownia/mod17_23-porfinogeneta" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../ASK/pracownia/opt-binsearch23-porfinogeneta" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../ASK/pracownia/opt-matmult23-porfinogeneta" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../ASK/pracownia/opt-randwalk23-porfinogeneta" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../ASK/pracownia/opt-texture23-porfinogeneta" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../ASK/pracownia/wbs23-porfinogeneta" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../PARO/TDD/paro2023" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../PARO/bflang-cpp-dojo" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../PARO/paro" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../PARO/paro-stl" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../PARO/paro2023-template" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../ProjectC/text_justification_v2" vcs="Git" />
+  </component>
+</project>

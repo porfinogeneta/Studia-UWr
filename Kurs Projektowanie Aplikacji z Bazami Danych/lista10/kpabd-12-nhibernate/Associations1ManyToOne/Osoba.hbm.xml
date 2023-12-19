@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="Associations1ManyToOne" assembly="Associations1ManyToOne" default-lazy="true">
+	<class name="Osoba">
+		<id name="ID">
+			<generator class="native" />
+		</id>
+		<property name="Imie" />
+		<property name="Nazwisko" />
+		<many-to-one name="Stanowisko" column="StanowiskoID" class="Stanowisko" />
+  </class>
+</hibernate-mapping>

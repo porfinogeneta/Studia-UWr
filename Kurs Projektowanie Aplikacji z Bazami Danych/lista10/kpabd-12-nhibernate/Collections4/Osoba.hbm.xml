@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="Collections4" assembly="Collections4" default-lazy="false">
+	<class name="Osoba">
+		<id name="ID">
+			<generator class="native" />
+		</id>
+		<property name="Imie" />
+		<property name="Nazwisko" />
+        <list name="Fotki" lazy="true">
+            <key column="ID_Osoba"/>
+            <index column="Numer" />
+            <element column="Plik" type="String"/>
+        </list>
+	</class>
+</hibernate-mapping>

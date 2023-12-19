@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="Associations2ManyToMany" assembly="Associations2ManyToMany" default-lazy="false">
+	<class name="Ksiazka">
+		<id name="ID">
+			<generator class="native" />
+		</id>
+		<property name="Tytul" />
+		<property name="Autor" />
+    <set name="Kategorie" cascade="all" table="KsiazkaKategoria" inverse="true" >
+      <key column="KsiazkaID"/>
+      <many-to-many column="KategoriaID" class="Kategoria"/>
+    </set>
+  </class>
+</hibernate-mapping>

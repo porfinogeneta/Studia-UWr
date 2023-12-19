@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="Inheritance3TablePerSubclass" assembly="Inheritance3TablePerSubclass" default-lazy="false">
+	<class name="Osoba" table="OSOBA">
+		<id name="ID">
+			<generator class="native" />
+		</id>
+        <property name="Imie" not-null="true" column="IMIE" length="30"/>
+        <property name="Nazwisko" not-null="true" column="NAZWISKO" length="50"/>
+
+        <joined-subclass name="Pracownik" table="PRACOWNIK">
+            <key column="ID" />
+            <property name="Stanowisko" not-null="true" column="STANOWISKO" />
+            <property name="Pensja" not-null="false" column="PENSJA" />
+        </joined-subclass>
+
+        <joined-subclass name="Klient" table="KLIENT">
+            <key column="ID" />
+            <property name="Licencja" not-null="false" column="LICENCJA" />
+        </joined-subclass>
+	</class>
+</hibernate-mapping>

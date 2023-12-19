@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="FetchingStrategies" default-lazy="true" assembly="FetchingStrategies">
+    <class name="Atrybut">
+        <id name="ID" column="ID">
+            <generator class="native"/>
+        </id>
+        <property name="Wartosc" not-null="true" column="WARTOSC" length="50" />
+        <many-to-one name="Produkt" column="PRODUKT_ID" outer-join="auto" insert="false" update="false" />
+    </class>
+</hibernate-mapping>
