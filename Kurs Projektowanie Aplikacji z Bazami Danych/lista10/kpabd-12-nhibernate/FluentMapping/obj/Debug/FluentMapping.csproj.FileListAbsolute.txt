@@ -1,0 +1,26 @@
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\FluentMapping\bin\Debug\FluentMapping.exe
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\FluentMapping\bin\Debug\FluentMapping.pdb
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\FluentMapping\bin\Debug\FluentNHibernate.dll
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\FluentMapping\bin\Debug\log4net.dll
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\FluentMapping\bin\Debug\NHibernate.ByteCode.LinFu.dll
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\FluentMapping\bin\Debug\NHibernate.dll
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\FluentMapping\bin\Debug\Iesi.Collections.dll
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\FluentMapping\bin\Debug\Antlr3.Runtime.dll
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\FluentMapping\bin\Debug\LinFu.DynamicProxy.dll
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\FluentMapping\obj\Debug\ResolveAssemblyReference.cache
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\FluentMapping\obj\Debug\FluentMapping.exe
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\FluentMapping\obj\Debug\FluentMapping.pdb
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\FluentMapping\bin\Debug\Castle.Core.dll
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\FluentMapping\bin\Debug\NHibernate.ByteCode.Castle.dll
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\FluentMapping\bin\Debug\Castle.DynamicProxy2.dll
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\FluentMapping\bin\Debug\FluentMapping.exe
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\FluentMapping\bin\Debug\FluentMapping.pdb
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\FluentMapping\bin\Debug\FluentNHibernate.dll
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\FluentMapping\bin\Debug\Iesi.Collections.dll
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\FluentMapping\bin\Debug\NHibernate.dll
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\FluentMapping\bin\Debug\FluentNHibernate.xml
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\FluentMapping\bin\Debug\Iesi.Collections.xml
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\FluentMapping\bin\Debug\NHibernate.xml
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\FluentMapping\obj\Debug\FluentMapping.csprojResolveAssemblyReference.cache
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\FluentMapping\obj\Debug\FluentMapping.exe
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\FluentMapping\obj\Debug\FluentMapping.pdb

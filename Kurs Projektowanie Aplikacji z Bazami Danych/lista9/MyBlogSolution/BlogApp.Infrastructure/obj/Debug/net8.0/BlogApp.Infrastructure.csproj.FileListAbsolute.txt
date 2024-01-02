@@ -1,0 +1,12 @@
+/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.Infrastructure/bin/Debug/net8.0/BlogApp.Infrastructure.deps.json
+/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.Infrastructure/bin/Debug/net8.0/BlogApp.Infrastructure.dll
+/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.Infrastructure/bin/Debug/net8.0/BlogApp.Infrastructure.pdb
+/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.Infrastructure/obj/Debug/net8.0/BlogApp.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.Infrastructure/obj/Debug/net8.0/BlogApp.Infrastructure.AssemblyInfoInputs.cache
+/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.Infrastructure/obj/Debug/net8.0/BlogApp.Infrastructure.AssemblyInfo.cs
+/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.Infrastructure/obj/Debug/net8.0/BlogApp.Infrastructure.csproj.CoreCompileInputs.cache
+/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.Infrastructure/obj/Debug/net8.0/BlogApp.Infrastructure.sourcelink.json
+/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.Infrastructure/obj/Debug/net8.0/BlogApp.Infrastructure.dll
+/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.Infrastructure/obj/Debug/net8.0/refint/BlogApp.Infrastructure.dll
+/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.Infrastructure/obj/Debug/net8.0/BlogApp.Infrastructure.pdb
+/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.Infrastructure/obj/Debug/net8.0/ref/BlogApp.Infrastructure.dll

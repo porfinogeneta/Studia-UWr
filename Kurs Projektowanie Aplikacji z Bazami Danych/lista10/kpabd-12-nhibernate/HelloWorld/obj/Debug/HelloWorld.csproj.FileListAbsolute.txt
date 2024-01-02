@@ -1,0 +1,48 @@
+D:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p02\HelloWorld\bin\Debug\HelloWorld.exe
+D:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p02\HelloWorld\bin\Debug\HelloWorld.pdb
+D:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p02\HelloWorld\obj\Debug\ResolveAssemblyReference.cache
+D:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p02\HelloWorld\obj\Debug\HelloWorld.exe
+D:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p02\HelloWorld\obj\Debug\HelloWorld.pdb
+c:\Dydaktyka\DBAPP.NET\przyklady\db-app-net-p03\HelloWorld\obj\Debug\HelloWorld.exe
+c:\Dydaktyka\DBAPP.NET\przyklady\db-app-net-p03\HelloWorld\obj\Debug\HelloWorld.pdb
+c:\Dydaktyka\DBAPP.NET\przyklady\db-app-net-p03\HelloWorld\bin\Debug\HelloWorld.exe
+c:\Dydaktyka\DBAPP.NET\przyklady\db-app-net-p03\HelloWorld\bin\Debug\HelloWorld.pdb
+c:\Dydaktyka\DBAPP.NET\przyklady\db-app-net-p03\HelloWorld\bin\Debug\NHibernate.dll
+c:\Dydaktyka\DBAPP.NET\przyklady\db-app-net-p03\HelloWorld\obj\Debug\ResolveAssemblyReference.cache
+c:\Dydaktyka\DBAPP.NET\przyklady\db-app-net-p03\HelloWorld\bin\Debug\log4net.dll
+c:\Dydaktyka\DBAPP.NET\przyklady\db-app-net-p03\HelloWorld\bin\Debug\Iesi.Collections.dll
+c:\Dydaktyka\DBAPP.NET\przyklady\db-app-net-p03\HelloWorld\bin\Debug\Antlr3.Runtime.dll
+c:\Dydaktyka\DBAPP.NET\przyklady\db-app-net-p03\HelloWorld\bin\Debug\NHibernate.ByteCode.LinFu.dll
+c:\Dydaktyka\DBAPP.NET\przyklady\db-app-net-p03\HelloWorld\bin\Debug\LinFu.DynamicProxy.dll
+c:\Dydaktyka\DBAPP.NET\przyklady\db-app-net-p03\HelloWorld\bin\Debug\hibernate.cfg.xml
+c:\Dydaktyka\DBAPP.NET\przyklady\db-app-net-p03\HelloWorld\bin\Debug\Jednostka.hbm.xml
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\HelloWorld\obj\Debug\HelloWorld.exe
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\HelloWorld\obj\Debug\HelloWorld.pdb
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\HelloWorld\bin\Debug\Configuration\hibernate.cfg.xml
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\HelloWorld\bin\Debug\HelloWorld.exe
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\HelloWorld\bin\Debug\HelloWorld.pdb
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\HelloWorld\bin\Debug\log4net.dll
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\HelloWorld\bin\Debug\NHibernate.ByteCode.LinFu.dll
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\HelloWorld\bin\Debug\NHibernate.dll
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\HelloWorld\bin\Debug\Iesi.Collections.dll
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\HelloWorld\bin\Debug\LinFu.DynamicProxy.dll
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\HelloWorld\bin\Debug\Antlr3.Runtime.dll
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\HelloWorld\obj\Debug\ResolveAssemblyReference.cache
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\HelloWorld\bin\Debug\Jednostka.hbm.xml
+C:\Dydaktyka\DBAPP.NET\przyklady\db-app-net-p04\HelloWorld\obj\Debug\HelloWorld.exe
+C:\Dydaktyka\DBAPP.NET\przyklady\db-app-net-p04\HelloWorld\obj\Debug\HelloWorld.pdb
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p04\HelloWorld\obj\Debug\HelloWorld.exe
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p04\HelloWorld\obj\Debug\HelloWorld.pdb
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\HelloWorld\bin\Debug\hibernate.cfg.xml
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\HelloWorld\bin\Debug\Jednostka.hbm.xml
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\HelloWorld\bin\Debug\HelloWorld.exe
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\HelloWorld\bin\Debug\HelloWorld.pdb
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\HelloWorld\bin\Debug\NHibernate.dll
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\HelloWorld\bin\Debug\Iesi.Collections.dll
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\HelloWorld\bin\Debug\NHibernate.xml
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\HelloWorld\bin\Debug\Iesi.Collections.xml
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\HelloWorld\obj\Debug\HelloWorld.csprojResolveAssemblyReference.cache
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\HelloWorld\obj\Debug\HelloWorld.exe
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\HelloWorld\obj\Debug\HelloWorld.pdb
+F:\Data\Dydaktyka\II\2015-2016\KursBD\przyklady\db-12-nhibernate\HelloWorld\bin\Debug\HelloWorld.exe.config
+f:\Data\Dydaktyka\II\2016-2017\KursBD\przyklady\db-12-nhibernate\HelloWorld\bin\Debug\HelloWorld.exe.config

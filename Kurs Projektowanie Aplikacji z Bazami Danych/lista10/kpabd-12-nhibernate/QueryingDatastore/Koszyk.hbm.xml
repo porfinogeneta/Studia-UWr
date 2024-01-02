@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" default-lazy="false" namespace="QueryingDatastore" assembly="QueryingDatastore">
+    <class name="Koszyk">
+        <id name="ID" column="ID">
+            <generator class="native"/>
+        </id>
+        <property name="Klient" not-null="true" length="50"/>
+        <set name="Produkty" cascade="all">
+            <key column="KOSZYK_ID"/>
+            <one-to-many class="Produkt"/>
+        </set>
+    </class>
+</hibernate-mapping>

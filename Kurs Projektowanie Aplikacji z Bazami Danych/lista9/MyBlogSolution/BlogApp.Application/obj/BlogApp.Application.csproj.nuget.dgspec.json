@@ -1,0 +1,233 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.Application/BlogApp.Application.csproj": {}
+  },
+  "projects": {
+    "/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.Application/BlogApp.Application.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.Application/BlogApp.Application.csproj",
+        "projectName": "BlogApp.Application",
+        "projectPath": "/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.Application/BlogApp.Application.csproj",
+        "packagesPath": "/home/szymonm/.nuget/packages/",
+        "outputPath": "/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.Application/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/szymonm/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.CommonComponent/BlogApp.CommonComponent.csproj": {
+                "projectPath": "/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.CommonComponent/BlogApp.CommonComponent.csproj"
+              },
+              "/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.Domain/BlogApp.Domain.csproj": {
+                "projectPath": "/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.Domain/BlogApp.Domain.csproj"
+              },
+              "/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.Infrastructure/BlogApp.Infrastructure.csproj": {
+                "projectPath": "/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.Infrastructure/BlogApp.Infrastructure.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.100/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.CommonComponent/BlogApp.CommonComponent.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.CommonComponent/BlogApp.CommonComponent.csproj",
+        "projectName": "BlogApp.CommonComponent",
+        "projectPath": "/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.CommonComponent/BlogApp.CommonComponent.csproj",
+        "packagesPath": "/home/szymonm/.nuget/packages/",
+        "outputPath": "/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.CommonComponent/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/szymonm/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.100/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.Domain/BlogApp.Domain.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.Domain/BlogApp.Domain.csproj",
+        "projectName": "BlogApp.Domain",
+        "projectPath": "/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.Domain/BlogApp.Domain.csproj",
+        "packagesPath": "/home/szymonm/.nuget/packages/",
+        "outputPath": "/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.Domain/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/szymonm/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.100/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.Infrastructure/BlogApp.Infrastructure.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.Infrastructure/BlogApp.Infrastructure.csproj",
+        "projectName": "BlogApp.Infrastructure",
+        "projectPath": "/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.Infrastructure/BlogApp.Infrastructure.csproj",
+        "packagesPath": "/home/szymonm/.nuget/packages/",
+        "outputPath": "/home/szymonm/Desktop/Studia-UWr/Kurs Projektowanie Aplikacji z Bazami Danych/lista9/MyBlogSolution/BlogApp.Infrastructure/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/szymonm/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.100/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

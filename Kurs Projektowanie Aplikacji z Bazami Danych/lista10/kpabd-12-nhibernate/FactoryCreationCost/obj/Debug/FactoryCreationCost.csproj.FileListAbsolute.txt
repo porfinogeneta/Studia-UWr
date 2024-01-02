@@ -1,0 +1,24 @@
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\FactoryCreationCost\bin\Debug\hibernate.cfg.xml
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\FactoryCreationCost\bin\Debug\FactoryCreationCost.exe
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\FactoryCreationCost\bin\Debug\FactoryCreationCost.pdb
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\FactoryCreationCost\bin\Debug\log4net.dll
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\FactoryCreationCost\bin\Debug\NHibernate.ByteCode.LinFu.dll
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\FactoryCreationCost\bin\Debug\NHibernate.dll
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\FactoryCreationCost\bin\Debug\Iesi.Collections.dll
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\FactoryCreationCost\bin\Debug\LinFu.DynamicProxy.dll
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\FactoryCreationCost\bin\Debug\Antlr3.Runtime.dll
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\FactoryCreationCost\obj\Debug\ResolveAssemblyReference.cache
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\FactoryCreationCost\obj\Debug\FactoryCreationCost.exe
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\FactoryCreationCost\obj\Debug\FactoryCreationCost.pdb
+C:\Dydaktyka\DBAPP.NET\przyklady\db-app-net-p04\FactoryCreationCost\obj\Debug\FactoryCreationCost.exe
+C:\Dydaktyka\DBAPP.NET\przyklady\db-app-net-p04\FactoryCreationCost\obj\Debug\FactoryCreationCost.pdb
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\FactoryCreationCost\bin\Debug\hibernate.cfg.xml
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\FactoryCreationCost\bin\Debug\FactoryCreationCost.exe
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\FactoryCreationCost\bin\Debug\FactoryCreationCost.pdb
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\FactoryCreationCost\bin\Debug\NHibernate.dll
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\FactoryCreationCost\bin\Debug\Iesi.Collections.dll
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\FactoryCreationCost\bin\Debug\NHibernate.xml
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\FactoryCreationCost\bin\Debug\Iesi.Collections.xml
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\FactoryCreationCost\obj\Debug\FactoryCreationCost.csprojResolveAssemblyReference.cache
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\FactoryCreationCost\obj\Debug\FactoryCreationCost.exe
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\FactoryCreationCost\obj\Debug\FactoryCreationCost.pdb

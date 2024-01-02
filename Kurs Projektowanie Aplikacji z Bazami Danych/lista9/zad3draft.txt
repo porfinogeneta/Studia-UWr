@@ -1,0 +1,63 @@
+- define objects and mark them as either entities or value objects
+
+-ENTETIES - pojedyncze rzeczy
+
+- PRODUCT
+productID, name, price, amount, inStock, category
+LIFECYCLE:
+product created -> product bought -> product packed -> product delivered
+
+- CUSTOMER
+customerID, name, email, transactions
+LIFECYCLE
+customer created -> customer logged in -> customer logged out -> customer deleted 
+
+- MANAGER
+managerID, name, createdProducts[]
+LIFECYCLE
+manager created ->  manager logged in -> manager logged out -> manager deleted 
+
+- TRANSACTION
+transactionID, amount, currency
+LIFECYCLE:
+transaction created -> transaction completed -> transaction payed -> transaction archived
+
+- VALUE OBJECTS - niezmienialne atrybuty, bez id biznesowego, powiązane z encjami
+- PRICE
+amount, currency
+- ADDRESS
+country, zipcode, region, city, block, flat
+- CATEGORY
+categoryName
+
+
+AGGREGATES - złączenie Enteties i Value Objects
+ORDER:
+{
+	root: TRANSACTION
+	ref: CUSTOMER
+	ref: PRODUCT[] (referencje do listy produktów)
+	child: ADDRESS
+}
+
+CUSTOMER:
+{
+	root: CUSTOMER
+	child: ADDRESS
+}
+
+SEARCH: 
+{
+	root: ref PRODUCT[]
+	child: CATEGORY
+}
+
+MANAGE_PRODUCT:
+{
+	root: PRODUCT
+	child: PRICE,CATEGORY 
+
+}
+
+
+

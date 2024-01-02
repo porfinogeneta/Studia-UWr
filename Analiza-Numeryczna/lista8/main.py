@@ -72,6 +72,7 @@ if __name__ == '__main__':
 
     ts = [i / M for i in range(M + 1)]
 
+
     # drawing
     drawing_M = 500
     draw_args = [i/drawing_M for i in range(drawing_M + 1)]
@@ -86,17 +87,9 @@ if __name__ == '__main__':
                 x_points.append(formulas_x[i-1](a))
                 y_points.append(formulas_y[i-1](a))
                 break
+
     # adding first point at the end of an array to connect all points with polyline
     x_points.append(x_points[0])
     y_points.append(y_points[0])
     plt.plot(x_points, y_points, marker='o', linestyle='-', color='b',markersize=1)
     plt.show()
-    # print(x_points)
-    # print(y_points)
-
-
-    # for i in range(len(nodes)):
-    #     if i == len(nodes) - 1:
-    #         print(formulas[i-1](nodes[i]))
-    #     else:
-    #         print(formulas[i](nodes[i]))

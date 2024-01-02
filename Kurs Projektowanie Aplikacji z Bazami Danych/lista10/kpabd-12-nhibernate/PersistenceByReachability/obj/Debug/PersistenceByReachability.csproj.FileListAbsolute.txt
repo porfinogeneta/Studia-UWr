@@ -1,0 +1,13 @@
+F:\Data\Dydaktyka\II\2015-2016\KursBD\przyklady\db-12-nhibernate\PersistenceByReachability\bin\Debug\PersistenceByReachability.exe.config
+F:\Data\Dydaktyka\II\2015-2016\KursBD\przyklady\db-12-nhibernate\PersistenceByReachability\bin\Debug\hibernate.cfg.xml
+F:\Data\Dydaktyka\II\2015-2016\KursBD\przyklady\db-12-nhibernate\PersistenceByReachability\bin\Debug\Koszyk.hbm.xml
+F:\Data\Dydaktyka\II\2015-2016\KursBD\przyklady\db-12-nhibernate\PersistenceByReachability\bin\Debug\Produkt.hbm.xml
+F:\Data\Dydaktyka\II\2015-2016\KursBD\przyklady\db-12-nhibernate\PersistenceByReachability\bin\Debug\PersistenceByReachability.exe
+F:\Data\Dydaktyka\II\2015-2016\KursBD\przyklady\db-12-nhibernate\PersistenceByReachability\bin\Debug\PersistenceByReachability.pdb
+F:\Data\Dydaktyka\II\2015-2016\KursBD\przyklady\db-12-nhibernate\PersistenceByReachability\bin\Debug\Iesi.Collections.dll
+F:\Data\Dydaktyka\II\2015-2016\KursBD\przyklady\db-12-nhibernate\PersistenceByReachability\bin\Debug\NHibernate.dll
+F:\Data\Dydaktyka\II\2015-2016\KursBD\przyklady\db-12-nhibernate\PersistenceByReachability\bin\Debug\Iesi.Collections.xml
+F:\Data\Dydaktyka\II\2015-2016\KursBD\przyklady\db-12-nhibernate\PersistenceByReachability\bin\Debug\NHibernate.xml
+F:\Data\Dydaktyka\II\2015-2016\KursBD\przyklady\db-12-nhibernate\PersistenceByReachability\obj\Debug\PersistenceByReachability.csprojResolveAssemblyReference.cache
+F:\Data\Dydaktyka\II\2015-2016\KursBD\przyklady\db-12-nhibernate\PersistenceByReachability\obj\Debug\PersistenceByReachability.exe
+F:\Data\Dydaktyka\II\2015-2016\KursBD\przyklady\db-12-nhibernate\PersistenceByReachability\obj\Debug\PersistenceByReachability.pdb

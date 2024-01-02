@@ -1,0 +1,24 @@
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\AttributeMapping\bin\Debug\hibernate.cfg.xml
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\AttributeMapping\bin\Debug\AttributeMapping.exe
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\AttributeMapping\bin\Debug\AttributeMapping.pdb
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\AttributeMapping\bin\Debug\log4net.dll
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\AttributeMapping\bin\Debug\NHibernate.ByteCode.LinFu.dll
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\AttributeMapping\bin\Debug\NHibernate.dll
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\AttributeMapping\bin\Debug\NHibernate.Mapping.Attributes.dll
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\AttributeMapping\bin\Debug\LinFu.DynamicProxy.dll
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\AttributeMapping\bin\Debug\Iesi.Collections.dll
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\AttributeMapping\bin\Debug\Antlr3.Runtime.dll
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\AttributeMapping\obj\Debug\ResolveAssemblyReference.cache
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\AttributeMapping\obj\Debug\AttributeMapping.exe
+F:\Moje Dokumenty\Dydaktyka\II\2009-2010Zima\przyklady\db-app-net-p03\AttributeMapping\obj\Debug\AttributeMapping.pdb
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\AttributeMapping\bin\Debug\hibernate.cfg.xml
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\AttributeMapping\bin\Debug\AttributeMapping.exe
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\AttributeMapping\bin\Debug\AttributeMapping.pdb
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\AttributeMapping\bin\Debug\NHibernate.dll
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\AttributeMapping\bin\Debug\NHibernate.Mapping.Attributes.dll
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\AttributeMapping\bin\Debug\Iesi.Collections.dll
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\AttributeMapping\bin\Debug\NHibernate.xml
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\AttributeMapping\bin\Debug\Iesi.Collections.xml
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\AttributeMapping\obj\Debug\AttributeMapping.csprojResolveAssemblyReference.cache
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\AttributeMapping\obj\Debug\AttributeMapping.exe
+d:\Data\Dydaktyka\II\2013-2014\KursBD\przyklady\nhibernate\AttributeMapping\obj\Debug\AttributeMapping.pdb

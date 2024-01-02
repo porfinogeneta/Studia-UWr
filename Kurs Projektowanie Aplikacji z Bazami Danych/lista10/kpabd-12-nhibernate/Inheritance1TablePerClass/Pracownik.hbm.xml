@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="Inheritance1TablePerClass" assembly="Inheritance1TablePerClass" default-lazy="false">
+	<class name="Pracownik">
+		<id name="ID">
+			<generator class="native" />
+		</id>
+		<property name="Imie" />
+		<property name="Nazwisko" />
+     <property name="Pensja" />
+     <property name="Stanowisko" />
+    </class>
+</hibernate-mapping>

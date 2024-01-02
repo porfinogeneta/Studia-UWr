@@ -1,0 +1,31 @@
+utworzenie projektu:
+dotnet new sln -n BlogApp
+
+dotnet new web -n BlogApp.Application
+dotnet sln add BlogApp.Application
+
+dotnet new classlib -n BlogApp.Domain
+dotnet sln add BlogApp.Domain
+
+dotnet new classlib -n BlogApp.Infrastructure
+dotnet sln add BlogApp.Infrastructure
+
+- referncje
+cd BlogApp.Application
+dotnet add reference ../BlogApp.Domain
+dotnet add reference ../BlogApp.Infrastructure
+
+cd BlogApp.Application
+dotnet run
+
+- dodanie cross platforma
+cd BlogApp
+dotnet new classlib -n BlogApp.CrossCutting
+dotnet sln add BlogApp.CrossCutting
+
+cd root
+dotnet add reference ../BlogApp.CrossCutting
+
+
+cd BlogApp.Application
+dotnet run

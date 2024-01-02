@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="FetchingStrategies" assembly="FetchingStrategies">
+    <class name="Koszyk">
+        <id name="ID" column="ID">
+            <generator class="native"/>
+        </id>
+        <property name="Klient" not-null="true" column="KLIENT" length="50"/>
+        <set name="Produkty" fetch="join" cascade="all" lazy="true">
+            <key column="KOSZYK_ID" not-null="true"/>
+            <one-to-many class="Produkt"/>
+        </set>
+    </class>
+</hibernate-mapping>
