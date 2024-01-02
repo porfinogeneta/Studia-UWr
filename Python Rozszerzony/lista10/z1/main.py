@@ -39,12 +39,6 @@ class Snake:
         self.x_cords = tail_x
         self.y_cords = tail_y
 
-
-
-    # def draw(self, frame):
-    #     self.move()
-    #     plt.scatter(self.x_cords, self.y_cords, color='green', marker='o', s=100)
-    #     plt.scatter(self.x_cords[0], self.y_cords[0], color='red', marker='o', s=100)
     def hitTail(self, new_head_x,new_head_y):
         # sprawdzenie czy nowa głowa nie będzie w ogonie
         if (new_head_x,new_head_y) in zip(self.x_cords,self.y_cords):
