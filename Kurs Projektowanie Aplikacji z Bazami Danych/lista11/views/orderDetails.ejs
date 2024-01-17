@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Details</title>
+
+    <script>
+        async function saveSpecimen(specimenId, quantityInputId) {
+            try {
+            var newQuantity = document.getElementById(quantityInputId).value;
+            
+            const response = await fetch( 
+                `/orders/details/api`, 
+                { 
+                    method: 'post',  
+                    headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify( { specimenId, newQuantity } ) 
+                } );
+                if (response.ok) {
+                    location.reload(true)
+                } else {
+                    console.error('Failed to save product');
+                }
+            }catch (error) {
+                console.error('Error saving specimen:', error);
+            }
+
+        }
+
+        async function deleteSpecimen(specimenId) {
+        try {
+            const response = await fetch(
+                `/orders/details/api/${specimenId}`,
+                {
+                    method: 'delete',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+
+            if (response.ok) {
+                const specimenElement = document.getElementById(`specimen-${specimenId}`);
+                specimenElement.parentNode.removeChild(specimenElement);
+                } else {
+                    console.error('Failed to delete product');
+                }
+            } catch (error) {
+                console.error('Error deleting product:', error);
+            }
+        }
+
+        async function addSpecimen(productId){
+            const orderId = window.location.pathname.split('/').pop();
+            try {
+            const response = await fetch(
+                `/orders/details/api/${orderId}/${productId}`,
+                {
+                    method: 'post',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+
+                if (response.ok) {
+                    location.reload(true);
+                } else {
+                    console.error('Failed to add specimen');
+                }
+
+            } catch (error) {
+                console.error('Error deleting product:', error);
+            }
+        }
+
+
+
+        function updatePriceTotal(quantityInputId, price, totalOutputId) {
+            // Update Price Total dynamically
+            var quantity = document.getElementById(quantityInputId).value;
+            var totalPrice = quantity * price;
+            document.getElementById(totalOutputId).innerHTML = "Price Total: " + totalPrice;
+        }
+    </script>
+</head>
+<body>
+    <h1>Order Details</h1>
+        <h2>Products:</h2>
+        <ul>
+            <% products.forEach(product => { %>
+                <li>
+                    Product ID: <%= product.id %><br>
+                    Name: <%= product.name %><br>
+                    Price: <%= product.price %><br>
+                    <button onclick="addSpecimen('<%= product.id %>')">Add Specimen</button>
+                    <h3>Specimens:</h3>
+                    <ul>
+                        <% specimens.forEach(specimen => { %>
+                            <% if (product.id === specimen.productId) { %>
+                                <li id="specimen-<%=specimen.id%>">
+                                    Specimen ID: <%= specimen.id %><br>
+                                    Product ID: <%= specimen.productId %><br>
+                                    Quantity: <input type="number" id="quantity<%= specimen.id %>"
+                                     value="<%= specimen.quantity %>"
+                                      onchange="updatePriceTotal('quantity<%= specimen.id %>', <%= product.price %>,
+                                       'total<%= specimen.id %>')"><br>
+                                    <div id="total<%= product.id %>">Price Total: <%= specimen.quantity * product.price %></div>
+                                    <button onclick="saveSpecimen('<%= specimen.id %>', 'quantity<%= specimen.id %>')">Save</button>
+                                    <button onclick="deleteSpecimen('<%= specimen.id %>')">Delete</button>
+                                </li>
+                            <% } %>
+                        <% }) %>
+                    </ul>
+                </li>
+            <% }) %>
+        </ul>
+
+</body>
+</html>

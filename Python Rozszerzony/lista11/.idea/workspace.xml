@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="e024e8ff-9be9-47f0-9afd-c52f8e794ebc" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/lista/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/lista/associations.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/lista/collection.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/lista/components.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/lista/enumerations.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/zad1/orm/ecommerce/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/MyBlog.sln" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/Mappings/Book.hbm.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/Models/Book.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/MyNHibernate.csproj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/MyNHibernate.sln" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/Program.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/bin/Debug/net8.0/Antlr3.Runtime.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/bin/Debug/net8.0/Iesi.Collections.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/bin/Debug/net8.0/Microsoft.Win32.SystemEvents.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/bin/Debug/net8.0/MyNHibernate" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/bin/Debug/net8.0/MyNHibernate.deps.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/bin/Debug/net8.0/MyNHibernate.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/bin/Debug/net8.0/MyNHibernate.pdb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/bin/Debug/net8.0/MyNHibernate.runtimeconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/bin/Debug/net8.0/NHibernate.Mapping.Attributes.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/bin/Debug/net8.0/NHibernate.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/bin/Debug/net8.0/Remotion.Linq.EagerFetching.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/bin/Debug/net8.0/Remotion.Linq.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/bin/Debug/net8.0/System.Configuration.ConfigurationManager.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/bin/Debug/net8.0/System.Drawing.Common.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/bin/Debug/net8.0/System.Security.Cryptography.ProtectedData.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/bin/Debug/net8.0/System.Security.Permissions.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/bin/Debug/net8.0/System.Windows.Extensions.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/bin/Debug/net8.0/runtimes/linux-x64/native/libsqlite3.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/bin/Debug/net8.0/runtimes/osx-x64/native/libsqlite3.dylib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/bin/Debug/net8.0/runtimes/unix/lib/net6.0/System.Drawing.Common.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/bin/Debug/net8.0/runtimes/win/lib/net6.0/Microsoft.Win32.SystemEvents.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/bin/Debug/net8.0/runtimes/win/lib/net6.0/System.Drawing.Common.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/bin/Debug/net8.0/runtimes/win/lib/net6.0/System.Security.Cryptography.ProtectedData.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/bin/Debug/net8.0/runtimes/win/lib/net6.0/System.Windows.Extensions.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/bin/Debug/net8.0/runtimes/win7-x64/native/sqlite3.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/bin/Debug/net8.0/runtimes/win7-x86/native/sqlite3.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/hibernate.cfg.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/obj/Debug/net8.0/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/obj/Debug/net8.0/MyNHibernate.AssemblyInfo.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/obj/Debug/net8.0/MyNHibernate.AssemblyInfoInputs.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/obj/Debug/net8.0/MyNHibernate.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/obj/Debug/net8.0/MyNHibernate.GlobalUsings.g.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/obj/Debug/net8.0/MyNHibernate.assets.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/obj/Debug/net8.0/MyNHibernate.csproj.AssemblyReference.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/obj/Debug/net8.0/MyNHibernate.csproj.CopyComplete" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/obj/Debug/net8.0/MyNHibernate.csproj.CoreCompileInputs.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/obj/Debug/net8.0/MyNHibernate.csproj.FileListAbsolute.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/obj/Debug/net8.0/MyNHibernate.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/obj/Debug/net8.0/MyNHibernate.genruntimeconfig.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/obj/Debug/net8.0/MyNHibernate.pdb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/obj/Debug/net8.0/MyNHibernate.sourcelink.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/obj/Debug/net8.0/apphost" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/obj/Debug/net8.0/ref/MyNHibernate.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/obj/Debug/net8.0/refint/MyNHibernate.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/obj/MyNHibernate.csproj.nuget.dgspec.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/obj/MyNHibernate.csproj.nuget.g.props" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/obj/MyNHibernate.csproj.nuget.g.targets" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/obj/project.assets.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/MyNHibernate/obj/project.nuget.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/mysite/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/mysite/.idea/dataSources.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/mysite/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/mysite/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/mysite/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/mysite/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/mysite/.idea/mysite.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/mysite/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/mysite/db.sqlite3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/mysite/manage.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/mysite/mysite/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/mysite/mysite/asgi.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/mysite/mysite/settings.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/mysite/mysite/urls.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/mysite/mysite/wsgi.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/mysite/polls/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/mysite/polls/admin.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/mysite/polls/apps.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/mysite/polls/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/mysite/polls/migrations/0002_highwatermark.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/mysite/polls/migrations/0003_delete_highwatermark.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/mysite/polls/migrations/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/mysite/polls/models.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/mysite/polls/tests.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/mysite/polls/views.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/zad1polecenia" beforeDir="false" afterPath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/lista10/zad1polecenia" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Kurs Projektowanie Aplikacji z Bazami Danych/zad1.sql" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 7
+}]]></component>
+  <component name="ProjectId" id="2aa96abhiapo0XAelLRQgy0ENPA" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/Users/szymon/Documents/Studia-UWr/Python Rozszerzony/lista11",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="lista11" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-50da183f06c8-2887949eec09-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-233.13135.95" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e024e8ff-9be9-47f0-9afd-c52f8e794ebc" name="Changes" comment="" />
+      <created>1704545648146</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1704545648146</updated>
+      <workItem from="1704545649172" duration="671000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

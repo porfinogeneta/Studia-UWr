@@ -1,8 +1,0 @@
-<!-- hibernate.cfg.xml -->
-<hibernate-configuration xmlns="urn:nhibernate-configuration-2.2">
-  <session-factory>
-    <property name="hibernate.dialect">NHibernate.Dialect.MsSql2012Dialect</property>
-    <property name="hibernate.connection.driver_class">NHibernate.Driver.SqlClientDriver</property>
-    <property name="hibernate.connection.connection_string">Server=NHibernate;Database=MyDatabase;User Id=sa;Password=Zielony0103;</property>
-  </session-factory>
-</hibernate-configuration>

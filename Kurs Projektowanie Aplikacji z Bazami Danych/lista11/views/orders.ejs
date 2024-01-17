@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders</title>
+</head>
+
+<script>
+
+
+    // dodawanie
+    async function place_order() {
+        const id = window.location.pathname.split('/').pop();
+        console.log(id);
+
+        const response = await fetch( 
+            `/orders/${id}`, 
+            { 
+                method: 'post', 
+                headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+                }
+            } );
+        
+        if (response.ok){
+            location.reload(true)
+        }else {
+            console.log("Failed to place order!");
+        }
+    }
+
+
+    async function editOrder(orderId) {
+        try {
+            const response = await fetch(
+                `/orders/details/${orderId}`,
+                {
+                    method: 'get',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+            if (response.ok) {
+                window.location.href = `/orders/details/${orderId}`;
+            } else {
+                console.error(`Failed to fetch order details. Status: ${response.status}`);
+            }
+        }catch(err){
+            console.log(err);
+        }
+    }
+
+    // Delete order function
+    async function deleteOrder(orderId) {
+        try {
+            const id = window.location.pathname.split('/').pop();
+            const response = await fetch(
+                `/orders/${id}/${orderId}`,
+                {
+                    method: 'delete',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                });
+            
+            if (response.ok){
+                location.reload(true)
+            }else {
+                console.log("Unable to delete!");
+            }
+        // Optionally, you can refresh the page or update the UI here.
+        } catch (error) {
+            console.error('Error deleting order:', error);
+        }
+    }
+
+    // dodanie handlera do zdarzenia załadowania strony
+    window.addEventListener('load', function() {        
+        // załadowanie danych
+        // refreshTodos();
+        // dodanie handlera do zdarzenia click przycisku
+        var bt = document.getElementById('place_order');
+        bt.addEventListener('click', place_order);
+        
+    });
+    </script>
+</head>
+<body>
+    <div>
+        <div>
+            <button id='place_order'>place_order</button>
+        </div>
+    </div>
+    <hr />
+
+    <h1>Orders</h1>
+
+    <% for (let i = 0; i < data.length; i++) { %>
+        <!-- Use EJS tags to embed JavaScript code for each element in the array -->
+        <ul>
+            <li><strong>ID:</strong> <%= data[i].id %></li>
+            <li><strong>Customer ID:</strong> <%= data[i].customerId %></li>
+            <li><strong>Total:</strong> <%= data[i].total %></li>
+            <li><strong>Purchase Status:</strong> <%= data[i].purchase_status %></li>
+            <li><strong>Added:</strong> <%= data[i].added %></li>
+            <li><button onclick="editOrder('<%= data[i].id %>')">Edit</button></li>
+            <li><button onclick="deleteOrder('<%= data[i].id %>')">Delete</button></li>
+        </ul>
+    <% } %>
+</body>
+</html>
+
+</body>
+</html>

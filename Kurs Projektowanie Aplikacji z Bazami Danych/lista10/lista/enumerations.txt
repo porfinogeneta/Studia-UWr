@@ -1,0 +1,8 @@
+- An ENUM is a string object with a value chosen from a list of permitted values that are enumerated explicitly in the column
+ specification at table creation time.
+
+- allows us to define a fixed set of values that a variable can take
+
+- każde odczytanie lub dodanie sprawdza czy wartość jest w Enum, czyli czy dana kolumna może przyjąć konkretną wartość
+
+The Enum type provides a set of possible string values which the column is constrained towards.

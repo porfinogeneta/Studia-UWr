@@ -1,0 +1,27 @@
+A component is a contained object that is persisted as a value type and not an entity reference. The term "component" refers to the object-oriented notion of composition and not to architecture-level components. For example, you can model a person like this:
+
+public class Person
+{
+    public virtual string Key { get; set; }
+
+    public virtual DateTime Birthday { get; set; }
+
+    public virtual Name Name { get; set; }
+
+    ...
+}
+
+public class Name
+{
+    public string First { get; set; }
+
+    public string Last { get; set; }
+
+    public char Initial { get; set; }
+}
+
+Now Name may be persisted as a component of Person.Name
+
+OGÓLNIE
+- trzymanie w sprytny sposób wielu danych w jednej kolumnie, tutaj w kolumnie Name, trzymamy dodatkowe inforamacje, zwiększamy
+'możliwości' danego pola

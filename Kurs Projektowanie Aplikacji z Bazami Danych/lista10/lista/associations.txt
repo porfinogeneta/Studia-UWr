@@ -1,0 +1,10 @@
+Associations
+
+- jeden do wielu
+- wiele do jeden
+- wiele do wielu
+itd.
+
+https://vegibit.com/sqlalchemy-orm-relationships-one-to-many-many-to-one-many-to-many/
+
+https://vegibit.com/interacting-with-a-database-using-sqlalchemy-crud-operations/

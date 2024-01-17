@@ -1,0 +1,11 @@
+In NHibernate, collections are a way of representing relationships between entities. They can be used to handle
+one-to-many or many-to-many relationships. They can contain almost any other NHibernate type, including basic
+types, custom types, components, and references to other entities
+
+
+W SQL Alchemy:
+
+The relationship() function defines a linkage between two classes. When the linkage defines a one-to-many or many-to-many
+ relationship, it’s represented as a Python collection when objects are loaded and manipulated.
+
+- mogą być: listy, sety i słowniki
