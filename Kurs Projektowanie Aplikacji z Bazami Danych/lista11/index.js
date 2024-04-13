@@ -35,6 +35,7 @@ app.get('/orders/:id', async (req,res, next) => {
     } 
 })
 
+
 app.post('/orders/:id', async (req,res, next) => {
     try {
         const id = req.params.id
@@ -102,6 +103,6 @@ app.post('/orders/details/api/:orderId/:productId', async (req, res, next) => {
 
 
 
-const port = 3000
+const port = 3001
 http.createServer(app).listen(port);
 console.log( `server up and running on port: ${port}` );

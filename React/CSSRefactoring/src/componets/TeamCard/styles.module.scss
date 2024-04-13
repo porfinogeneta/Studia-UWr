@@ -1,0 +1,32 @@
+@use "/src/styles/variables";
+
+.light_theme {
+    background-color: variables.$light-team-member-bg;
+    color: variables.$light-text;
+}
+
+.dark_theme {
+    background-color: variables.$dark-team-member-bg;
+    color: variables.$dark-text;
+}
+
+
+  
+.team_member {
+  flex: 0 0 calc(33.33% - 20px);
+  padding: 20px;
+  margin: 10px;
+  text-align: center;
+
+  img {
+    border-radius: 50%;
+    margin-bottom: 20px;
+  }
+
+  h3 {
+    margin-bottom: 10px;
+    display: inline-block;
+  }
+}
+  
+  

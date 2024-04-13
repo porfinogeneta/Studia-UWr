@@ -1,10 +1,19 @@
 import argparse
 import requests
-from orm import show_all_books,show_all_friends,show_all_lendings,show_all_lent,add_book,add_Friend,return_book,borrow_book
+from orm import (
+    show_all_books,
+    show_all_friends,
+    show_all_lendings,
+    show_all_lent,
+    add_book,
+    add_Friend,
+    return_book,
+    borrow_book
+)
 
 
 def handleDirectData(args):
-     # Call the appropriate function based on the parsed arguments
+    # Call the appropriate function based on the parsed arguments
     if args.command == "add_book":
         add_book(args.author, args.title, args.year, args.genre)
     elif args.command == "add_friend":
@@ -22,12 +31,14 @@ def handleDirectData(args):
     elif args.command == "show_all_lendings":
         show_all_lendings()
 
+
 def handleAPIData(args):
     try:
         if args.command == "get_api":
             response = requests.get(url=API_BASE_URL)
             data = response.json()
             print(data)
+            return data
         elif args.command == "post_api":
             body = {
                 "name": args.name,
@@ -37,6 +48,7 @@ def handleAPIData(args):
             response = requests.post(f"{API_BASE_URL}", json=body)
             data = response.json()
             print(data)
+            return data
         elif args.command == "put_api":
             body = {
                 "id": args.id,
@@ -46,28 +58,33 @@ def handleAPIData(args):
             response = requests.put(f"{API_BASE_URL}/update", json=body)
             data = response.json()
             print(data)
+            return data
         elif args.command == "delete_api":
             response = requests.delete(f"{API_BASE_URL}/delete/{args.id}")
             data = response.json()
             print(data)
+            return data
     except Exception as e:
         print(e)
 
+
 API_BASE_URL = "http://127.0.0.1:5000/friends"
+
+
 def main():
-
-
-
-    # dodanie argumentu, który pokaze czy dostęp jest przez API czy bezpośrednio
+    # dodanie argumentu, który pokaze czy dostęp
+    # jest przez API czy bezpośrednio
     parser = argparse.ArgumentParser(description="Library Management System")
 
     # subparsery do kolejnych funkcji
-    subparsers = parser.add_subparsers(dest="command", help="Available commands")
+    subparsers = parser.add_subparsers(dest="command",
+                                       help="Available commands")
     # opcjonalny argument, gdy dodany wysyłamy requesty
-    parser.add_argument('--api',action='store_true', help='Use API as data source')
+    parser.add_argument('--api', action='store_true',
+                        help='Use API as data source')
 
     # api parser
-    
+
     # get all friends
     subparsers.add_parser("get_api")
     # post new friend
@@ -84,8 +101,7 @@ def main():
 
     # delete friend
     delete_api = subparsers.add_parser('delete_api')
-    delete_api.add_argument("--id",type=int, required=True)
-
+    delete_api.add_argument("--id", type=int, required=True)
 
     # add_book command
     add_book_parser = subparsers.add_parser("add_book")
@@ -128,17 +144,22 @@ def main():
         handleAPIData(args)
     else:
         handleDirectData(args)
-    
-   
+
 
 if __name__ == "__main__":
     main()
 
-# python3 main.py add_friend --name "Janusz" --surname "Bielak" --email "superemail@gmail.com"
+# python3 main.py add_friend --name "Janusz"
+# --surname "Bielak" --email "superemail@gmail.com"
+
 # python3 main.py show_all_friends
-# python3 main.py add_book --author "Author Name" --title "Book Title" --year 2022 --genre "Fiction"
+# python3 main.py add_book --author "Author Name"
+# --title "Book Title" --year 2022 --genre "Fiction"
+
 # python3 main.py show_all_books
-# python3 main.py add_friend --name "Phili" --surname "Smith" --email "mail@gmail.com"
+# python3 main.py add_friend --name "Phili"
+# --surname "Smith" --email "mail@gmail.com"
+
 # python3 main.py show_all_friends
 # python3 main.py borrow_book --friend_id 1 --title "Book Title"
 # python3 main.py show_all_lendings
@@ -147,6 +168,11 @@ if __name__ == "__main__":
 
 # API COMMUNICATION
 # python3 main.py --api get_api
-# python3 main.py --api post_api --name 'Tomasz' --surname 'Zan' --email 'dziady@gmail.com'
-# python3 main.py --api put_api --id 1 --column 'email' --value 'bestmail@gmail.com'
+
+# python3 main.py --api post_api --name 'Tomasz'
+#  --surname 'Zan' --email 'dziady@gmail.com'
+
+# python3 main.py --api put_api --id 1 --column
+# 'email' --value 'bestmail@gmail.com'
+
 # python3 main.py --api delete_api --id 4

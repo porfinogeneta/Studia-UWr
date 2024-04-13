@@ -1,0 +1,247 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <sstream>
+#include <map>
+#include <list>
+
+
+
+// prezentacja graficzna grafu
+void printGraph(const std::map<int, std::list<int> >& graph) {
+    for (const auto& entry : graph) {
+        std::cout << entry.first << ": [";
+
+        const std::list<int>& values = entry.second;
+        for (auto it = values.begin(); it != values.end(); ++it) {
+            std::cout << *it;
+            if (std::next(it) != values.end()) {
+                std::cout << ", ";
+            }
+        }
+
+        std::cout << "]" << std::endl;
+    }
+}
+
+void printTimes(const std::vector<std::vector<int> >& times) {
+    std::cout << "Times List:" << std::endl;
+
+    for (int i = 0; i < times.size(); ++i) {
+        std::cout << "Node " << i + 1 << ": ";
+        for (int j = 0; j < times[i].size(); ++j) {
+            std::cout << times[i][j];
+            if (j + 1 < times[i].size()) {
+                std::cout << ", ";
+            }
+        }
+        std::cout << std::endl;
+    }
+}
+
+// graf będziemy przechowywać w postaci mapy
+// robimy graf jako listę sąsiedztwa
+std::map<int, std::list<int> > createGraph(int const mothers[], int n) {
+    std::map<int, std::list<int> > graph;
+
+    // Create the graph as an edge list
+    for (int i = 2; i <= n; i++) {
+        if (graph.find(mothers[i - 2]) == graph.end()) {
+            graph[mothers[i - 2]] = std::list<int>();
+        }
+
+        graph[mothers[i - 2]].push_back(i);
+    }
+
+    return graph;
+}
+
+// wierzchołek, czas odwiedzenie, wszystkie czasy odwiedzin, odwiedzone dotychczas
+void visit(int u, int &t, std::vector<std::vector<int> >& times, std::map<int, bool>& visited, std::map<int, std::list<int> >& graph) {
+    visited[u - 1] = true;
+    times[u - 1][0] = t;
+    for (auto v : graph[u]) {
+        std::cout << u << v << std::endl;
+        if (visited[v - 1] == false){
+            t = t + 1;
+            visit(v, t, times, visited, graph);
+        }
+    }
+    times[u - 1][1] = t;
+}
+
+void dfs(std::vector<std::vector<int> >& times, std::map<int, std::list<int> >& graph){
+    std::map<int, bool> visited; // list odwiedzonych
+    
+    // reset tablicy odwiedzonych
+    for (const auto& entry : graph) {
+        visited[entry.first - 1] = false;
+    }
+
+    int startTime = 1;
+    for (const auto& entry : graph) {
+        int node = entry.first;
+        if (!visited[node - 1]) {
+            visit(node, startTime, times, visited, graph);
+        }
+    }
+    
+}
+
+void checkPredecessor(std::pair <int, int> queries[], std::vector<std::vector<int> >& times, int q){
+    for (int i = 0; i < q; i++) {
+        int q1 = queries[i].first;
+        int q2 = queries[i].second;
+        if (times[q1 - 1][0] <= times[q2 - 1][0] &&
+            times[q1 - 1][1] >= times[q2 - 1][1]){
+                std::cout << "TAK" << std::endl;
+            }
+        else {
+            std::cout << "NIE" << std::endl;
+        }
+    }
+    
+}
+
+
+
+int main() {
+    // debug input
+    // int n = 5;
+    // int q = 4;
+    // int mothers[] = {1,1,3,3};
+
+    // std::vector<std::pair<int, int> > queries;
+
+    // // Populate the data structure with the provided input
+    // queries.push_back(std::make_pair(1, 2));
+    // queries.push_back(std::make_pair(2, 1));
+    // queries.push_back(std::make_pair(1, 4));
+    // queries.push_back(std::make_pair(2, 5));
+
+    // normal input
+    // Input
+    int n, q;
+    std::cin >> n >> q;
+
+    // Mothers list
+    int mothers[n];
+    for (int i = 0; i < n; ++i) {
+        std::cin >> mothers[i];
+    }
+
+
+    // Queries
+    std::pair <int, int> queries[q];
+    for(int i=0; i<q; ++i)
+    {
+        int a;
+        int b;
+        std::cin >> a >> b;
+        queries[i] = std::make_pair(a,b);
+    }
+
+
+    std::map<int, std::list<int> > graph = createGraph(mothers, n);
+    // printGraph(graph);
+
+
+    // lista czasow wejść t_in [0], t_out [1]
+    std::vector<std::vector<int> > times(n, std::vector<int>(2, 0));
+
+    dfs(times, graph);
+
+    // printTimes(times);
+
+    checkPredecessor(queries, times, q);
+
+    return 0;
+}
+
+
+
+
+
+bool visited[n]; // odwiedzony na indeksie 0 oznacza ze wierzchołek o numeze 1 był odwiedzony
+    for (int i = 0; i < n; i++){
+        visited[i] = false;
+    }
+    std::pair<int, int> first_edge = graph[0];
+
+    int time = 0;
+
+    std::stack<int> stack;
+    stack.push(first_edge.first);
+
+    while (!stack.empty()) {
+        time++;
+        int s = stack.top();
+        // std::cout << s << std::endl;
+        
+        // stack.pop();
+        times[s-1].first = time; // wejście do pierwszego elementu
+
+        if (!visited[s-1]) {
+            visited[s-1] = true;
+        }
+
+        std::pair<int , int> edgesIdx = binSearch(graph, s, n);
+        // odwiedzamy dzieci vertex
+        // jeśli jest jakiś indeks na wybraną krawędź i jak jeszcze nie odwiedziliśmy kolejnego wierzchołka
+        // wybieramy daną krawędź z grafu (na podstawie indeksu) i bierzemy krawędź wyjściową
+        if (edgesIdx.first != -1 && visited[graph[edgesIdx.first].second - 1] == false){
+            stack.push(graph[edgesIdx.first].second);
+            times[graph[edgesIdx.first].second - 1].first = time;
+        }
+
+        if (edgesIdx.second != -1 && visited[graph[edgesIdx.second].second - 1] == false){
+            stack.push(graph[edgesIdx.second].second);
+            times[graph[edgesIdx.second].second - 1].first = time;
+        }
+
+    
+        times[s - 1].second = time + 1;
+        
+    }
+
+
+    // void visit(std::pair<int, int> times[], int &time, int vertex, bool visited[], std::pair<int, int> graph[], int n){
+//     visited[vertex - 1] = true;
+//     times[vertex - 1].first = time;
+//     time++;
+//     std::pair<int , int> edgesIdx = binSearch(graph, vertex, n);
+//     // odwiedzamy dzieci vertex
+//     if (edgesIdx.first != -1){
+//         // pobieramy sąsiada z grafu dla znalezionego indeksu
+//         int neighbour = graph[edgesIdx.first].second;
+//         // odwiedzamy go
+//         visited[neighbour - 1] = true;
+//         visit(times, time, neighbour, visited, graph, n);
+//     }
+//     if (edgesIdx.second != -1){
+//         // pobieramy sąsiada z grafu dla znalezionego indeksu
+//         int neighbour = graph[edgesIdx.second].second;
+//         // odwiedzamy go
+//         visited[neighbour - 1] = true;
+//         visit(times, time, neighbour, visited, graph, n);
+//     }
+//     // wyszliśmy z obu rekursji updatujemy czas na wierzchołku wyjściowym
+//     times[vertex - 1].second = time;
+    
+// }
+
+// // referencja na czasy odwiedzin, referencja na graf i liczba kobiet
+// void dfs(std::pair<int, int> times[], std::pair<int, int> graph[], int n){
+//     bool visited[n]; // odwiedzony na indeksie 0 oznacza ze wierzchołek o numeze 1 był odwiedzony
+//     for (int i = 0; i < n; i++){
+//         visited[i] = false;
+//     }
+//     int startTime = 1;
+//     for (int i = 0; i < n - 1; i++){
+//         int parent = graph[i].first;
+//         int child = graph[i].second;
+//         if (visited[parent - 1] == false){
+//             visit(times, startTime, parent, visited, graph, n);
+//         }
+//     }
+// }

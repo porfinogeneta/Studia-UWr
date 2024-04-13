@@ -58,4 +58,5 @@ function* fib_gen() {
 //     console.log(f);
 // }
 
-// W obu przypadkach można można iterować za pomocą for of
+// W obu przypadkach można można iterować za pomocą for of, z tym ze aby korzystać z 
+// for dla iteratora musimy go na ten iterator przerobić, dla yield mamy to od razu

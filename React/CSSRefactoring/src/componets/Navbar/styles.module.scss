@@ -1,0 +1,67 @@
+@use "src/styles/variables";
+
+.navbar {
+    position: sticky;
+    top: 0;
+    padding: 10px 0;
+    text-align: center;
+    z-index: 1000;
+    a {
+        text-decoration: none;
+        padding: 0 20px;
+    }
+}
+
+.theme_toggle_button {
+    cursor: pointer;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease;
+}
+
+:global(.dark-theme) {
+  background-color: variables.$dark-bg;
+  color: variables.$dark-text;
+
+
+    .navbar {
+        background-color: variables.$dark-navbar-bg;
+      }
+
+    .navbar a {
+        color: variables.$dark-link;
+    }
+
+    .theme-toggle-button {
+        background-color: variables.$dark-btn-bg;
+        color: variables.$dark-toggle-color;
+
+        &:hover {
+        background-color: variables.$dark-btn-hover;
+        }
+    }
+}
+
+:global(.light-theme) {
+    background-color: variables.$light-bg;
+    color: variables.$light-text;
+
+    .navbar {
+        background-color: variables.$light-navbar-bg;
+      }
+  
+    .navbar a {
+      color: variables.$light-link;
+    }
+  
+    .theme_toggle_button {
+      background-color: variables.$light-toggle-color;
+      color: variables.$ligh-theme-color;
+  
+      &:hover {
+        background-color: variables.$light-btn-hover;
+      }
+    }
+
+    
+}
+

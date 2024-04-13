@@ -1,0 +1,91 @@
+@use "/src/styles/variables";
+
+.contact_form {
+    max-width: 500px;
+    margin: 0 auto;
+    margin-bottom: 40px;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+  
+    .form_group {
+      margin-bottom: 20px;
+    }
+  
+    input[type="text"],
+    input[type="email"],
+    textarea {
+      width: calc(100% - 20px);
+      padding: 10px;
+      border-radius: 5px;
+      border: none;
+      margin-top: 5px;
+    }
+  
+    textarea {
+      resize: vertical;
+    }
+  
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      color: variables.$ligh-theme-color;
+      &:hover {
+        background-color: #45a049;
+      }
+    }
+  }
+
+:global(.light-theme) {
+    .contact_form {
+        background-color: variables.$light-contact-bg;
+        color: variables.$light-text;
+        border: 1px solid variables.$light-contact-border;
+    
+        input[type="text"],
+        input[type="email"],
+        textarea {
+          background-color: variables.$light-contact-input-bg;
+          color: variables.$light-text;
+          border: 1px solid variables.$light-contact-input-border;
+        }
+    
+        button {
+          background-color: variables.$light-contact-btn-bg;
+          // color: variables.$light-text;
+    
+          &:hover {
+            background-color: darken(variables.$light-contact-btn-bg, 10%);
+          }
+        }
+      }
+}
+
+:global(.dark-theme) {
+    .contact_form {
+        background-color: variables.$dark-contact-bg;
+        color: variables.$dark-text;
+        border: 1px solid variables.$dark-contact-border;
+    
+        input[type="text"],
+        input[type="email"],
+        textarea {
+          background-color: variables.$dark-contact-input-bg;
+          color: variables.$dark-text;
+          border: 1px solid variables.$dark-contact-input-border;
+        }
+    
+        button {
+          background-color: variables.$dark-contact-btn-bg;
+          color: variables.$dark-text;
+    
+          &:hover {
+            background-color: darken(variables.$dark-contact-btn-bg, 10%);
+          }
+        }
+      }
+}

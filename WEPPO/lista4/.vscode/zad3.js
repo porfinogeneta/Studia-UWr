@@ -28,7 +28,7 @@ var Worker = function(name, surname, age) {
 
 // // Dlaczego jest to podejście prawidłowe?
 // // Oszczędzamy pamięć, bo nie potrzebujemy kopii tej samej funkcji
-// // w nie uruchamiamy konstruktora kilkukrotnie - jak w new()
+// // i nie uruchamiamy konstruktora kilkukrotnie - jak w new()
 
 
 // ================================================

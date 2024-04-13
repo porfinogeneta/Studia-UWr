@@ -22,3 +22,24 @@ function findCorrect(range){
 }
 
 console.log(findCorrect(100000))
+
+function magic_num() {
+    res = []
+    for (let i = 1; i <= 100000; i++){
+        // get numbers
+        sums = true
+        numbers = i.toString().split("")
+        numbers.forEach((number) => {
+            if (number != 0 && (i % Number(number) !== 0)){
+                sums = false
+            }
+        })
+        if (sums && (i % numbers.reduce((acc, val) => acc + Number(val), 0) == 0)) {
+            res.push(i)
+        }
+    }
+    return res
+}
+
+console.log(magic_num());
+

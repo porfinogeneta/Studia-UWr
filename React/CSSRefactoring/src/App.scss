@@ -1,0 +1,326 @@
+@use "src/styles/variables";
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.light-theme {
+  background-color: variables.$light-bg;
+  color: variables.$light-text;
+
+  // .navbar a {
+  //   color: variables.$light-link;
+  // }
+
+  // .theme-toggle-button {
+  //   background-color: variables.$light-btn-bg;
+  //   color: variables.$light-text;
+
+  //   &:hover {
+  //     background-color: variables.$light-btn-hover;
+  //   }
+  // }
+
+  .content-card {
+    background-color: variables.$light-card-bg;
+  }
+  // .team-member {
+  //   background-color: variables.$light-team-member-bg;
+  //   color: variables.$light-text;
+  // }
+
+  // .blog-post {
+  //   background-color: variables.$light-blog-post-bg;
+  //   color: variables.$light-text;
+
+  //   button {
+  //     background-color: variables.$light-blog-btn-bg;
+  //     color: variables.$light-text;
+
+  //     &:hover {
+  //       background-color: darken(variables.$light-blog-btn-bg, 10%);
+  //     }
+  //   }
+  // }
+
+  Section:nth-child(even) {
+    background-color: variables.$light-section-even-bg;
+  }
+
+  // .navbar {
+  //   background-color: variables.$light-navbar-bg;
+  // }
+
+  // .contact-form {
+  //   background-color: variables.$light-contact-bg;
+  //   color: variables.$light-text;
+  //   border: 1px solid variables.$light-contact-border;
+
+  //   input[type="text"],
+  //   input[type="email"],
+  //   textarea {
+  //     background-color: variables.$light-contact-input-bg;
+  //     color: variables.$light-text;
+  //     border: 1px solid variables.$light-contact-input-border;
+  //   }
+
+  //   button {
+  //     background-color: variables.$light-contact-btn-bg;
+  //     color: variables.$light-text;
+
+  //     &:hover {
+  //       background-color: darken(variables.$light-contact-btn-bg, 10%);
+  //     }
+  //   }
+  // }
+}
+
+.dark-theme {
+  background-color: variables.$dark-bg;
+  color: variables.$dark-text;
+
+  // .navbar a {
+  //   color: variables.$dark-link;
+  // }
+
+  // .theme-toggle-button {
+  //   background-color: variables.$dark-btn-bg;
+  //   color: variables.$dark-toggle-color;
+
+  //   &:hover {
+  //     background-color: variables.$dark-btn-hover;
+  //   }
+  // }
+
+  .content-card {
+    background-color: variables.$dark-card-bg;
+  }
+
+  // .team-member {
+  //   background-color: variables.$dark-team-member-bg;
+  //   color: variables.$dark-text;
+  // }
+
+  // .blog-post {
+  //   background-color: variables.$dark-blog-post-bg;
+  //   color: variables.$dark-text;
+
+  //   button {
+  //     background-color: variables.$dark-blog-btn-bg;
+  //     color: variables.$dark-text;
+
+  //     &:hover {
+  //       background-color: darken(variables.$dark-blog-btn-bg, 10%);
+  //     }
+  //   }
+  // }
+
+  Section:nth-child(even) {
+    background-color: variables.$dark-section-even-bg;
+  }
+
+  // .navbar {
+  //   background-color: variables.$dark-navbar-bg;
+  // }
+
+  // .contact-form {
+  //   background-color: variables.$dark-contact-bg;
+  //   color: variables.$dark-text;
+  //   border: 1px solid variables.$dark-contact-border;
+
+  //   input[type="text"],
+  //   input[type="email"],
+  //   textarea {
+  //     background-color: variables.$dark-contact-input-bg;
+  //     color: variables.$dark-text;
+  //     border: 1px solid variables.$dark-contact-input-border;
+  //   }
+
+  //   button {
+  //     background-color: variables.$dark-contact-btn-bg;
+  //     color: variables.$dark-text;
+
+  //     &:hover {
+  //       background-color: darken(variables.$dark-contact-btn-bg, 10%);
+  //     }
+  //   }
+  // }
+}
+
+// .navbar {
+//   position: sticky;
+//   top: 0;
+//   padding: 10px 0;
+//   text-align: center;
+//   z-index: 1000;
+//   a {
+//     text-decoration: none;
+//     padding: 0 20px;
+//   }
+// }
+
+
+.portfolio {
+  margin: 0 auto;
+}
+
+// .header {
+//   padding: 50px 0;
+//   text-align: center;
+
+//   h1 {
+//     font-size: 3em;
+//     margin-bottom: 10px;
+//   }
+
+//   p {
+//     font-size: 1.5em;
+//   }
+// }
+
+.content-card {
+  border-radius: 10px;
+  margin: 20px 0;
+}
+
+// .section {
+//   padding: 20px 0;
+// }
+
+// .section-content {
+//   max-width: 800px;
+//   margin: 0 auto;
+// }
+
+// .section h2 {
+//   font-size: 2.5em;
+//   margin-bottom: 20px;
+//   display: inline-block;
+// }
+
+.services ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.services li {
+  margin-bottom: 20px;
+  text-align: left;
+
+  h3 {
+    font-size: 1.8em;
+    margin-bottom: 10px;
+  }
+}
+
+.team-members {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+// .team-member {
+//   flex: 0 0 calc(33.33% - 20px);
+//   padding: 20px;
+//   margin: 10px;
+//   text-align: center;
+
+//   img {
+//     border-radius: 50%;
+//     margin-bottom: 20px;
+//   }
+
+//   h3 {
+//     margin-bottom: 10px;
+//     display: inline-block;
+//   }
+// }
+
+.blog-posts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-gap: 20px;
+}
+
+// .blog-post {
+//   border-radius: 10px;
+//   padding: 20px;
+//   text-align: left;
+
+//   h3 {
+//     margin-bottom: 10px;
+//   }
+
+//   p {
+//     margin-bottom: 10px;
+//   }
+
+//   button {
+//     border: none;
+//     border-radius: 5px;
+//     cursor: pointer;
+//     padding: 5px 10px;
+//     transition: background-color 0.3s ease;
+
+//     &:hover {
+//       background-color: #45a049;
+//     }
+//   }
+// }
+
+// .contact {
+//   margin-bottom: 40px;
+// }
+
+// .contact-form {
+//   max-width: 500px;
+//   margin: 0 auto;
+//   padding: 20px;
+//   border-radius: 10px;
+//   display: flex;
+//   flex-direction: column;
+
+//   .form-group {
+//     margin-bottom: 20px;
+//   }
+
+//   input[type="text"],
+//   input[type="email"],
+//   textarea {
+//     width: calc(100% - 20px);
+//     padding: 10px;
+//     border-radius: 5px;
+//     border: none;
+//     margin-top: 5px;
+//   }
+
+//   textarea {
+//     resize: vertical;
+//   }
+
+//   button {
+//     padding: 10px 20px;
+//     border: none;
+//     border-radius: 5px;
+//     cursor: pointer;
+//     transition: background-color 0.3s ease;
+
+//     &:hover {
+//       background-color: #45a049;
+//     }
+//   }
+// }
+
+// .footer {
+//   padding: 20px 0;
+//   text-align: center;
+// }
+
+// .theme-toggle-button {
+//   cursor: pointer;
+//   padding: 10px 20px;
+//   transition: background-color 0.3s ease;
+// }

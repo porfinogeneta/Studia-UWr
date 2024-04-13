@@ -1,0 +1,43 @@
+ul {
+    list-style: outside none none;
+}
+
+input {
+    padding: 4px;
+    margin: 4px;
+    outline: none;
+}
+
+
+button {
+    border-radius: 8px;
+    padding: 4px 8px 4px 8px;
+    margin: 8px;
+    border: 2px solid gray
+}
+
+.liked {
+    border: solid 3px rgb(252, 73, 73);
+    border-radius: 16px;
+}
+
+.recipe {
+    margin: 8px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.recipe h3 {
+    text-align: center;
+}
+
+
+.liking {
+    text-align: right;
+}
+
+.liking_toggle {
+    float: right;
+}

@@ -1,9 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
-from models import Book,Lending,Friend,Base
-
-
+from models import Book, Lending, Friend, Base
 
 # db_url = "mysql+mysqlconnector://root:@localhost:4001/python"
 db_url = 'sqlite:///library.db'
@@ -20,11 +18,13 @@ def add_book(author, title, year, genre):
     session.add(book)
     session.commit()
 
+
 # friend table
 def add_Friend(name, surname, email):
     friend = Friend(name=name, surname=surname, email=email)
     session.add(friend)
     session.commit()
+
 
 def delete_Friend(id):
     to_delete_friend = session.query(Friend).filter(Friend.id == id).first()
@@ -33,13 +33,15 @@ def delete_Friend(id):
         session.commit()
     else:
         raise ValueError("Incorrect ID")
-    
+
+
 def show_all_friends():
     friends = session.query(Friend).all()
     for f in friends:
-        print(f"ID: {f.id}, name: {f.name}, surname: {f.surname}, email: {f.email}")
+        print(f"ID: {f.id}, name: {f.name},"
+              f" surname: {f.surname}, email: {f.email}")
     return friends
-    
+
 
 def update_Friend(id, field, value):
     to_update_friend = session.query(Friend).filter(Friend.id == id).first()
@@ -50,11 +52,10 @@ def update_Friend(id, field, value):
             setattr(to_update_friend, field, value)
             session.commit()
         else:
-            raise ValueError(f"Field '{field}' does not exist in the Friend model")
+            raise ValueError(f"Field '{field}'"
+                             f" does not exist in the Friend model")
     else:
         raise ValueError("Incorrect ID")
-
-
 
 
 def get_Friend_byId(id):
@@ -64,16 +65,18 @@ def get_Friend_byId(id):
     else:
         raise ValueError("Not correct id!")
 
-    
-    
-
 
 def borrow_book(friend_id, title=''):
     # znajdź możliwą do wypożyczenia książkę z danym tytułem
-    book = session.query(Book).filter(Book.title == title, Book.lend_state == 'on_shelf').first()
+    book = session.query(Book).filter(Book.title == title,
+                                      Book.lend_state == 'on_shelf').first()
     friend = session.query(Friend).filter(Friend.id == friend_id).first()
+    if not friend:
+        raise ValueError("Friend unavailable!")
     if book:
-        new_lending = Lending(friend_id=friend_id, lend_date=datetime.now(), book_id=book.id)
+        new_lending = Lending(friend_id=friend_id,
+                              lend_date=datetime.now(),
+                              book_id=book.id)
         session.add(new_lending)
         friend.lending.append(new_lending)  # dodanie wypożyczenia do książki
         book.lend_state = 'lent'
@@ -84,27 +87,35 @@ def borrow_book(friend_id, title=''):
 
 def return_book(friend_id, title):
     # pobieramy wszystkie książki o danym tytule i wypożyczone
-    books_ids = [book.id for book in session.query(Book).filter(Book.title == title, Book.lend_state == 'lent').all()]
+    books_ids = [book.id for book in session.query(Book).filter(
+        Book.title == title,
+        Book.lend_state == 'lent').all()]
     friend = session.query(Friend).filter(Friend.id == friend_id).first()
+
+    if not friend:
+        raise ValueError("Friend unavailable!")
+    if not books_ids:
+        raise ValueError("Books unavailable!")
 
     for lending in friend.lending:
         # szukamy wypożyczenia zrobionego przez znajomego, aktualizujemy je
         if lending.book_id in books_ids:
             lending.return_date = datetime.now()
-            # zmieniamy też stan książki, 'on_shelf' i dodajemy jeszcze wypożyczenie do jej stanu
-            book = session.query(Book).filter(Book.id == lending.book_id).first()
+            # zmieniamy też stan książki, 'on_shelf'
+            # i dodajemy jeszcze wypożyczenie do jej stanu
+            book = session.query(Book).filter(
+                Book.id == lending.book_id).first()
             book.lend_state = 'on_shelf'
             book.lendings.append(lending)
             session.commit()
+            break
 
 
 def show_all_books(books=session.query(Book).all()):
     for book in books:
-        print(f"ID: {book.id}, title: {book.title}, lend_state: {book.lend_state}, authors: {book.author}")
-
-
-
-
+        print(f"ID: {book.id}, title: {book.title},"
+              f" lend_state: {book.lend_state},"
+              f" authors: {book.author}")
 
 
 # pokazujemy wszystkie teraz wypożyczone
@@ -118,5 +129,6 @@ def show_all_lendings():
     lendings = session.query(Lending).all()
     for l in lendings:
         print(
-            f"ID: {l.id} friend name: {l.friend.name}, lend_date: {l.lend_date}, return_date: {l.return_date}, book_id: {l.book_id}")
-
+            f"ID: {l.id} friend name: {l.friend.name},"
+            f" lend_date: {l.lend_date}, "
+            f"return_date: {l.return_date}, book_id: {l.book_id}")

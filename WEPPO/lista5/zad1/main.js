@@ -3,7 +3,7 @@
 // (odwołują się do siebie nawzajem)? Jeśli nie - wytłumaczyć dlaczego, jeśli tak - pokazać
 // przykład implementacji.
 
-// własny moduł tworzymy na dwa róœna sposoby:
+// własny moduł tworzymy na dwa rózne sposoby:
 /*
 module exports
 */

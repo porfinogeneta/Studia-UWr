@@ -1,5 +1,7 @@
 from flask import Flask, jsonify, request
-from orm import add_Friend, show_all_friends, delete_Friend, update_Friend, get_Friend_byId
+from orm import (add_Friend, show_all_friends,
+                 delete_Friend, update_Friend,
+                 get_Friend_byId)
 
 app = Flask(__name__)
 
@@ -20,7 +22,8 @@ def main():
 def get_all_friends():
     friends = show_all_friends()
     friends_list = [
-        {"id": friend.id, "name": friend.name, "surname": friend.surname, "email": friend.email}
+        {"id": friend.id, "name": friend.name,
+         "surname": friend.surname, "email": friend.email}
         for friend in friends
     ]
     return jsonify(friends_list)
@@ -46,8 +49,9 @@ def delete_friend(id):
     try:
         delete_Friend(id)
         return jsonify({'message': 'Friend deleted successfully'})
-    except:
-        return jsonify({'error': 'Unable to Delete'}), 500
+    except Exception as e:
+        print(e)
+        return jsonify({'error': 'Unable to delete'}), 500
 
 
 @app.route("/friends/update", methods=['PUT'])
@@ -59,12 +63,12 @@ def update_friend():
     try:
         update_Friend(id, column, value)
         friend = get_Friend_byId(id)
-        friend_json = {"name": friend.name, "surname": friend.surname, "email": friend.email}
+        friend_json = {"name": friend.name,
+                       "surname": friend.surname,
+                       "email": friend.email}
         return jsonify(friend_json)
     except:
         return jsonify({'error': 'Unable to Update'})
-
-
 
 
 if __name__ == "__main__":

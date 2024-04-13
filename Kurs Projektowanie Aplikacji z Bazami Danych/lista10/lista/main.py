@@ -81,6 +81,107 @@ session = Session()
 # person = Product("Juice", 12.02, "My favorite")
 # session.add(person)
 
+product4 = Product(
+    name='Incredible Gadget',
+    price=49.99,
+    company_name='InnoTech Solutions',
+    city_name='Techtopia',
+    street='Progress Avenue',
+    number=123,
+    product_state="available"
+)
+
+product5 = Product(
+    name='Smart Widget Pro',
+    price=39.99,
+    company_name='TechGenius Co.',
+    city_name='Innovation City',
+    street='Tech Boulevard',
+    number=55,
+    product_state="available"
+)
+
+product6 = Product(
+    name='Future Gizmo X',
+    price=59.99,
+    company_name='NextGen Innovations',
+    city_name='Tech Haven',
+    street='Future Lane',
+    number=88,
+    product_state="sold_out"
+)
+
+product7 = Product(
+    name='Ultimate Tech Device',
+    price=79.99,
+    company_name='FutureTech Industries',
+    city_name='Innovateville',
+    street='Tech Square',
+    number=7,
+    product_state="available"
+)
+
+product8 = Product(
+    name='Nano Widget Mini',
+    price=14.99,
+    company_name='MicroTech Solutions',
+    city_name='Nano City',
+    street='Tiny Lane',
+    number=5,
+    product_state="available"
+)
+
+product9 = Product(
+    name='Innovative Gizmo Plus',
+    price=49.99,
+    company_name='Innovation Innovators',
+    city_name='Techtopolis',
+    street='Future Street',
+    number=22,
+    product_state="not_available"
+)
+
+product10 = Product(
+    name='Smart Tech Companion',
+    price=69.99,
+    company_name='TechBuddy Corp',
+    city_name='InnoHub',
+    street='Progressive Street',
+    number=101,
+    product_state="available"
+)
+
+product11 = Product(
+    name='Gadget Mastermind',
+    price=89.99,
+    company_name='TechMinds Unlimited',
+    city_name='InnoSphere',
+    street='Tech Genius Avenue',
+    number=77,
+    product_state="available"
+)
+
+product12 = Product(
+    name='Futuristic Widget XL',
+    price=99.99,
+    company_name='InnoFutures Inc.',
+    city_name='Techtopolis',
+    street='Future Boulevard',
+    number=333,
+    product_state="sold_out"
+)
+
+product13 = Product(
+    name='NanoTech Wonder',
+    price=19.99,
+    company_name='NanoInnovate Labs',
+    city_name='Nano City',
+    street='Quantum Street',
+    number=11,
+    product_state="not_available"
+)
+
+
 product1 = Product(
     name='Awesome Widget',
     price=19.99,
@@ -94,6 +195,16 @@ product1 = Product(
 product2 = Product(
     name='Super Gizmo',
     price=29.99,
+    company_name='XYZ Innovations',
+    city_name='Innovatown',
+    street='Tech Street',
+    number=99,
+    product_state="available"
+)
+
+product21 = Product(
+    name='Another Gizmo',
+    price=9.99,
     company_name='XYZ Innovations',
     city_name='Innovatown',
     street='Tech Street',
@@ -128,6 +239,14 @@ store2 = Store(
 )
 
 # DODAWANIE REKORDÓW
+session.add_all([
+    product1, product2, product21,
+    product4, product5, product6,
+    product7, product8, product9,
+    product10, product11, product12,
+    product13
+])
+session.commit()
 # dodanie do listy produktów w transakcji produktów
 # COLLECTIONS
 # transaction1.products.append(product1)
@@ -142,8 +261,8 @@ store2 = Store(
 
 # pobieranie z bazy
 # print(product1.ratings)
-products = session.query(Product).all()
-print(products)
+# products = session.query(Product).all()
+# print(products)
 
 # 3 pierwsze podpunkty (bez HiLow)
 # # Print the records
@@ -162,6 +281,61 @@ print(products)
 # res = session.query(Store).all()
 # for r in res:
 #     print(r.product)
+
+from sqlalchemy import or_, and_
+
+def filter_results(query, filters, model):
+    for column_name, condition in filters.items():
+        column = getattr(model, column_name, None)
+        if column is not None:
+            if isinstance(condition, tuple) and len(condition) == 2:
+                # sortowanie po liczbach
+                operator, value = condition
+                if operator == "gt":
+                    query = query.filter(column > value)
+                elif operator == "lt":
+                    query = query.filter(column < value)
+                elif operator == "eq":
+                    query = query.filter(column == value)
+                # Add more custom operators as needed
+            else:
+                # sortowanie po stringach
+                query = query.filter(column.ilike(f"%{condition}%"))
+    return query.all()
+
+# Example usage:
+filters = {"name": "plus", "price": ('gt', 20)}
+filtered_products = filter_results(session.query(Product), filters, Product)
+# print(filtered_products)
+
+
+def sort_results(query, model, sort_by=None):
+    for column_name, order in sort_by.items():
+        column = getattr(model, column_name, None)
+        if column is not None:
+            if order == "asc":
+                query = query.order_by(column.asc())
+            elif order == "desc":
+                query = query.order_by(column.desc())
+
+    return query.all()
+
+sorting = {"price": "desc", "name": "desc"}  # Sort by price in ascending order and name in descending order
+sorted_products = sort_results(session.query(Product), Product, sorting)
+# print(sorted_products)
+
+def paginate_query(query, page, per_page):
+    if page < 1:
+        page = 1
+
+    offset = (page - 1) * per_page
+    paginated_query = query.offset(offset).limit(per_page)
+    return paginated_query.all()
+
+page_number = 4
+items_per_page = 2
+paginated_results = paginate_query(session.query(Product), page=page_number, per_page=items_per_page)
+print(paginated_results)
 
 
 # methods:

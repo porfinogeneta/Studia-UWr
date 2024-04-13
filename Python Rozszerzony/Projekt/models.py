@@ -1,9 +1,12 @@
-from sqlalchemy import create_engine, Column, Integer, String, Float, DateTime, Enum, ForeignKey, update, delete
-from sqlalchemy.orm import declarative_base, sessionmaker, validates, relationship, mapped_column, Mapped
+from sqlalchemy import (create_engine, Column,
+                        Integer, String, Float, DateTime,
+                        Enum, ForeignKey, update, delete)
+from sqlalchemy.orm import (declarative_base, sessionmaker,
+                            validates, relationship,
+                            mapped_column, Mapped)
 from datetime import datetime
 import enum
 from typing import List
-
 
 
 class LendingStates(enum.Enum):
@@ -22,7 +25,9 @@ class Lending(Base):
     __tablename__ = 'lendings'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    friend_id = mapped_column(Integer, ForeignKey('Friends.id'), nullable=False)
+    friend_id = mapped_column(Integer,
+                              ForeignKey('Friends.id'),
+                              nullable=False)
     friend = relationship("Friend", back_populates="lending")
 
     lend_date = mapped_column(DateTime, nullable=False)
@@ -30,6 +35,7 @@ class Lending(Base):
 
     book_id = mapped_column(Integer, ForeignKey('books.id'), nullable=False)
     book = relationship("Book", back_populates="lendings")
+
     # VALIDATIONS
     @validates('return_date')
     def validate_return_date(self, key, return_date):
@@ -41,18 +47,24 @@ class Lending(Base):
 class Book(Base):
     # SCHEMA
     __tablename__ = 'books'
-    id = mapped_column(Integer, primary_key=True, autoincrement=True, nullable=False)
+    id = mapped_column(Integer,
+                       primary_key=True,
+                       autoincrement=True,
+                       nullable=False)
     author = mapped_column(String(20), nullable=False)
     title = mapped_column(String(30), nullable=False)
     year = mapped_column(Integer, nullable=False)
     genre = mapped_column(String(20), nullable=False)
 
     # chcemy żeby były przetrzymywane nazwy zdefiniowane stringiem
-    lend_state = Column(Enum(LendingStates, values_callable=lambda x: [str(member.value) for member in LendingStates]),
+    lend_state = Column(Enum(LendingStates,
+                             values_callable=lambda x:
+                             [str(member.value) for member in LendingStates]),
                         default='on_shelf')
 
-
-    lendings: Mapped[List[Lending]] = relationship("Lending", back_populates="book")
+    lendings: Mapped[List[Lending]] = relationship(
+            "Lending",
+            back_populates="book")
 
     # VALIDATIONS
     @validates('year')
@@ -74,10 +86,12 @@ class Friend(Base):
     email = mapped_column(String(30), nullable=False)
 
     # wypożyczenia
-    # pierwszy argument to kto stoi po drugiej stronie relacji, drugi to gdzie relacja jest 'zaczepiona'
-    lending: Mapped[List[Lending]] = relationship("Lending", back_populates="friend")
-
-
+    # pierwszy argument to kto stoi po drugiej stronie relacji,
+    # drugi to gdzie relacja jest 'zaczepiona'
+    lending: Mapped[List[Lending]] = relationship(
+            "Lending",
+            back_populates="friend"
+        )
 
     # VALIDATIONS
     @validates('email')
