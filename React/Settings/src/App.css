@@ -1,0 +1,14 @@
+
+
+.appContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 95vh;
+  justify-content: center;
+  align-items: center;
+  /* position: relative; */
+}
+
+.profileContainer {
+  /* height: 600px; */
+}

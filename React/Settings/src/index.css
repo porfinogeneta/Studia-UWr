@@ -1,0 +1,5 @@
+body {
+    font-family: Roboto, sans-serif;
+    background: rgb(214,25,214);
+    background: linear-gradient(90deg, rgba(214,25,214,0.8589636538209033) 25%, rgba(96,207,230,0.83375356978729) 53%); ;
+  }

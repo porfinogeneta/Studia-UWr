@@ -1,6 +1,6 @@
 
 def optLCS(str1, str2):
-    m = len(str1)pm
+    m = len(str1)
     n= len(str2)
     dp = [0 for _ in range(n+1)]
 

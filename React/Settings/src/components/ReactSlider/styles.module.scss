@@ -1,0 +1,48 @@
+@import '@radix-ui/colors/black-alpha.css';
+@import '@radix-ui/colors/violet.css';
+@import '@radix-ui/colors/mauve.css';
+
+.SliderRoot {
+  position: relative;
+  display: flex;
+  align-items: center;
+  user-select: none;
+  touch-action: none;
+  width: 200px;
+  height: 20px;
+  
+  .SliderTrack {
+    background-color: var(--mauve-6);
+    position: relative;
+    flex-grow: 1;
+    border-radius: 9999px;
+    height: 8px;
+
+    .SliderRange {
+        position: absolute;
+        background: rgb(214,25,214);
+        background: linear-gradient(90deg, rgba(214,25,214,0.8589636538209033) 25%, rgba(96,207,230,0.83375356978729) 53%); ;      
+        border-radius: 9999px;
+        height: 100%;
+      }
+
+  }
+
+
+  .SliderThumb {
+    display: block;
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 10px;
+    border: solid 1px var(--mauve-6);
+  }
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 5px var(--black-a8);
+  }
+  
+}
+
+
+

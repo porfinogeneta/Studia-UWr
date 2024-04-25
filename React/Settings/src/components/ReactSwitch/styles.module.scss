@@ -1,0 +1,42 @@
+@import '@radix-ui/colors/black-alpha.css';
+@import '@radix-ui/colors/mauve.css';
+
+/* reset */
+button {
+  all: unset;
+}
+
+.SwitchRoot {
+  width: 42px;
+  height: 25px;
+  background-color: var(--mauve-6);
+  border-radius: 9999px;
+  position: relative;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  box-shadow: 0 2px 2px var(--black-a1);
+
+
+  &[data-state='checked'] {
+    background: rgb(214,25,214);
+    background: linear-gradient(90deg, rgba(214,25,214,0.8589636538209033) 25%, rgba(96,207,230,0.83375356978729) 53%); ;      
+        
+  }
+
+  .SwitchThumb {
+    display: block;
+    width: 21px;
+    height: 21px;
+    background-color: white;
+    border-radius: 9999px;
+    transition: transform 100ms;
+    transform: translateX(2px);
+    will-change: transform;
+  }
+  .SwitchThumb[data-state='checked'] {
+    transform: translateX(19px);
+  }
+}
+
+
+
+

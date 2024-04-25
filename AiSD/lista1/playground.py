@@ -91,10 +91,20 @@ def findSmallestRange(arr, K):
 	print("The smallest range is [{} {}]".format(start, end))
 
 
+def shift():
+	num = 0
+	for i in range(8):
+		for j in range(8):
+			print(num, end=" ")
+			num += 1
+		print()
+
 # Driver's code
 if __name__ == "__main__":
 	# arr = [[4, 7, 9, 12, 15], [0, 8, 10, 14, 20], [6, 12, 16, 30, 50]]
-    arr = [[1,2,3,1000], [0,2,2,40], [15,16,18, 41,42]]
-    K = len(arr)
-    N = len(arr[0])
-    findSmallestRange(arr, K)
+    # arr = [[1,2,3,1000], [0,2,2,40], [15,16,18, 41,42]]
+    # K = len(arr)
+    # N = len(arr[0])
+    # findSmallestRange(arr, K)
+	shift()
+
