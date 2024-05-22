@@ -1,0 +1,25 @@
+[0m[[0m[0mdebug[0m] [0m[0mPackaging /Users/szymon/Documents/Studia-UWr/Scala/lista3/functions/target/scala-3.4.0/functions_3-0.1.0-SNAPSHOT.jar ...[0m
+[0m[[0m[0mdebug[0m] [0m[0mInput file mappings:[0m
+[0m[[0m[0mdebug[0m] [0m[0m	ListException$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /Users/szymon/Documents/Studia-UWr/Scala/lista3/functions/target/scala-3.4.0/classes/ListException$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	hello.tasty[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /Users/szymon/Documents/Studia-UWr/Scala/lista3/functions/target/scala-3.4.0/classes/hello.tasty[0m
+[0m[[0m[0mdebug[0m] [0m[0m	hello.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /Users/szymon/Documents/Studia-UWr/Scala/lista3/functions/target/scala-3.4.0/classes/hello.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Main$package$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /Users/szymon/Documents/Studia-UWr/Scala/lista3/functions/target/scala-3.4.0/classes/Main$package$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Main$package.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /Users/szymon/Documents/Studia-UWr/Scala/lista3/functions/target/scala-3.4.0/classes/Main$package.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Utils.tasty[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /Users/szymon/Documents/Studia-UWr/Scala/lista3/functions/target/scala-3.4.0/classes/Utils.tasty[0m
+[0m[[0m[0mdebug[0m] [0m[0m	ListException.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /Users/szymon/Documents/Studia-UWr/Scala/lista3/functions/target/scala-3.4.0/classes/ListException.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	ListException.tasty[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /Users/szymon/Documents/Studia-UWr/Scala/lista3/functions/target/scala-3.4.0/classes/ListException.tasty[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Utils.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /Users/szymon/Documents/Studia-UWr/Scala/lista3/functions/target/scala-3.4.0/classes/Utils.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Utils$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /Users/szymon/Documents/Studia-UWr/Scala/lista3/functions/target/scala-3.4.0/classes/Utils$.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	Main$package.tasty[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /Users/szymon/Documents/Studia-UWr/Scala/lista3/functions/target/scala-3.4.0/classes/Main$package.tasty[0m
+[0m[[0m[0mdebug[0m] [0m[0mDone packaging.[0m

@@ -1,0 +1,5 @@
+[0m[[0m[31merror[0m] [0m[0m[31m[31m-- Error: /Users/szymon/Documents/Studia-UWr/Scala/lista3/functions/src/main/scala/Main.scala:98:33 [0m[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m98 |[0m  Utils.unSafe([33mnew[0m [35mListException[0m([31m"List should be of size at least two!"[0m)) {[0m
+[0m[[0m[31merror[0m] [0m[0m[31m[31m   |[0m                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m   |[0mtoo many arguments for [33mconstructor[0m [35mListException[0m in [33mclass[0m [35mListException[0m: (): ListException[0m
+[0m[[0m[31merror[0m] [0m[0mone error found[0m

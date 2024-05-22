@@ -1,0 +1,18 @@
+[0m[[0m[31merror[0m] [0m[0m[31m[31m-- Error: /Users/szymon/Documents/Studia-UWr/Scala/lista4/carddecks/src/main/scala/app/games/Blackjack.scala:69:17 [0m[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m69 |[0m                }[33myield[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m[31m   |[0m                 ^^^^^[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m   |[0m                 end of statement expected but 'yield' found[0m
+[0m[[0m[31merror[0m] [0m[0m[31m[31m-- [E044] Cyclic Error: /Users/szymon/Documents/Studia-UWr/Scala/lista4/carddecks/src/main/scala/app/games/Blackjack.scala:68:20 [0m[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m68 |[0m                    findAllSubsequence(canBeConsidered, createdSequence :+ card, remainingValue - getPoints(card))[0m
+[0m[[0m[31merror[0m] [0m[0m[31m[31m   |[0m                    ^[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m   |[0m     Overloaded or recursive [33mmethod[0m [35mfindAllSubsequence[0m needs return type[0m
+[0m[[0m[31merror[0m] [0m[0m[31m   |[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m   |[0m longer explanation available when compiling with `-explain`[0m
+[0m[[0m[31merror[0m] [0m[0m[31m[31m-- [E007] Type Mismatch Error: /Users/szymon/Documents/Studia-UWr/Scala/lista4/carddecks/src/main/scala/app/games/Blackjack.scala:73:39 [0m[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m73 |[0m        res = res ++ findAllSubsequence(allCards, List(), [31m21[0m)[0m
+[0m[[0m[31merror[0m] [0m[0m[31m[31m   |[0m                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m   |[0m                     Found:    [1m[31mList[0m[List[app.cards.Card]][1m[31m [0m[1m[31m|[0m[1m[31m [0m[1m[31mUnit[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m   |[0m                     Required: [1m[32mIterableOnce[0m[List[app.cards.Card]][0m
+[0m[[0m[31merror[0m] [0m[0m[31m   |[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m   |[0m longer explanation available when compiling with `-explain`[0m
+[0m[[0m[31merror[0m] [0m[0mthree errors found[0m
