@@ -1,26 +1,63 @@
 package app.DataFetching
 
+import app.ArtificialData._
+import scala.concurrent.{Future, ExecutionContext}
+import scala.util.{Success, Failure, Random}
+import java.io.{BufferedWriter, FileWriter, IOException}
+import java.time.LocalDateTime
+
+import ExecutionContext.Implicits.global
+import java.nio.Buffer
 
 object FacebookAdapter {
-    private val myAppSecret = "EAAGM9YhZAOvABORH5DFHv1AFKDuzlFrmHivt02vLKlEksRs6El9dFacScbJOMfNURRHbiFnVE5a2qY6Tx1oKUhOOSKIM8mId03lh4s5DUftAhifYTpPlD0QGsP124EZAmEHskpdKM6dZAuCZBtQZDZD" //any String (or Note1)
-    
-    class MyFacebookClient(currentAccessToken: String)
-        extends DefaultFacebookClient(
-        currentAccessToken,
-        myAppSecret,
-        Version.VERSION_5_0) {
-                def this(accessToken: String) = this(accessToken, myAppSecret) // Default constructor with app secret
+    private val myAppSecret = "" // any String (or Note1)
+    val rand = new Random()
+    val currentDateTime: LocalDateTime = LocalDateTime.now()
+
+    def fetchUser(name: String): User = {
+        Thread.sleep(1000)
+        User(name, rand.between(0, 100000))
     }
-    
-    def getUser(accessToken: String, id: String) = ... {
-        val client = new MyFacebookClient(accessToken)
+
+    def getUserFacebookData(name: String): Future[User] = {
+        Future {
+            fetchUser(name)
+        }
+    }
+
+    def writeFile(filename: String, data: String): Future[Unit] = Future {
+        val bw = new BufferedWriter(new FileWriter(filename, true))
+        
         try {
-            val user = client.fetchObject(id, classOf[User])
-            Some(user)
-        } catch {
-            case e: FacebookException => 
-            // Handle exception (e.g., invalid access token, user not found)
-            None
+            bw.write(data)
+            bw.newLine()
+        } 
+        finally {
+            bw.close()
+        }
+    }
+
+    // comapare likes
+    def getUsers(names: List[String], filename: String): Unit = {
+        // zbieramy futures
+        val futures = names.map(getUserFacebookData)
+        
+        // czekamy az się skończą
+        val allFuturesResolved = Future.sequence(futures)
+        
+        allFuturesResolved.onComplete {
+            case Success(users) => 
+                val data = s"${currentDateTime}${users.map(_.toString).mkString(", ")}"
+                writeFile(filename, data).onComplete{
+                    // jak się uda zapisać do pliku
+                    case Success(_) => users.foreach(u => {
+                        println(s"${u.name}, likes: ${u.likes}")
+                    })
+                    case Failure(exception) => println(s"Failed to write to file: $exception")
+                }
+                
+            case Failure(exception) => println(s"Failed to fetch user: $exception")
         }
     }
 }
+

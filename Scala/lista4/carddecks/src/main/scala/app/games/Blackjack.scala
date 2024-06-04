@@ -35,46 +35,46 @@ class Blackjack(deck: Deck) {
 
     // finds all subsequences of cards which could give 21 points
     // lazy val obliczamy daną wartość tylko jak zostanie ona uzyta w kodzie, nie za kazdym utworzeniem obiektu
-    lazy val all21: List[List[Card]] = 
-        val allCards = deck.takeElems(deck.amountWithFace + deck.amountWithNumerical) // pobieramy cały deck
-        def getPoints(card: Card): Int =
-            var points = 0
-                if (card.value == Queen | card.value == King | card.value == Jack) {
-                    points = 10
-                }else if (card.value == Ace){
-                    points = 10
-                }else {
-                    points = card.value.toString().takeRight(1).toInt
-                }
-            return points
+    // lazy val all21: List[List[Card]] = 
+    //     val allCards = deck.takeElems(deck.amountWithFace + deck.amountWithNumerical) // pobieramy cały deck
+    //     def getPoints(card: Card): Int =
+    //         var points = 0
+    //             if (card.value == Queen | card.value == King | card.value == Jack) {
+    //                 points = 10
+    //             }else if (card.value == Ace){
+    //                 points = 10
+    //             }else {
+    //                 points = card.value.toString().takeRight(1).toInt
+    //             }
+    //         return points
 
 
-        var res: List[List[Card]] = List()
-        def findAllSubsequence(remainingSeqeunce: List[Card], createdSequence: List[Card], remainingValue: Int) =
-            if (remainingValue == 0){
-                List(createdSequence)
-            }else if (remainingValue < 0 | remainingSeqeunce.isEmpty){
-                List()
-            }else {
-                // podzielimy sekwencję która nam została na dwie części,
-                // tą w której dodanie jakiejkolwiek karty będzie za duze względem 21 i tą gdzie mozna jeszcze dodać
-                val (canBeConsidered, restOfSequence) = remainingSeqeunce.partition(card => {
-                    remainingValue - getPoints(card) >= 0
-                })
+    //     var res: List[List[Card]] = List()
+    //     def findAllSubsequence(remainingSeqeunce: List[Card], createdSequence: List[Card], remainingValue: Int) =
+    //         if (remainingValue == 0){
+    //             List(createdSequence)
+    //         }else if (remainingValue < 0 | remainingSeqeunce.isEmpty){
+    //             List()
+    //         }else {
+    //             // podzielimy sekwencję która nam została na dwie części,
+    //             // tą w której dodanie jakiejkolwiek karty będzie za duze względem 21 i tą gdzie mozna jeszcze dodać
+    //             val (canBeConsidered, restOfSequence) = remainingSeqeunce.partition(card => {
+    //                 remainingValue - getPoints(card) >= 0
+    //             })
 
-                // println(canBeConsidered)
+    //             // println(canBeConsidered)
 
-                for (card <- canBeConsidered) {
-                    findAllSubsequence(canBeConsidered, createdSequence :+ card, remainingValue - getPoints(card))
-                }
+    //             for (card <- canBeConsidered) {
+    //                 findAllSubsequence(canBeConsidered, createdSequence :+ card, remainingValue - getPoints(card))
+    //             }
 
-            }
+    //         }
 
-        res = res ++ findAllSubsequence(allCards, List(), 21)
+    //     res = res ++ findAllSubsequence(allCards, List(), 21)
 
 
 
-    // def first21(): Unit = ??? // finds and pretty-prints the first subsequence of cards which could give 21 points
+    // // def first21(): Unit = ??? // finds and pretty-prints the first subsequence of cards which could give 21 points
 
 }
 // // creates Blackjack game
