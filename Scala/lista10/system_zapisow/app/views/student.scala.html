@@ -1,0 +1,21 @@
+@import database.Student
+@import database.Lecture
+@(student: Student, lectures: List[Lecture])
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Profile</title>
+  </head>
+  <body>
+    <h1>Witaj, @student.name</h1>
+    <h3>Rocznik: @student.year</h3>
+    <h3>Twój indeks: @student.index</h3>
+    <h3>Wykłady:</h3>
+    <ul>
+        @for(l <- lectures){
+            <li>@l.name</li>
+        }
+    </ul>
+  </body>
+</html>

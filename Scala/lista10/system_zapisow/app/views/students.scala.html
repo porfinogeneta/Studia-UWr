@@ -1,0 +1,17 @@
+@import database.Student
+@(students: List[Student])
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Students</title>
+  </head>
+  <body>
+    <h1>Studenci</h1>
+    <ul>
+        @for(student <- students){
+            <li>@student.name | @student.index</li>
+        }
+    </ul>
+  </body>
+</html>

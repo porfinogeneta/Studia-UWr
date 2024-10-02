@@ -1,0 +1,19 @@
+@import database.Lecture
+@(lectures: List[Lecture])
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Lectures</title>
+  </head>
+  <body>
+    <h1>Lectures</h1>
+    <ul>
+        @for(lecture <- lectures){
+            <li>
+                <a>@lecture.name</a>
+            </li>
+        }
+    </ul>
+  </body>
+</html>

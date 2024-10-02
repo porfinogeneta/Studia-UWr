@@ -16,10 +16,10 @@ case class Pizza(
     extraTopping: Option[ToppingType] = None
 ) {
     override def toString: String =
-        s"Pizza: ${prettify(pizzaType)} \n" +
-          s"Of size: ${prettify(size)} \nWith crust: ${prettify(crust)} \n" +
-          s"Additional meat: ${prettifyOption(extraMeat, "No additional meat")}\n" +
-          s"Extra topping: ${prettifyOption(extraTopping, "No extra topping")}" 
+        s"""Pizza: ${prettify(pizzaType)}
+          | Of size: ${prettify(size)} \nWith crust: ${prettify(crust)}
+          | Additional meat: ${prettifyOption(extraMeat, "No additional meat")}
+          | Extra topping: ${prettifyOption(extraTopping, "No extra topping")}""".stripMargin()
 
     private def prettify(value: Any): String =
         value.toString.split("\\.").lastOption.getOrElse("").takeWhile(_ != '$')

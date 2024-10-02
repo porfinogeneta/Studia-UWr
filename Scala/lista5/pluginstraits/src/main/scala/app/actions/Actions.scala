@@ -11,6 +11,11 @@ object Actions {
     abstract class Pluginable extends Reverting with LowerCasing with SingleSpacing with NoSpacing with DuplicateRemoval
         with Rotating with Doubling with Shortening
 
+
+
+    // val actionA = new Pluginable with Reverting with Shortening    
+    // val actionA2 = new Pluginable with Shortening with Reverting  
+
     class PluginableA extends Pluginable {
         def plugin(s: String) =
             shortening(doubling(singleSpacing(s)))
@@ -38,7 +43,7 @@ object Actions {
 
     class PluginableF extends Pluginable {
         def plugin(s: String) =
-            (1 to 5).foldLeft(s)((str, _) => reverting(str))
+            (1 to 5).foldLeft(s)((str, _) => rotating(str))
     }
 
     class PluginableG extends Pluginable {

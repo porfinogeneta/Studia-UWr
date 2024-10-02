@@ -6,8 +6,9 @@ case object zl extends Currency
 case object $ extends Currency
 case object USD extends Currency
 case object EUR extends Currency
-case object er extends Currency
+case object `€` extends Currency
 
+val zl = PLN
 
 val conversionRates: Map[(Currency, Currency), BigDecimal] = 
     Map(

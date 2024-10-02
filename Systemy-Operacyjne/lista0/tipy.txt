@@ -1,0 +1,1 @@
+./prog A & ./prog B -> uruchamia kilka programów na raz

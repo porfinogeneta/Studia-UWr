@@ -1,0 +1,22 @@
+@import database.Lecture
+@import database.Enrollment
+
+
+@(lecture: Lecture, enrollment: Enrollment)
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Lectures</title>
+  </head>
+  <body>
+    <h1>Lectures</h1>
+    <h2>@lecture.name</h2>
+    <h3>Students</h3>
+    <ul>
+        @for(student <- enrollment.students){
+            <li>@student.name | @student.index</li>
+        }
+    </ul>
+  </body>
+</html>

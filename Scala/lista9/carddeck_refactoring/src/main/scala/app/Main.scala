@@ -21,8 +21,11 @@ import core.deck._
   println(new_deck.duplicatesOfCard(Card(Clubs, Num3)))
   println(new_deck.amountOfColor(Clubs))
   println(new_deck.amountOfNumerical(Num2))
+
   println(new_deck.amountWithNumerical)
+
   println(new_deck.amountOfFace(Ace))
+
   println(new_deck.amountWithFace)
 
   val game = new Blackjack(new_deck)

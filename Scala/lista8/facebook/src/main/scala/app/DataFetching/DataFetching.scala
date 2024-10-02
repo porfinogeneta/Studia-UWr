@@ -44,6 +44,15 @@ object FacebookAdapter {
         
         // czekamy az się skończą
         val allFuturesResolved = Future.sequence(futures)
+
+        val x: Future[User] = someFuture
+        val y: Future[User] = someFuture
+
+
+        for {
+            user1  <- someFeature
+            user2 <- someFeature
+        } yield user2
         
         allFuturesResolved.onComplete {
             case Success(users) => 

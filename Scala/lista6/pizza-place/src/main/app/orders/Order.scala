@@ -30,7 +30,7 @@ class Order(
     def apply(name: String, address: String, phone: String, pizzas: List[Pizza],
      drinks: List[DrinkType], discount: Option[discount] = None, specialInfo: Option[String] = None): Order = 
         require(
-            isValidPhoneNumber(phone)
+            isValidPhoneNumber(phone) && (drinks.notEmpty() || pizzas.notEmpty())
         )
         new Order(name, address, phone, pizzas, drinks, discount,specialInfo)
     
@@ -67,11 +67,11 @@ class Order(
         val totalPizzas = pizzas.foldLeft(0.0)((acc, p) => p.totalPrice + acc)
         val totalDrinks = drinks.foldLeft(0.0)((acc, d) => d.price + acc)
         if (discount == student) {
-            return totalPizzas * 0.05 + totalDrinks
+            totalPizzas * 0.05 + totalDrinks
         }else if (discount == senior){
-            return (totalPizzas + totalDrinks)*0.07
+            (totalPizzas + totalDrinks)*0.07
         }else {
-            return totalPizzas + totalDrinks
+            totalPizzas + totalDrinks
         }
     
     val price: Double =
