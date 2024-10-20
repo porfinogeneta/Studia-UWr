@@ -26,10 +26,6 @@ static int ndselect(int n) {
     
     }
 
-  // for (int i = 0; i < n; i++){
-  //   Waitpid(q_proccesses[i], NULL, 0);
-  // }
-
   exit(0);
 }
 
@@ -68,6 +64,8 @@ int main(int argc, char **argv) {
   if (size < 3 || size > 9)
     app_error("Give board size in range from 4 to 9!");
 
+  // każdy proces dostaje kopie pamięci, dlatego nie trzbea
+  // tego czyścić
   int board[size];
 
   /* TODO: A loop is missing here that initializes recursive algorithm. */
@@ -78,10 +76,6 @@ int main(int argc, char **argv) {
     }
 
     int free_col = ndselect(size);
-
-    if (free_col == -1){
-      exit(0);
-    }
 
     // printf("main, PID %d, placed in row: %d, column: %d\n", (int)getpid(), i, free_col);
 

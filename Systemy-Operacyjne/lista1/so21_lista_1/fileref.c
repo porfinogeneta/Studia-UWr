@@ -61,9 +61,6 @@ int main(int argc, char **argv) {
     if (!strcmp(argv[1], "read"))
       do_read(fd);
     if (!strcmp(argv[1], "close")) {
-      // czekamy na koniec dziecka
-      
-      // options są ORowane ze stałymi (options to 3 argument)
       rc_wait = Waitpid(rc, &status, 0);
       printf("\nClose on parent side beginning:\n parent of: %d\n (rc_wait: %d) returned with status: %d\n", rc, rc_wait, status);
       do_close(fd);

@@ -6,6 +6,8 @@
 ### Pojęcia
 (fork) -> tworzy nowy proces
 
+- procesy jądra - ```[kworker/R-xfsal]```
+
 - rodzic-dziecko - procesy są tworzone przez strukturę drzewiastą, z jednego procesu powstaje inny który jest kopią rodzica (nie dokładną kopią), z tą różnicą że nie ma metody startowej <b>main</b>
 
 - identyfikator procesu - id danego procesu, który umożliwia jego łatwą identyfikację, gdy chcemy go np zatrzymać
@@ -80,7 +82,7 @@ Fork zwraca wartość 0 w dziecku oraz wartość == swojemu PID w rodzicu, możn
 ### Pojęcia
 - sierota - proces, który stracił rodzica, SO zmienia Parent PID takiego procesu na proces <i>init</i>
 
-- zombie - proces się zakończył, rodzic procesu też, ale rodzic go nie pogrzebał staje się procesem zombie (rodzic nie wywołał wait na procesie), procesy w stanie <b>zombie</b> są zabijane przez proces <b>init</b>
+- zombie - proces się zakończył, rodzic procesu też, ale rodzic go nie pogrzebał staje się procesem zombie (rodzic nie wywołał wait na procesie), procesy w stanie <b>zombie</b> są zabijane przez proces <b>init</b>, możemy je zabić po prostu waitpid
 
 - stany procesu
     - running - proces jest na procesorze i jest wykonywany
@@ -88,10 +90,13 @@ Fork zwraca wartość 0 w dziecku oraz wartość == swojemu PID w rodzicu, możn
     - blocked - proces realizuje jakieś zadanie, które sprawia, że jakieś inne wydarzenie musi się zrealizować, np I/O na dysku, proces w tym stanie może zwolnić procesor, bo jest zablokowany przez I/O na dysku
     - stopped - proces zostaje zawieszony i nie będzie zrealizowany, dopóki nie przyjdzie sygnał
     - terminated - proces pernamentnie zakończony
+    - powinno być co zostało zwrócone z procesu, podczas exit(), czy się zakończył, jaki sygnał przyszedł itp
+
+### Jak zabić proces zombie
+Procesy zombie są zabijane przez proces init
 
 ### Dlaczego proces nie może pogrzebać sam siebie
 - nie może tego zrobić, bo jak się już zakończył to nie jest uruchomiony, czyli nie ma możliwości pogrzebania samego siebie
-- nie zna swojego PID, PID jest przekazywane do rodzica
 - znikęła by wtedy komunikacja rodzic dziecko, rodzic nie wiedziałby, że dziecko się zakończyło i zepsułaby się hierarchia
 
 ### Co by się stało gdyby ```waitpid``` mógł czekać na zmianę stanu dowolnego procesu?
@@ -104,9 +109,13 @@ Fork zwraca wartość 0 w dziecku oraz wartość == swojemu PID w rodzicu, możn
 
 (b) wiele procesów czeka na zmianę jednego procesu
 
--> nie wiadomo, który miałby pierwszy dostać info o zakończeniu procesu, wyścigi
+-> nie wiadomo, który miałby pierwszy dostać info o zakończeniu procesu, wyścigi, nawet jak byśmy to rozwiązali, to nie wiadomo kto ma grzebać który proces
+
+-> jądro nie wie co się dzieje w procesach użytkownika, w szczególności jeden proces może się zakończyć
 
 -> duplikacja danych, musilibyśmy jakoś wszystkim procesom dać znać, że jakiś się skończył
+
+Do wskazówki: Proces, grzebiący dany proces i zwalniający zasoby, np rodzic albo init.
 
 # zadanie 3
 ![alt text](image.png)
@@ -118,7 +127,7 @@ main(argc, argv, envp) [counter, argumenty, środowisko]
 ### Pojęcia
 - argumenty programu - opcje, z którymi program jest wywołany
 
-- zmienne środowiskowe - trzymane w tablicy typu <i>name = value</i>, przekazują informacje o typie terminala, katologu domowym, w którym jest program, itp
+- zmienne środowiskowe - trzymane w tablicy typu <i>name = value</i>, przekazują informacje o typie terminala, katologu domowym, w którym jest program + informacje z procesu rodzica
 
 
 ### Do czego służy proc(5)
@@ -145,7 +154,7 @@ Polecenie ```ls -l /proc/pid``` na pid ```ps -eo user,pid,ppid,pgid,tid,pri,stat
 ``` cat /proc/[pid]/status```
 | Uid | Gid | Groups | VmPeak | VmSize | VmRSS | Threads | voluntary_ctxt_switches | nonvoluntary_ctxt_switches |
 |-----|-----|--------|--------|--------|-------|---------|-------------------------|----------------------------|
-| ID użytkownika, używane do przyznawania konkrentych uprawnień, np każda aplikacja może być konkrentym userem (tak jest na androidzie)| ID grupy do której należy użytkownik i która ma konkretne uprawnienia, główna grupa do której należy użytkownik| pozostałe grupy, do których należy user, poza grupą główną, dzięki temu user może mieć uprawienia z różnych grup   |  Peak virtual memory size. Maksymalna ilość pamięci zużyta przez proces od jego uruchomienia | Virtual memory size. Pamięć używana w tym momencie (zaalokowana w tym momencie)  | Ilość pamięci fizycznej, używanej przez proces (RAM)  | Liczba wątków używanych w procesie       | Ile razy ten proces dobrowolnie oddał CPU, np jak było I/O to nie musi już zużywać CPU                | Ile razy jądro wyrzuciło proces z CPU, robiąc miejsce dla innego                         |
+| ID użytkownika, używane do przyznawania konkrentych uprawnień, np każda aplikacja może być konkrentym userem (tak jest na androidzie)| ID grupy do której należy użytkownik i która ma konkretne uprawnienia, główna grupa do której należy użytkownik| pozostałe grupy, do których należy user, poza grupą główną, dzięki temu user może mieć uprawienia z różnych grup   |  Peak virtual memory size. Maksymalna ilość pamięci zużyta przez proces od jego uruchomienia | Virtual memory size. Pamięć używana w tym momencie (zaalokowana w tym momencie)  | Ilość pamięci fizycznej, używanej przez proces (RAM)  | Liczba wątków używanych w procesie       | Ile razy ten proces dobrowolnie oddał CPU, np jak było I/O to nie musi już zużywać CPU, ten wskaźnik jest duży, jak często czekamy na I/O                | Ile razy jądro wyrzuciło proces z CPU, robiąc miejsce dla innego, jest duży, gdy mamy dużo obliczeń                         |
 
 # zadanie 4
 ![alt text](image-1.png)
@@ -164,13 +173,15 @@ X-serwer - system do komunikacji między komputerem a programami, ich okienkami 
 
 - sterta - dynamicznie zaalokowana, zarządzana przez użytkownika pamięć, gdy korzystaliśmy z malloc np
 
-- segmenty programu - bloki pamięci używane przez proces, fragmenty pliku wykonywalnego, załadowanego do pamięci
+- segmenty programu - bloki pamięci używane przez proces, które są częścią programu
 
 - pamięć anonimowa - segment pamięci, który jest alokowany tylko w trakcie wykonywania programu, niemające odwzorowania w pamięci (np stos, sterta)
 
 - pliki odwzorowane w pamięć - (memory-mapped files) - pliki, które do procesu zostały załadowane z konkretnego miejsca na dysku, istnieją też poza procesem
 
 - <b>pmap</b> - mapa pamięci procesu
+
+- tutaj lepsze polecenie, można znaleźć <i>heap</i> ```cat /proc/4932/maps```, odkrywa nam pamięć anonimową na stertę
 
 ```
 ps -eo user,pid,ppid,pgid,tid,pri,stat,wchan,cmd | grep x11
@@ -190,8 +201,8 @@ szymonm     4986    4419    4937    4986  19 Sl   do_pol /usr/libexec/ibus-x11 -
 
 ### Znaczenie kolumn wydruku
 - 00007fff103e5000 - adres wirtualny segmentu w procesie
-- 16K - zaalokowana pamięć w kolobajtach
-- r---- - przywileje dla pliku [r - read, w - write, x - execute]
+- 16K - zaalokowana pamięć w kilobajtach
+- r---- - przywileje dla zasobu [r - read, w - write, x - execute]
 - ld-linux-x86-64.so.2 - rodzaj zasobu pamięci
 
 # zadanie 5
@@ -208,6 +219,8 @@ lsof -c firefox -> pokaże wszystkie procesy, które zaczynają się od firefox
 - pliki zwykłe - pliki będące faktycznymi plikami na dysku
 
 - katalog urządzenia - zawiera pliki reprezentujące urządzenia podpięte do lokalnego systemu
+
+- urządzenia - zasoby, umożliwiające np pobieranie, zapisywaie do pliku
 
 - deskryptor pliku - liczba, jednoznacznie opisująca otwarty plik w systemie
 
@@ -230,6 +243,8 @@ lsof -c firefox -> pokaże wszystkie procesy, które zaczynają się od firefox
 - 2362470 - inode, czyli unikalne metadane dla danego pliku zakodowane w liczbie
 - type=STREAM - specjalna nazwa (dokumentaja lsof), albo jak to jest faktycznie plik to gdzie się znajduje
 
+- DEL - plik był w pamięci, ale został usunięty, jedyne odniesienie do nich jest w pamięci
+
 ### Przykłady konkretnych danych
 
 1. Plik zwykły
@@ -242,7 +257,7 @@ lsof -c firefox -> pokaże wszystkie procesy, które zaczynają się od firefox
     firefox 8400 szymonm  cwd       DIR                8,5      4096 2359298 /home/szymonm
     ```
 
-3. Urządzenie - jakiś jednoznakowy I/O
+3. Urządzenie - jakiś jednoznakowy/wielobajtowy I/O
     ```
     firefox 8400 szymonm  216u      CHR            226,128       0t0     872 /dev/dri/renderD128
     ```
@@ -284,17 +299,17 @@ Czas wykonania <i>real</i> to czas wygenerowany przez funkcję daty, czyli po pr
 
 - powłoka - interfejs, który interpretuje polecenia wprowadzone przez użytkownika (np bash, zsh, fish)
 
-- proces potomny powłoki - proces uruchomiony przez powłokę, dziecko procesu powłoki
+- proces potomny powłoki - proces uruchomiony przez powłokę, dziecko procesu powłoki, jak wpisujemy jakieś polecenie w bash, to wywoływany jest proces potomny powłoki
 
 - ograniczenie - ustawione jako argument ulimit jest dziedziczone przez wszystkie procesy potomne, ograniczenie na czas na CPU to -t, aktualne limity to ```ulimit -a```
 
-- czas na cpu
+- ulimit - ustawia czas sys/user na procesorze, nie real
 
 ### Uruchomienie ```time find /usr```
 ```
 real	0m11,724s -> wall clock, ile czasu rzeczywistego upłynęło
 user	0m1,707s -> czas na CPU spędzony w user-mode
-sys	0m2,691s -> czas na CPU spędzony w kernel-mode
+sys	    0m2,691s -> czas na CPU spędzony w kernel-mode
 ```
 
 #### Czemu suma czasów sys i user
@@ -361,3 +376,5 @@ numer_sygnału - 128 -> patrzymy do tabelki (9 powinno wyjść)
 
  ### Drzewo procesów programu
  ![alt text](9FFE11F2-7CA6-4726-A1A4-C780AAF376F6.png)
+
+ - waitpid - czekanie na konkrenty proces, możemy też wyspecyfikować jego status
