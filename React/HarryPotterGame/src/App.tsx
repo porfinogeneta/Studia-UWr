@@ -18,6 +18,7 @@ type PotionType = {
   side_effects: string | null;
   slug: string;
   time: string | null;
+  
   wiki: string;
 
 }
@@ -127,23 +128,22 @@ function App() {
   return (
     <div className="container">
       <div className="game_container">
-        {isLoading && <Loader/>}
-        {!isLoading && potions.length > 0 &&
+        {isLoading && <Loader />}
+        {!isLoading && potions.length > 0 && (
           <>
             <h1>Harry Potter Game</h1>
             <Answers
-              answers={getAnswers(currentQuestion).map((a) => potions[a].name)} 
+              answers={getAnswers(currentQuestion).map((a) => potions[a].name)}
               question={potions[currentQuestion].effect}
               hasGivenAnswer={handleAnswer}
-              />
-              {!givenAnswer ?  <p className="wrong_answer">Wrong Answer!</p> : <></>}
-              <div className="score_container">
-                <p className="score">Score: {score}</p>
-                <p style={{textAlign: "right"}} className="score">High Score: {highScore}</p>
-              </div>
+            />
+            {!givenAnswer && <p className="wrong_answer">Wrong Answer!</p>}
+            <div className="score_container">
+              <p className="score">Score: {score}</p>
+              <p style={{ textAlign: "right" }} className="score">High Score: {highScore}</p>
+            </div>
           </>
-        }
-        
+        )}
       </div>
     </div>
   )

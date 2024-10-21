@@ -20,11 +20,7 @@ export default function RootLayout() {
                         <NavLink
                         to="/about"
                         className={({ isActive }) => `${isActive ? "underline" : ""}`}
-                        state={{ from: location.pathname }}
-                        >
-                        About
-                        </NavLink>
-                    </li>
+                        
                     <li>
                         <NavLink
                         to="/projects"
@@ -32,6 +28,15 @@ export default function RootLayout() {
                         state={{ from: location.pathname }}
                         >
                         Projects
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink
+                        to="/side-project"
+                        className={({ isActive }) => `${isActive ? "underline" : ""}`}
+                        state={{ from: location.pathname }}
+                        >
+                        Side Project
                         </NavLink>
                     </li>
                 </ul>

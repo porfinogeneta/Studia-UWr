@@ -21,13 +21,15 @@ export default function PreviewGallery({urls} : {urls: string[]}) {
                 <div 
                     key={idx} 
                     onClick={() => handleClick(url)}  
-                    className={"hover:cursor-pointer"}
+                    className="hover:cursor-pointer"
                 >
-                    <img className={`${url == selectedPhoto ? "scale-150 z-40" : "scale-100 z-0"}`} src={url}/>
+                    <img 
+                        className={`${url === selectedPhoto ? "scale-150 z-40" : "scale-100 z-0"}`} 
+                        src={url} 
+                        alt={`Preview ${idx + 1}`}
+                    />
                 </div>
             ))}
-            
         </div>
-        
     )
 }

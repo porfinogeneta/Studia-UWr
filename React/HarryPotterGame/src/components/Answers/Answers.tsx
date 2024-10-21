@@ -60,6 +60,8 @@ export default function Answers({answers, question, hasGivenAnswer}: AnswersProp
                 ))}
             </div>
             
+
+            
         </div>
     )
 }
