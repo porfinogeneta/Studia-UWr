@@ -1,0 +1,20 @@
+Dla parametrów:  - ocena: pozytywna. |  - ocena: negatywna. 
+Correct: 77 
+ Total: 100 
+ % correct:  0.77 
+
+Dla parametrów: - pozytywna | - negatywna 
+Correct: 81 
+ Total: 100 
+ % correct:  0.81 
+
+Dla parametrów:  - polecam |  -nie polecam 
+Correct: 219 
+ Total: 400 
+ % correct:  0.5475 
+
+Dla parametrów:  - polecam |  - nie polecam 
+Correct: 323 
+ Total: 400 
+ % correct:  0.8075 
+
