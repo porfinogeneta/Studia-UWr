@@ -1,1 +1,1 @@
-cycle.o: cycle.c include/csapp.h
+cycle.o: cycle.c

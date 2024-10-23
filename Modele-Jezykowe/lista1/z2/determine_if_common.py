@@ -31,26 +31,38 @@ class DetermineIfCommon:
         """
 
         # dict: pair: prob (log)
-        dict_prob = {pair: sentence_prob(f"{pair[0]} {pair[1]}") for pair in lst_pairs}
+        dict_prob = {pair: None for pair in lst_pairs}
+        for p1,p2 in dict_prob.keys():
+            prob_combined = sentence_prob(f"{p1} {p2}")
+            prob_separated = sentence_prob(p1) + sentence_prob(p2)
+            delta = prob_separated - prob_combined
+            dict_prob[(p1, p2)] = delta
+            # if delta < 4.5:
+            #     print(f"Combined: {prob_combined};\nSeparated: {prob_separated};\nImprovement: {delta}")
+            #     print(f"Result for: {p1} {p2}")
+        # dict_prob = {pair: sentence_prob(f"{pair[0]} {pair[1]}") for pair in lst_pairs}
         # sorted dict according to probability
-        dict_prob = dict(sorted(dict_prob.items(), key= lambda item: item[1], reverse=True))
-
+        dict_prob = dict(sorted(dict_prob.items(), key= lambda item: item[1], reverse=False))
+        # print(dict_prob)
         used = set()
         not_used = set(words)
 
         # according to greedy approach
         best_words_blend = []
 
-        for key_pair in dict_prob.keys():
-            p1, p2 = key_pair
+        for p1, p2 in dict_prob.keys():
             if p1 not in used and p2 not in used:
-                best_words_blend.append(f"{p1} {p2}")
-                used.add(p1), used.add(p2)
-                not_used.remove(p1), not_used.remove(p2)
+                if dict_prob[(p1, p2)] < 5.5:
+                    best_words_blend.append(f"{p1} {p2}")
+                    used.add(p1), used.add(p2)
+                    not_used.remove(p1), not_used.remove(p2)
         
-        # not even amount of words, one will be alone :(
-        if len(not_used) == 1:
+        
+        while not_used:
             best_words_blend.append(not_used.pop())
+        # not even amount of words, one will be alone :(
+        # if len(not_used) == 1:
+        #     best_words_blend.append(not_used.pop())
 
         return best_words_blend
 
@@ -102,13 +114,14 @@ class DetermineIfCommon:
             all_sntc_perm = self.generate_sentences_permutations(blended_words)
         
         # calculate probability of each sentence, and sort it
-        res = {snt: sentence_prob(snt) for snt in tqdm(all_sntc_perm)}
+        # res = {snt: sentence_prob(snt) for snt in tqdm(all_sntc_perm)}
+        res = {all_sntc_perm[i]: sentence_prob(all_sntc_perm[i]) for i in range(100)}
         res = dict(sorted(res.items(), key= lambda item: item[1], reverse=True))
 
         with open(filename, "w") as f:
             for key, val in res.items():
                 f.write(f"{key} {val}\n")
-        
+                
             f.close()
 
 

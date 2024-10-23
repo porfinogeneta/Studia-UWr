@@ -10,28 +10,29 @@ static pid_t spawn(void (*fn)(void)) {
   return pid;
 }
 
-// ps -jH
-
 static void grandchild(void) {
-  printf("(%d) Waiting for signal!\n Group (%d)", getpid(), getpgrp());
+  printf("(%d) Waiting for signal!\n", getpid());
   /* TODO: Something is missing here! */
-  pause();
   printf("(%d) Got the signal!\n", getpid());
 }
 
 static void child(void) {
   pid_t pid;
   /* TODO: Spawn a child! */
-  Setpgid(getpid(), getpid());
+  setpgid(0, 0);
   pid = spawn(grandchild);
+  if (pid){
+    setpgid(pid, getpid());
+  }
   printf("(%d) Grandchild (%d) spawned!\n", getpid(), pid);
 }
 
 /* Runs command "ps -o pid,ppid,pgrp,stat,cmd" using execve(2). */
 static void ps(void) {
   /* TODO: Something is missing here! */
-  char *const args[] = {"/bin/ps", "-o", "pid,ppid,pgrp,stat,cmd", NULL};
-  execv(args[0], args);
+  char *path = "/usr/bin/ps";
+  char *argv[] = {"ps", "o", "pid,ppid,pgrp,stat,cmd"};
+  execve(path, argv, NULL);
 }
 
 int main(void) {
@@ -46,22 +47,16 @@ int main(void) {
 
   /* TODO: Start child and grandchild, then kill child!
    * Remember that you need to kill all subprocesses before quit. */
-  
-  // spawning a child
-  pgrp = spawn(child);
-  Waitpid(pgrp, NULL, 0);
-    
- 
-  pid = spawn(ps);
-  Waitpid(pid, NULL, 0);
+  // tworzymy dziecko
+  pid = spawn(child);
 
-  // Kill(-pgrp, SIGKILL);
+  if (pid){
+    Kill(pid, SIGKILL);
+  }
 
-  printf("(%d) SIGINT sent to every process from group: %d\n", getpid(), pgrp);
-  // wait for every other process
-  Waitpid(-1, &status, 0);
-  printf("(%d) Grandchild exit status is: %d\n", getpid(), WEXITSTATUS(status));
-  
+  ps();
+
+
 
   return EXIT_SUCCESS;
 }
