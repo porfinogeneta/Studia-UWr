@@ -25,8 +25,8 @@ def sentence_prob(sentence_txt):
     return seq_log_probs.cpu().numpy()  
     
 sentences = [
-  'To jest zwykłe polskie zdanie.',
-  'This is a normal English sentence.',
+  'Czy w Polsce żyły tury? - tak',
+  'Czy w Polsce żyły tury? - nie',
   'iweryuiiu hrfw3eieur fr'    
 ]
 
