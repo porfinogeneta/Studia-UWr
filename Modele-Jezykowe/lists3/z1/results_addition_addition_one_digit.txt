@@ -1,0 +1,5 @@
+Accuracy: 0.4
+prompt_type: addition
+complexity: addition_one_digit
+correct: 8
+total: 20

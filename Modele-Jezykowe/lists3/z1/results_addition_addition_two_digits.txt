@@ -1,0 +1,5 @@
+Accuracy: 0.0
+prompt_type: addition
+complexity: addition_two_digits
+correct: 0
+total: 20

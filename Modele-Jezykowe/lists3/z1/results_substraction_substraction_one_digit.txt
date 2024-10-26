@@ -1,0 +1,5 @@
+Accuracy: 0.3
+prompt_type: substraction
+complexity: substraction_one_digit
+correct: 3
+total: 10
