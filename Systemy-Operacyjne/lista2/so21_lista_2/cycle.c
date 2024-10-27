@@ -11,6 +11,7 @@ static void play(pid_t next, const sigset_t *set) {
   for (;;) {
     printf("(%d) Waiting for a ball!\n", getpid());
     /* TODO: Something is missing here! */
+    Sigsuspend(set);
     usleep((300 + random() % 400) * 1000);
     Kill(next, SIGUSR1);
     printf("(%d) Passing ball to (%d)!\n", getpid(), next);
@@ -31,7 +32,29 @@ int main(int argc, char *argv[]) {
   Sigaction(SIGINT, &action, NULL);
   Sigaction(SIGUSR1, &action, NULL);
 
+  pid_t pid, parent, last = getpid();
+  sigset_t cur,old;
+  Sigemptyset(&cur);
+  Sigaddset(&cur, SIGUSR1);
+  Sigprocmask(SIG_BLOCK, &cur, &old);
+
   /* TODO: Start all processes and make them wait for the ball! */
+  if (last = Fork() == 0){
+    play(last, &old);
+    exit(0);
+  }
+
+  for (int i; i < children; i++){
+    if (pid = Fork() == 0){
+      play(last, &old);
+      exit(0);
+    }else {
+      last = pid;
+    }
+  }
+
+  Kill(last, SIGUSR1);
+  play(last,&old);
 
   return EXIT_SUCCESS;
 }

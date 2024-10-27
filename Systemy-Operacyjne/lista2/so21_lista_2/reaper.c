@@ -30,8 +30,9 @@ static void child(void) {
 /* Runs command "ps -o pid,ppid,pgrp,stat,cmd" using execve(2). */
 static void ps(void) {
   /* TODO: Something is missing here! */
-  char *const args[] = {"/bin/ps", "-o", "pid,ppid,pgrp,stat,cmd", NULL};
-  execv(args[0], args);
+  char *path = "/usr/bin/ps";
+  char *tab[] = {path, "-o", "pid,ppid,pgrp,stat,cmd", NULL};
+  execve(path, tab, NULL);
 }
 
 int main(void) {
@@ -42,24 +43,31 @@ int main(void) {
   printf("(%d) I'm a reaper now!\n", getpid());
 
   pid_t pid, pgrp;
-  int status;
+  int status, status2, status3;
 
   /* TODO: Start child and grandchild, then kill child!
    * Remember that you need to kill all subprocesses before quit. */
   
   // spawning a child
   pgrp = spawn(child);
-  Waitpid(pgrp, NULL, 0);
-    
- 
-  pid = spawn(ps);
-  Waitpid(pid, NULL, 0);
+  pid = pgrp;
+  // jak jesteśmy w dziecku to wychodzimy
+  if (pgrp == 0){
+    exit(0);
+  }
+  // sprzątamy po dziecku w rodzicu
+  Waitpid(pid, &status2, 0);
 
-  // Kill(-pgrp, SIGKILL);
+  // sprawdzamy kto dziecko przygarną
+  pid_t pid_ps;
+  pid_ps = spawn(ps);
+  Waitpid(pid_ps, &status3, 0);
+    
 
   printf("(%d) SIGINT sent to every process from group: %d\n", getpid(), pgrp);
+  Kill(-pgrp, SIGINT);
   // wait for every other process
-  Waitpid(-1, &status, 0);
+  Wait(&status);
   printf("(%d) Grandchild exit status is: %d\n", getpid(), WEXITSTATUS(status));
   
 
