@@ -10,20 +10,20 @@ static pid_t spawn(void (*fn)(void)) {
   return pid;
 }
 
-// ps -jH
-
 static void grandchild(void) {
-  printf("(%d) Waiting for signal!\n Group (%d)", getpid(), getpgrp());
+  printf("(%d) Waiting for signal!\n", getpid());
   /* TODO: Something is missing here! */
-  pause();
   printf("(%d) Got the signal!\n", getpid());
 }
 
 static void child(void) {
   pid_t pid;
   /* TODO: Spawn a child! */
-  Setpgid(getpid(), getpid());
+  setpgid(0, 0);
   pid = spawn(grandchild);
+  if (pid){
+    setpgid(pid, getpid());
+  }
   printf("(%d) Grandchild (%d) spawned!\n", getpid(), pid);
 }
 
@@ -33,6 +33,8 @@ static void ps(void) {
   char *path = "/usr/bin/ps";
   char *tab[] = {path, "-o", "pid,ppid,pgrp,stat,cmd", NULL};
   execve(path, tab, NULL);
+  char *argv[] = {"ps", "o", "pid,ppid,pgrp,stat,cmd"};
+  execve(path, argv, NULL);
 }
 
 int main(void) {
@@ -70,6 +72,16 @@ int main(void) {
   Wait(&status);
   printf("(%d) Grandchild exit status is: %d\n", getpid(), WEXITSTATUS(status));
   
+  // tworzymy dziecko
+  pid = spawn(child);
+
+  if (pid){
+    Kill(pid, SIGKILL);
+  }
+
+  ps();
+
+
 
   return EXIT_SUCCESS;
 }
