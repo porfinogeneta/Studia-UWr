@@ -1,0 +1,5 @@
+Accuracy: 0.6
+operation: *
+complexity: multiplication_few_shots_text
+correct: 12
+total: 20

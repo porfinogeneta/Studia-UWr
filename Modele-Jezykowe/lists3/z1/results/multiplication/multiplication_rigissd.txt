@@ -1,0 +1,5 @@
+Accuracy: 0.2
+operation: *
+complexity: multiplication_rigissd
+correct: 2
+total: 10

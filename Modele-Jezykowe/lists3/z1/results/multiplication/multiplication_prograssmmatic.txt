@@ -1,0 +1,5 @@
+Accuracy: 0.3
+operation: *
+complexity: multiplication_prograssmmatic
+correct: 3
+total: 10

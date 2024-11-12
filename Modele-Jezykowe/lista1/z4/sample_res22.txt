@@ -1,0 +1,4 @@
+Category: czy                  Accuracy: 70.00% Prompt-type: few In category: 154
+Category: czy_opt              Accuracy: 50.00% Prompt-type: few In category: 36
+Category: jak+                 Accuracy: 0.00% Prompt-type: few In category: 781
+Category: ile                  Accuracy: 30.00% Prompt-type: few In category: 83

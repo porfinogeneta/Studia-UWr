@@ -1,0 +1,5 @@
+Accuracy: 0.15
+operation: -
+complexity: substraction_few_shots_text
+correct: 3
+total: 20

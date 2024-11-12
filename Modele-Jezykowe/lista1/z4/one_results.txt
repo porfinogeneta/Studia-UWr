@@ -1,0 +1,9 @@
+Category: czy                  Accuracy: 40.00% Prompt-type: one
+Category: czy_opt              Accuracy: 0.00% Prompt-type: one
+Category: jak+                 Accuracy: 0.00% Prompt-type: one
+Category: ile                  Accuracy: 40.00% Prompt-type: one
+Category: w_ktorym+            Accuracy: 0.00% Prompt-type: one
+Category: kto                  Accuracy: 0.00% Prompt-type: one
+Category: rest                 Accuracy: 0.00% Prompt-type: one
+------------------------------------------------------------
+Overall accuracy: 11.43%

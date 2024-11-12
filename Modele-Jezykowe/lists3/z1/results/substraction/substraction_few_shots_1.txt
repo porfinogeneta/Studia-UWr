@@ -1,0 +1,5 @@
+Accuracy: 0.14
+operation: -
+complexity: substraction_few_shots_1
+correct: 7
+total: 50

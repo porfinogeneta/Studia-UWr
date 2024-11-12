@@ -1,0 +1,151 @@
+RIDDLE:  kobieta podróżująca środkiem transportu, np. samolotem, pociągiem, statkiem, to inaczej -
+GUESS:  kino
+SOLUTION:  pasażerka
+RIDDLE:  emocjonalne uczucie łączące dwie osoby, oparte na zaufaniu, szacunku, trosce i oddaniu, to inaczej -
+GUESS:  czaszka
+SOLUTION:  miłość
+RIDDLE:  miejsce, w którym dzieci uczą się nowych rzeczy i poznają nauczycieli, to inaczej -
+GUESS:  szkoła
+SOLUTION:  szkoła
+RIDDLE:  przyrząd do pisania, zazwyczaj wypełniony atramentem lub wkładem z tuszem, to inaczej -
+GUESS:  kawa
+SOLUTION:  długopis
+RIDDLE:  zwierzę domowe, często towarzyszy człowiekowi, jest wierne i ma ogon, to inaczej -
+GUESS:  zebra
+SOLUTION:  pies
+RIDDLE:  budynek z wieloma książkami, gdzie ludzie mogą czytać lub wypożyczać książki, to inaczej -
+GUESS:  zegarek
+SOLUTION:  biblioteka
+RIDDLE:  napój, który powstaje z ziaren, zazwyczaj jest czarny i pobudza do działania, to inaczej -
+GUESS:  zebra
+SOLUTION:  kawa
+RIDDLE:  owoc o zielonej skórce i miękkim miąższu, z dużą pestką w środku, to inaczej -
+GUESS:  czaszka
+SOLUTION:  awokado
+RIDDLE:  półkulisty przedmiot, który chroni przed deszczem, trzymany nad głową, to inaczej -
+GUESS:  zebra
+SOLUTION:  parasol
+RIDDLE:  wodna roślina pływająca, znana z pięknych, białych lub różowych kwiatów, to inaczej -
+GUESS:  pies
+SOLUTION:  lilia
+RIDDLE:  miejsce, gdzie oglądamy filmy na dużym ekranie, to inaczej -
+GUESS:  kino
+SOLUTION:  kino
+RIDDLE:  czterokołowy pojazd, który prowadzi kierowca, to inaczej -
+GUESS:  zebra
+SOLUTION:  samochód
+RIDDLE:  wysokie drzewo iglaste, często kojarzone z zimą i świętami, to inaczej -
+GUESS:  choinka
+SOLUTION:  choinka
+RIDDLE:  narzędzie ogrodnicze używane do kopania w ziemi, to inaczej -
+GUESS:  wyspa
+SOLUTION:  łopata
+RIDDLE:  okrągły owoc o cytrusowym smaku, często używany do soków, to inaczej -
+GUESS:  kawa
+SOLUTION:  cytryna
+RIDDLE:  urządzenie, które pokazuje czas i jest noszone na nadgarstku, to inaczej -
+GUESS:  pies
+SOLUTION:  zegarek
+RIDDLE:  duży obiekt sportowy z trybunami, gdzie odbywają się zawody, to inaczej -
+GUESS:  kino
+SOLUTION:  stadion
+RIDDLE:  owoc o żółtej skórce i słodkim smaku, często jedzony w tropikach, to inaczej -
+GUESS:  cytryna
+SOLUTION:  banan
+RIDDLE:  czarna substancja, z której robi się asfalt na drogi, to inaczej -
+GUESS:  asfalt
+SOLUTION:  asfalt
+RIDDLE:  narzędzie z dwoma ostrymi ramionami, używane do cięcia papieru, to inaczej -
+GUESS:  szalik
+SOLUTION:  nożyczki
+RIDDLE:  ciecz, którą pijemy dla nawodnienia, często bezbarwna i bez smaku, to inaczej -
+GUESS:  cukier
+SOLUTION:  woda
+RIDDLE:  latające urządzenie transportowe, używane do podróży powietrznych, to inaczej -
+GUESS:  samolot
+SOLUTION:  samolot
+RIDDLE:  ubranie noszone na stopach wewnątrz butów, zapewnia komfort i ciepło, to inaczej -
+GUESS:  skarpetka
+SOLUTION:  skarpetka
+RIDDLE:  mebel, na którym śpimy, zazwyczaj z materacem, to inaczej -
+GUESS:  kawa
+SOLUTION:  łóżko
+RIDDLE:  kuchenne urządzenie do podgrzewania jedzenia, często mikrofalowe, to inaczej -
+GUESS:  termometr
+SOLUTION:  mikrofalówka
+RIDDLE:  mały, błyszczący owad, który świeci w nocy, to inaczej -
+GUESS:  zebra
+SOLUTION:  świetlik
+RIDDLE:  wyspę otaczają wodne przestrzenie, to inaczej -
+GUESS:  zebra
+SOLUTION:  wyspa
+RIDDLE:  górska forma terenu z bardzo stromymi stokami, to inaczej -
+GUESS:  góra
+SOLUTION:  góra
+RIDDLE:  instrument muzyczny z białymi i czarnymi klawiszami, to inaczej -
+GUESS:  pianino
+SOLUTION:  pianino
+RIDDLE:  część domu z oknem, która wpuszcza światło, to inaczej -
+GUESS:  zebra
+SOLUTION:  okno
+RIDDLE:  białe, zimne płatki spadające zimą z nieba, to inaczej -
+GUESS:  śnieg
+SOLUTION:  śnieg
+RIDDLE:  kolorowy, duży ptak o długim ogonie i piórach na czubku głowy, to inaczej -
+GUESS:  papuga
+SOLUTION:  papuga
+RIDDLE:  pierwszy posiłek dnia, jedzony rano, to inaczej -
+GUESS:  kino
+SOLUTION:  śniadanie
+RIDDLE:  gorąca gwiazda, wokół której krążą planety, to inaczej -
+GUESS:  zebra
+SOLUTION:  słońce
+RIDDLE:  powierzchnia, po której ludzie chodzą wewnątrz budynku, to inaczej -
+GUESS:  pies
+SOLUTION:  podłoga
+RIDDLE:  trzyzębne narzędzie kuchenne, którym jemy posiłki, to inaczej -
+GUESS:  miód
+SOLUTION:  widelec
+RIDDLE:  twarda skorupa chroniąca mózg w organizmie człowieka, to inaczej -
+GUESS:  pies
+SOLUTION:  czaszka
+RIDDLE:  białe linie na drodze, wskazujące miejsca przejścia dla pieszych, to inaczej -
+GUESS:  zebra
+SOLUTION:  pasy
+RIDDLE:  miejsce pracy strażaka z czerwonymi wozami, to inaczej -
+GUESS:  kino
+SOLUTION:  remiza
+RIDDLE:  mały, piszczący gryzoń, często żyjący w domach jako pupil, to inaczej -
+GUESS:  słońce
+SOLUTION:  mysz
+RIDDLE:  tkanina, którą nosimy na szyi, by było cieplej w zimne dni, to inaczej -
+GUESS:  termometr
+SOLUTION:  szalik
+RIDDLE:  znak drogowy wskazujący, gdzie można przejść przez jezdnię, to inaczej -
+GUESS:  zebra
+SOLUTION:  zebra
+RIDDLE:  naczynie do pieczenia, do którego wlewamy ciasto na chleb, to inaczej -
+GUESS:  zebra
+SOLUTION:  forma
+RIDDLE:  małe, słodkie kulki wytwarzane przez pszczoły, to inaczej -
+GUESS:  miód
+SOLUTION:  miód
+RIDDLE:  podłużny owoc o żółtej skórce, popularny w smoothie, to inaczej -
+GUESS:  cytryna
+SOLUTION:  banan
+RIDDLE:  duże zwierzę z trąbą, żyjące głównie w Afryce i Azji, to inaczej -
+GUESS:  słoń
+SOLUTION:  słoń
+RIDDLE:  narzędzie do mierzenia temperatury, to inaczej -
+GUESS:  termometr
+SOLUTION:  termometr
+RIDDLE:  biała substancja, którą dodajemy do herbaty lub kawy, to inaczej -
+GUESS:  miód
+SOLUTION:  cukier
+RIDDLE:  góry pełne śniegu, po których ludzie zjeżdżają na nartach, to inaczej -
+GUESS:  stok
+SOLUTION:  stok
+RIDDLE:  święto obchodzone 25 grudnia na pamiątkę narodzin Jezusa, to inaczej -
+GUESS:  święta
+SOLUTION:  święta
+ACCURACY:  0.32

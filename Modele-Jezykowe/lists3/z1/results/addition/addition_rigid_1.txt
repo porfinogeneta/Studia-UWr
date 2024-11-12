@@ -1,0 +1,5 @@
+Accuracy: 0.78
+operation: +
+complexity: addition_rigid_1
+correct: 39
+total: 50

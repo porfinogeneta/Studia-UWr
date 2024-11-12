@@ -1,9 +1,9 @@
-Category: czy                  Accuracy: 60.00% Prompt-type: few
-Category: czy_opt              Accuracy: 30.00% Prompt-type: few
-Category: jak+                 Accuracy: 0.00% Prompt-type: few
-Category: ile                  Accuracy: 30.00% Prompt-type: few
-Category: w_ktorym+            Accuracy: 20.00% Prompt-type: few
-Category: kto                  Accuracy: 0.00% Prompt-type: few
-Category: rest                 Accuracy: 0.00% Prompt-type: few
+Category: czy                  Accuracy: 40.00% Prompt-type: zero
+Category: czy_opt              Accuracy: 20.00% Prompt-type: zero
+Category: jak+                 Accuracy: 0.00% Prompt-type: zero
+Category: ile                  Accuracy: 20.00% Prompt-type: zero
+Category: w_ktorym+            Accuracy: 40.00% Prompt-type: zero
+Category: kto                  Accuracy: 0.00% Prompt-type: zero
+Category: rest                 Accuracy: 0.00% Prompt-type: zero
 ------------------------------------------------------------
-Overall accuracy: 20.00%
+Overall accuracy: 17.14%

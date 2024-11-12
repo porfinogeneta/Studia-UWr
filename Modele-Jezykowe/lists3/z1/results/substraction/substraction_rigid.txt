@@ -1,0 +1,5 @@
+Accuracy: 0.3
+operation: -
+complexity: substraction_rigid
+correct: 6
+total: 20

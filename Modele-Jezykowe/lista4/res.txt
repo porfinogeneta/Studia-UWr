@@ -1,0 +1,214 @@
+Input:
+ Wczoraj wieczorem postanowiłem 
+ ----------------------------------------------------------------------------------------------------
+[',', ' sprawdzić', ' zrobić', ' się', ' odwiedzić', ' wybrać', ' wrócić', ' w', ' sobie', ' że']
+Output: no space ----------------------------------------------------------------------------------------------------
+Wczoraj wieczorem postanowiłem, że nie będę się już więcej rozpisywał na temat tego, co się dzieje w moim życiu. Nie będę się rozpisywał na temat tego, co się dzieje w moim życiu. Nie będę się rozpisywał na temat tego, co się
+
+['owy', 'łowy', 'owia', 'owemu', 'ściu', 'łka', 'ść', '........', 'łę', '\xad']
+Output: space ----------------------------------------------------------------------------------------------------
+Wczoraj wieczorem postanowiłem owy wpis poświęcić na coś innego. W końcu nie od dziś wiadomo, że w życiu nie ma przypadków.
+W tym roku postanowiłem, że będę się starał, aby w moim życiu nie było przypadków. I tak oto w tym roku postanowiłem, że będę
+
+
+Input:
+ Jeśli tylko miałbym więcej czasu 
+ ----------------------------------------------------------------------------------------------------
+[',', ' to', ' i', ' na', ' (', ' w', ' dla', ' –', ' postanowiłem', ' -']
+Output: no space ----------------------------------------------------------------------------------------------------
+Jeśli tylko miałbym więcej czasu, to bym się wybrał na ten koncert.
+W tym roku w Polsce będzie można zobaczyć na żywo koncert zespołu The Beatles. W tym roku w Polsce będzie można zobaczyć na żywo koncert zespołu The Beatles. W tym roku w Polsce będzie
+
+['........', '\xad', 'owy', '],', '!!!!!!!!', '........................', '��', '................', '****', 'owia']
+Output: space ----------------------------------------------------------------------------------------------------
+Jeśli tylko miałbym więcej czasu .......... to chętnie bym się wybrał na wycieczkę do lasu.
+W tym roku nie udało mi się pojechać na wycieczkę do lasu, ale w tym roku będę miał okazję. Może uda mi się w końcu pojechać na wycieczkę do lasu.
+W tym roku
+
+
+Input:
+ Na świecie jest wiele miejsc, które 
+ ----------------------------------------------------------------------------------------------------
+[' są', ' warto', ' można', ' mogą', ' zachwycają', ' zasługują', ' oferują', ' mają', ' w', ' nie']
+Output: no space ----------------------------------------------------------------------------------------------------
+Na świecie jest wiele miejsc, które są w stanie zapewnić nam rozrywkę na najwyższym poziomie. Jednym z takich miejsc jest niewątpliwie Japonia. To właśnie w tym kraju znajduje się wiele miejsc, które są w stanie zapewnić nam rozrywkę na najwyższym poziomie. Jednym z takich miejsc jest oczywiście Japonia. To właśnie w
+
+['owia', '\xad', '\x03', 'owymi', 'owemu', '........', '�', 'owy', 'rządza', '****']
+Output: space ----------------------------------------------------------------------------------------------------
+Na świecie jest wiele miejsc, które owiane są tajemnicą. W Polsce jest ich niewiele, a w wielu miejscach są one niedostępne.
+W Polsce nie ma ani jednego miejsca, które mogłoby się pochwalić tajemnicą. W wielu miejscach są one niedostępne.
+W Polsce nie ma ani jednego miejsca,
+
+
+Input:
+ Kiedy byłem dzieckiem, zawsze marzyłem o tym, żeby 
+ ----------------------------------------------------------------------------------------------------
+[' zostać', ' mieć', ' być', ' w', ' móc', ' pojechać', ' jeździć', ' grać', ' pójść', ' kiedyś']
+Output: no space ----------------------------------------------------------------------------------------------------
+Kiedy byłem dzieckiem, zawsze marzyłem o tym, żeby zostać strażakiem. W szkole podstawowej, w której uczyłem się w klasie pierwszej, w której uczyłem się w klasie drugiej, w której uczyłem się w klasie trzeciej, w której uczyłem się w klasie czwartej, w której uczyłem się w
+
+['niania', 'owy', 'łowy', 'rzyć', 'ród', 'owia', 'rządzenie', '\xad', 'łka', 'nianie']
+Output: space ----------------------------------------------------------------------------------------------------
+Kiedy byłem dzieckiem, zawsze marzyłem o tym, żeby niania była w domu. W końcu jednak się udało. Teraz, kiedy mam już swoje cztery kąty, mogę cieszyć się z tego, że mogę mieć nianie.
+- Nie, nie. To nie jest tak, że niania jest w domu
+
+
+Input:
+ Jednym z największych wyzwań w życiu jest 
+ ----------------------------------------------------------------------------------------------------
+[' znalezienie', ' dla', ' to', ' wybór', ' posiadanie', ' zdobycie', ' odnalezienie', ' poznanie', ' wychowanie', ' zapewnienie']
+Output: no space ----------------------------------------------------------------------------------------------------
+Jednym z największych wyzwań w życiu jest znalezienie odpowiedniego miejsca na nocleg. W tym celu warto skorzystać z usług, które oferuje nam hotel. Warszawa to miasto, w którym znajduje się wiele hoteli, jednak nie wszystkie z nich są godne polecenia.
+W przypadku, gdy chcemy znaleźć hotel, który spełni
+
+['rządzenie', '\xad', 'owy', 'owia', 'niania', '........', '\x07', 'łowy', 'rządzenia', 'ród']
+Output: space ----------------------------------------------------------------------------------------------------
+Jednym z największych wyzwań w życiu jest rządzenie. W tym celu należy mieć odpowiednie predyspozycje, wiedzę i umiejętności.
+W tym celu należy mieć odpowiednie predyspozycje, wiedzę i umiejętności. W tym celu należy mieć odpowiednie predyspozycje, wiedzę i umiejętności. W tym celu należy mieć odpowiednie predyspozycje, wiedzę i umiejętności
+
+
+Input:
+ Najlepszy sposób na radzenie sobie z stresem to 
+ ----------------------------------------------------------------------------------------------------
+[' nie', ' oczywiście', ' praca', ' unikanie', '…', ' ćwiczenia', ' nauka', ' aktywność', ' przede', ' terapia']
+Output: no space ----------------------------------------------------------------------------------------------------
+Najlepszy sposób na radzenie sobie z stresem to nie tylko unikanie sytuacji stresowych, ale również unikanie sytuacji, w których nie jesteśmy w stanie poradzić sobie z emocjami.
+W przypadku stresu, który jest nieodłącznym elementem życia, warto zastanowić się nad tym, jak sobie z nim radzić.
+W przypadku
+
+['\xad', '........', 'ld', 'niania', 'rządzenie', '\x07', '****', '̇', 'owia', '��']
+Output: space ----------------------------------------------------------------------------------------------------
+Najlepszy sposób na radzenie sobie z stresem to ­podejście do tematu z głową. Nie chodzi o to, żeby się stresować, ale o to, żeby się z nim oswoić.
+Nie ma nic gorszego niż stres. Nie ma nic gorszego niż stres. Nie ma nic gorszego niż
+
+
+Input:
+ W przyszłości chciałbym zobaczyć 
+ ----------------------------------------------------------------------------------------------------
+[' jak', ',', ' w', ' na', ' ten', ' co', ' to', ' ją', ' go', ' więcej']
+Output: no space ----------------------------------------------------------------------------------------------------
+W przyszłości chciałbym zobaczyć jak to będzie wyglądało.
+W tym roku nie będzie mnie w domu, ale mam nadzieję, że w przyszłym roku będę mógł się pojawić. Mam nadzieję, że będzie to dla mnie bardzo miłe.
+W tym roku nie będzie mnie w domu, ale
+
+['owy', 'rój', 'łowy', 'rządzenie', 'ród', 'lia', 'łę', 'owia', 'laryngo', 'Ą']
+Output: space ----------------------------------------------------------------------------------------------------
+W przyszłości chciałbym zobaczyć owy film, ale nie wiem czy to będzie dobry pomysł.
+Nie wiem czy to dobry pomysł, ale może ktoś z was ma jakieś doświadczenia z tym filmem. Może ktoś z was ma jakieś doświadczenia z tym filmem?
+Nie wiem czy to dobry pomysł
+
+
+Input:
+ Kiedy myślę o szczęściu, przychodzi mi na myśl 
+ ----------------------------------------------------------------------------------------------------
+[',', ' tylko', ' to', ' myśl', ' jedna', ' coś', ' pewna', ' wspomnienie', ' jeden', ' jedno']
+Output: no space ----------------------------------------------------------------------------------------------------
+Kiedy myślę o szczęściu, przychodzi mi na myśl, że to właśnie szczęście jest tym, co nas uszczęśliwia.
+W życiu nie ma przypadków. Nie ma przypadków, które mogłyby nas uszczęśliwić. Nie ma przypadków, które mogłyby nas uszczęśliwić.
+Nie ma przypadków, które mogłyby nas uszczęśliwić
+
+['niania', 'owia', '\xad', 'owy', 'rój', 'łka', 'łęcz', 'łowy', 'ród', 'owca']
+Output: space ----------------------------------------------------------------------------------------------------
+Kiedy myślę o szczęściu, przychodzi mi na myśl niania, która w ciągu dnia, w ciągu dnia, w ciągu nocy, w ciągu dnia, w ciągu nocy, w ciągu nocy, w ciągu nocy, w ciągu nocy, w ciągu nocy, w ciągu nocy, w ciągu nocy, w ciągu nocy
+
+
+Input:
+ Moim ulubionym wspomnieniem z wakacji jest 
+ ----------------------------------------------------------------------------------------------------
+[' to', ' widok', ' wyjazd', ' oczywiście', ' wizyta', ' wspomnienie', ' ten', ' ta', ' dla', ' chyba']
+Output: no space ----------------------------------------------------------------------------------------------------
+Moim ulubionym wspomnieniem z wakacji jest to, że w tym roku nie udało mi się pojechać na wakacje do Grecji. Nie wiem, czy to przez to, że nie miałam czasu, czy też przez to, że nie miałam pieniędzy. Ale w tym roku nie żałuję, że pojechałam,
+
+['niania', 'owy', 'owia', '��', 'rój', 'łowy', '****', '........', '\\\\', 'é']
+Output: space ----------------------------------------------------------------------------------------------------
+Moim ulubionym wspomnieniem z wakacji jest niania, która zawsze była dla mnie bardzo ważna. To ona zawsze była dla mnie najważniejsza, a teraz jest dla mnie najważniejsza.
+W tym roku, po raz pierwszy, nie miałam okazji być w Polsce. Ale to nie znaczy, że nie będę miała
+
+
+Input:
+ Sztuka i kultura mają ogromne znaczenie, ponieważ 
+ ----------------------------------------------------------------------------------------------------
+[' to', ' są', ' w', ' dzięki', ' wpływają', ' kształtują', ' pozwalają', ' od', ' stanowią', ' mają']
+Output: no space ----------------------------------------------------------------------------------------------------
+Sztuka i kultura mają ogromne znaczenie, ponieważ to one kształtują nasze życie. To one kształtują nas samych, nasze życie. To one kształtują nas samych, nasze życie.
+W dzisiejszych czasach, kiedy ludzie są coraz bardziej zabiegani, zapracowani, a także wszędobylski Internet, a także
+
+['owia', '\xad', '\x03', 'owy', 'rządzenie', 'ród', 'rządzenia', 'rządza', '\u202f', '........']
+Output: space ----------------------------------------------------------------------------------------------------
+Sztuka i kultura mają ogromne znaczenie, ponieważ owiane są tajemnicą. W tym przypadku nie ma miejsca na przypadek.
+W tym przypadku nie ma miejsca na przypadek. W tym przypadku nie ma miejsca na przypadek. W tym przypadku nie ma miejsca na przypadek.
+W tym przypadku nie ma miejsca na
+
+
+Input:
+ Gdybym mógł podróżować w czasie, odwiedziłbym 
+ ----------------------------------------------------------------------------------------------------
+[' wszystkie', ' w', ' to', ' kiedyś', ' również', ' go', ' te', ' miejsca', ' też', ' ten']
+Output: no space ----------------------------------------------------------------------------------------------------
+Gdybym mógł podróżować w czasie, odwiedziłbym wszystkie miejsca, które są mi bliskie.
+W tym roku, w ramach projektu „W poszukiwaniu zaginionych skarbów”, w dniach od 1 do 8 października, w Muzeum Narodowym w Warszawie, w ramach projektu „W poszukiwaniu zaginionych skarbów” odbędzie się wystawa
+
+['owy', 'ród', 'owia', 'rój', 'łowy', '\xad', '........', 'łem', '****', 'Ą']
+Output: space ----------------------------------------------------------------------------------------------------
+Gdybym mógł podróżować w czasie, odwiedziłbym owy świat. Nie tylko w czasie, ale i w przestrzeni.
+W tym roku, w ramach projektu „W poszukiwaniu zaginionego miasta”, w dniach od 6 do 8 października, w Muzeum Archeologicznym w Biskupinie, w ramach projektu „W poszukiwaniu
+
+
+Input:
+ Ważne jest, aby pamiętać, że 
+ ----------------------------------------------------------------------------------------------------
+[' nie', ' w', ' to', ' jeśli', ' każdy', ' jest', ' wszystkie', ' aby', ' na', ' im']
+Output: no space ----------------------------------------------------------------------------------------------------
+Ważne jest, aby pamiętać, że nie wszystkie produkty są dostępne w naszym sklepie. Jeśli nie jesteś pewien, czy produkt jest dostępny, skontaktuj się z nami.
+Jeśli nie jesteś pewien, czy produkt jest dostępny, skontaktuj się z nami. Jeśli nie jesteś pewien, czy produkt jest dostępny,
+
+['owy', 'rządzenie', '\xad', 'laryngo', '\x03', 'э', 'niania', 'owia', '˝', 'rój']
+Output: space ----------------------------------------------------------------------------------------------------
+Ważne jest, aby pamiętać, że owy tekst nie może być traktowany jako „przepis” na „przepis”.
+W przypadku, gdy tekst jest napisany w języku obcym, należy go przetłumaczyć na język polski. W przypadku, gdy tekst jest napisany w języku polskim, należy go przetłuma
+
+
+Input:
+ Czasami, aby osiągnąć sukces, trzeba 
+ ----------------------------------------------------------------------------------------------------
+[' mieć', ' się', ' być', ' najpierw', ' go', ' włożyć', ' poświęcić', ' przede', ' wiedzieć', ' działać']
+Output: no space ----------------------------------------------------------------------------------------------------
+Czasami, aby osiągnąć sukces, trzeba mieć w sobie wiele odwagi i wiary w siebie.
+W tym roku, w ramach projektu „Zróbmy to razem” w naszej szkole, odbył się konkurs plastyczny pt. „Moja ulubiona postać z bajki”.
+W konkursie wzięło udział 12 uczniów z
+
+['\x03', '\xad', '\x07', 'owy', '****', 'owia', 'owemu', '........................', '��', '........']
+Output: space ----------------------------------------------------------------------------------------------------
+Czasami, aby osiągnąć sukces, trzeba zdobyć się na odwagę i uwierzyć w siebie. Nie ma bowiem nic bardziej frustrującego niż brak wiary w siebie.
+W tym celu, w ramach projektu „Pomagamy innym” w dniach od 16 do 18 listopada 2018 r.
+
+
+Input:
+ Ludzie często zapominają, że 
+ ----------------------------------------------------------------------------------------------------
+[' w', ' są', ' to', ' nie', ' na', ' aby', ' ich', ' jest', ' jeśli', ' mają']
+Output: no space ----------------------------------------------------------------------------------------------------
+Ludzie często zapominają, że w życiu nie chodzi o to, by być dobrym, ale by być dobrym człowiekiem.
+W tym roku szkolnym, w ramach akcji „Cała Polska czyta dzieciom” uczniowie klas I-III czytali dzieciom fragmenty książki „Pan Samochodzik i tajemnica tajemnic
+
+['rządzenie', 'owy', 'ród', 'niania', 'rój', '\xad', 'owca', 'łowy', '\x03', 'rządza']
+Output: space ----------------------------------------------------------------------------------------------------
+Ludzie często zapominają, że rządzenie to nie tylko praca, ale także odpowiedzialność. To także odpowiedzialność za to, co się dzieje w naszym życiu.
+W tym roku obchodzimy 100-lecie odzyskania niepodległości. Z tej okazji w naszej szkole odbył się uroczysty apel, na którym uczniowie zaprezentowali program
+
+
+Input:
+ Zaskoczyło mnie, kiedy dowiedziałem się, że 
+ ----------------------------------------------------------------------------------------------------
+[' w', ' to', ' jest', ' na', ' nie', ' do', ' są', ' mój', ' za', ' „']
+Output: no space ----------------------------------------------------------------------------------------------------
+Zaskoczyło mnie, kiedy dowiedziałem się, że w Polsce nie ma już ani jednego polskiego sklepu z zabawkami. W Polsce jest tylko jeden sklep z zabawkami, który ma w ofercie zabawki dla dzieci.
+W Polsce jest tylko jeden sklep z zabawkami, który ma w ofercie zabawki dla dzieci. W Polsce jest
+
+['owy', 'ród', 'niania', 'owia', 'laryngo', 'rój', 'owca', 'rządzenie', 'łęczy', 'łowy']
+Output: space ----------------------------------------------------------------------------------------------------
+Zaskoczyło mnie, kiedy dowiedziałem się, że owy film jest w kinach. Nie wiedziałem, że jest w ogóle w ogóle w Polsce.
+W każdym razie, nie wiem, czy to jest w ogóle możliwe, ale w każdym razie, nie mogę się doczekać, aż zobaczę ten film.
+W
+
+

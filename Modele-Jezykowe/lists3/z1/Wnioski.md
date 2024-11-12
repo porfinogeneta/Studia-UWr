@@ -1,12 +1,9 @@
-# Dodawanie (jedna) cyfra:
+# Obserwacje
 
-- działa dobrze, bo pokazaliśmy że wyniki są dość małe
-- użyliśmy dużej liczby przykładów (jak na zbiór danych)
+- najlepiej sobie radzi prompt bez tekstu chociaż nie zawsze
 
-# Dodawanie (dwie) cyfry:
-- działa tragicznie
-- mamy za dużo opcji na wybór liczby
+- jest problem z liczbami ujemnymi
 
+- w programatic jak zapiszemy 3 + 4 traktowane jest to jak konkatenacja xd
 
-# Dodawanie (jedna) cyfra:
-- z odejmowaniem też jest spory problem, bot średnio wie która liczba jest większa, która mniejsza, nie wstawia -
+- jak użyjemy : np pisząc Odpowiedź: bot chętnie wrzuca tam liczby

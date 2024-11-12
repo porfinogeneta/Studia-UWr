@@ -1,5 +1,0 @@
-Accuracy: 0.1
-prompt_type: multiplication
-complexity: multiplication_one_digit
-correct: 1
-total: 10

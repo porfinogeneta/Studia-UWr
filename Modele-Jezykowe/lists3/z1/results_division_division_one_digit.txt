@@ -1,5 +1,0 @@
-Accuracy: 0.5
-prompt_type: division
-complexity: division_one_digit
-correct: 5
-total: 10

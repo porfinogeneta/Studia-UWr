@@ -1,0 +1,11 @@
+Category: czy                  Accuracy: 50.65% Prompt-type: few In category: 154
+Category: czy_opt              Accuracy: 33.33% Prompt-type: few In category: 36
+Category: jak+                 Accuracy: 3.46% Prompt-type: few In category: 781
+Category: ile                  Accuracy: 16.87% Prompt-type: few In category: 83
+Category: w_ktorym+            Accuracy: 20.73% Prompt-type: few In category: 246
+Category: kto                  Accuracy: 2.29% Prompt-type: few In category: 175
+Category: rest                 Accuracy: 8.98% Prompt-type: few In category: 1025
+------------------------------------------------------------
+Overall accuracy: 11.12%
+Total: 2500
+Correct:278

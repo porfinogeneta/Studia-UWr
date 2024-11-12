@@ -1,0 +1,5 @@
+Accuracy: 0.25
+operation: /
+complexity: division_rigid
+correct: 5
+total: 20

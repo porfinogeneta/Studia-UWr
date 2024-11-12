@@ -1,293 +1,345 @@
+import random
+from typing import List
 # Zero-shot prompts for each category
 ZERO_SHOT_PROMPTS = {
-    "czy": """<s>[INST] <<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest w prostych słowach odpowiadać na pytania<</SYS>>
-Odpowiedz "tak" lub "nie" na następujące pytanie.
+    "czy": """<s><<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest w prostych słowach odpowiadać na pytania<</SYS>>
+
+    [INST]Odpowiedz "tak" lub "nie" na następujące pytanie.[/INST]
 
 ### Pytanie:
 {question}
 
-### Odpowiedź: [/INST]""",
+### Odpowiedź: """,
 
-    "czy_opt": """<s>[INST] <<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest w prostych słowach odpowiadać na pytania<</SYS>>
-Wybierz jedną z opcji podanych w pytaniu, opcja to element po lewej i prawej stronie słowa 'czy'.
+    "czy_opt": """<s><<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest w prostych słowach odpowiadać na pytania<</SYS>>
 
-### Pytanie:
-{question}
-
-### Odpowiedź: [/INST]""",
-
-    "jak+": """<s>[INST] <<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest w prostych słowach odpowiadać na pytania<</SYS>>
-Odpowiedz krótko na pytanie zaczynające się od "jak".
+    [INST]Wybierz jedną z opcji podanych w pytaniu. Opcja w pytaniu do sformułowanie leżące na lewo od słowa 'czy'
+    albo na prawo od niego.[/INST]
 
 ### Pytanie:
 {question}
 
-### Odpowiedź: [/INST]""",
+### Odpowiedź: """,
 
-    "ile": """<s>[INST] <<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest w prostych słowach odpowiadać na pytania<</SYS>>
-Podaj wartość liczbową w odpowiedzi na pytanie.
-
-### Pytanie:
-{question}
-
-### Odpowiedź: [/INST]""",
-
-    "w_ktorym+": """<s>[INST] <<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest w prostych słowach odpowiadać na pytania<</SYS>>
-Podaj dokładną datę lub okres.
+    "jak+": """<s><<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest w prostych słowach odpowiadać na pytania<</SYS>>
+[INST] Odpowiedz krótko na pytanie zaczynające się od "jak". Odpowiedź powinna być RZECZOWNIKIEM[/INST]
 
 ### Pytanie:
 {question}
 
-### Odpowiedź: [/INST]""",
+### Odpowiedź: """,
 
-    "kto": """<s>[INST] <<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest w prostych słowach odpowiadać na pytania<</SYS>>
-Podaj imię i/lub nazwisko osoby.
+    "ile": """<s><<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest w prostych słowach odpowiadać na pytania<</SYS>>
+
+    [INST]Podaj wartość liczbową w odpowiedzi na pytanie.[/INST]
+
+### Pytanie:
+{question}
+
+### Odpowiedź: """,
+
+    "w_ktorym+": """<s><<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest w prostych słowach odpowiadać na pytania<</SYS>>
+[INST]Podaj dokładną datę, okres lub miejsce.[/INST]
+
+### Pytanie:
+{question}
+
+### Odpowiedź: """,
+
+    "kto": """<s><<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest w prostych słowach odpowiadać na pytania<</SYS>>
+[INST]Podaj imię i/lub nazwisko osoby.[/INST]
 
 ### Pytanie:
 {question}
 
 
-### Odpowiedź: [/INST]""",
+### Odpowiedź: """,
 
-    "rest": """<s>[INST] <<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest w prostych słowach odpowiadać na pytania<</SYS>>
-Odpowiedz krótko i precyzyjnie na pytanie.
+    "rest": """<s><<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest w prostych słowach odpowiadać na pytania<</SYS>>
+[INST]Odpowiedz krótko i precyzyjnie na pytanie.[/INST]
 
 ### Pytanie:
 {question}
 
-### Odpowiedź: [/INST]"""
+### Odpowiedź: """
 }
 
 # One-shot prompts for each category
 ONE_SHOT_PROMPTS = {
-    "czy": """<s>[INST] <<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest w prostych słowach odpowiadać na pytania<</SYS>>
-Odpowiedz "tak" lub "nie" na następujące pytanie.
-### Pytanie:
-Czy Ziemia krąży wokół Słońca?
-### Odpowiedź: [/INST]
+    "czy": """<s><<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest w prostych słowach odpowiadać na pytania.
+    Pytania są z kategorii "tak" lub "nie"<</SYS>>
+[INST]Odpowiedz "tak" lub "nie" na następujące pytanie.[/INST]
+[INST]Czy Ziemia krąży wokół Słońca?[/INST]
 tak
-<s>[INST] Odpowiedz "tak" lub "nie" na następujące pytanie.
-### Pytanie:
-{question}
-### Odpowiedź: [/INST]""",
+[INST] Odpowiedz "tak" lub "nie" na następujące pytanie.[/INST]
+[INST]{question}[/INST]
+""",
 
-    "czy_opt": """<s>[INST] <<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest w prostych słowach odpowiadać na pytania<</SYS>>
-Wybierz jedną z opcji podanych w pytaniu, opcja to element po lewej i prawej stronie słowa 'czy'.
-### Pytanie:
-Czy Warszawa leży nad Wisłą czy nad Odrą?
-### Odpowiedź: [/INST]
-nad Wisłą
-<s>[INST] Wybierz jedną z opcji podanych w pytaniu, opcja to element po lewej i prawej stronie słowa 'czy'.
-### Pytanie:
-{question}
-### Odpowiedź: [/INST]""",
+    "czy_opt":"""<s><<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest w prostych słowach odpowiadać na pytania<</SYS>>
+    [INST]Wybierz jedną z opcji podanych w pytaniu. Opcja w pytaniu do sformułowanie leżące na lewo od słowa 'czy'
+    albo na prawo od niego.[/INST]
+    [INST]Czy Warszawa leży nad Wisłą czy nad Odrą?[/INST]
+    nad Wisłą
+    [INST]{question}[/INST]""",
 
-    "jak+": """<s>[INST] <<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest w prostych słowach odpowiadać na pytania<</SYS>>
-Odpowiedz krótko na pytanie zaczynające się od "jak".
-### Pytanie:
-Jak nazywa się najwyższy szczyt Polski?
-### Odpowiedź: [/INST]
+    "jak+": """<s><<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest w prostych słowach odpowiadać na pytania<</SYS>>
+[INST] Odpowiedz krótko na pytanie zaczynające się od "jak". Odpowiedź powinna być RZECZOWNIKIEM[/INST]
+[INST]Jak nazywa się najwyższy szczyt Polski?[/INST]
 Rysy
-<s>[INST] Odpowiedz krótko na pytanie zaczynające się od "jak".
-### Pytanie:
-{question}
-### Odpowiedź: [/INST]""",
+[INST]{question}[/INST]""",
 
-    "ile": """<s>[INST] <<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest w prostych słowach odpowiadać na pytania<</SYS>>
-Podaj wartość liczbową w odpowiedzi na pytanie.
-### Pytanie:
-Ile województw jest w Polsce?
-### Odpowiedź: [/INST]
+    "ile": """<s><<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest w prostych słowach odpowiadać na pytania<</SYS>>
+    [INST]Podaj wartość liczbową w odpowiedzi na pytanie.[/INST]
+[INST]Ile województw jest w Polsce?[/INST]
 16
-<s>[INST] Podaj wartość liczbową w odpowiedzi na pytanie.
-### Pytanie:
-{question}
-### Odpowiedź: [/INST]""",
+[INST]{question}[/INST]""",
 
-    "w_ktorym+": """<s>[INST] <<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest w prostych słowach odpowiadać na pytania<</SYS>>
-Podaj dokładną datę lub okres.
-### Pytanie:
-W którym roku Polska wstąpiła do Unii Europejskiej?
-### Odpowiedź: [/INST]
+    "w_ktorym+": """<s><<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest w prostych słowach odpowiadać na pytania<</SYS>>
+[INST]Podaj dokładną datę, okres lub miejsce.[/INST]
+[INST]W którym roku Polska wstąpiła do Unii Europejskiej?[/INST]
 2004
-<s>[INST] Podaj dokładną datę lub okres.
-### Pytanie:
-{question}
-### Odpowiedź: [/INST]""",
+[INST]{question}[/INST]]""",
 
-    "kto": """<s>[INST] <<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest w prostych słowach odpowiadać na pytania<</SYS>>
-Podaj imię i/lub nazwisko osoby.
-### Pytanie:
-Kto jest autorem "Quo Vadis"?
-### Odpowiedź: [/INST]
+    "kto": """<s><<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest w prostych słowach odpowiadać na pytania<</SYS>>
+[INST]Podaj imię i/lub nazwisko osoby.[/INST]
+[INST]Kto jest autorem "Quo Vadis"?[/INST]
 Henryk Sienkiewicz
-<s>[INST] Podaj imię i/lub nazwisko osoby.
-### Pytanie:
-{question}
-### Odpowiedź: [/INST]""",
+[INST]{question}[/INST]""",
 
-    "rest": """<s>[INST] <<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest w prostych słowach odpowiadać na pytania<</SYS>>
-Odpowiedz krótko i precyzyjnie na pytanie.
-### Pytanie:
-Co jest stolicą Polski?
-### Odpowiedź: [/INST]
+    "rest": """<s><<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest w prostych słowach odpowiadać na pytania<</SYS>>
+[INST]Odpowiedz krótko i precyzyjnie na pytanie.[/INST]
+[INST]Co jest stolicą Polski?[/INST]
 Warszawa
-<s>[INST] Odpowiedz krótko i precyzyjnie na pytanie.
-### Pytanie:
-{question}
-### Odpowiedź: [/INST]"""
+[INST]{question}[/INST]"""
 }
 
 # Few-shot prompts for each category
 FEW_SHOT_PROMPTS = {
-    "czy": """<s>[INST] <<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest w prostych słowach odpowiadać na pytania<</SYS>>
-Odpowiedz "tak" lub "nie" na następujące pytanie.
+    "czy": """<s><<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest w prostych słowach odpowiadać na pytania.
+    Pytania są z kategorii "tak" lub "nie"<</SYS>>
+[INST]Odpowiedz "tak" lub "nie" na następujące pytanie.[/INST]
 ### Pytanie:
 Czy Słońce jest gwiazdą?
-### Odpowiedź: [/INST]
+### Odpowiedź:
 tak
-<s>[INST] Odpowiedz "tak" lub "nie" na następujące pytanie.
+[INST] Odpowiedz "tak" lub "nie" na następujące pytanie.[/INST]
 ### Pytanie:
 Czy Ziemia jest płaska?
-### Odpowiedź: [/INST]
+### Odpowiedź:
 nie
-<s>[INST] Odpowiedz "tak" lub "nie" na następujące pytanie.
+[INST] Odpowiedz "tak" lub "nie" na następujące pytanie.[/INST]
 ### Pytanie:
 Czy woda wrze w temperaturze 100 stopni Celsjusza?
-### Odpowiedź: [/INST]
+### Odpowiedź:
 tak
-<s>[INST] Odpowiedz "tak" lub "nie" na następujące pytanie.
+[INST] Odpowiedz "tak" lub "nie" na następujące pytanie.[/INST]
 ### Pytanie:
 {question}
-### Odpowiedź: [/INST]""",
+### Odpowiedź:
+""",
 
-    "czy_opt": """<s>[INST] <<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest w prostych słowach odpowiadać na pytania<</SYS>>
-Wybierz jedną z opcji podanych w pytaniu, opcja to element po lewej i prawej stronie słowa 'czy'.
-### Pytanie:
-Czy Księżyc jest naturalnym satelitą Ziemi czy Marsa?
-### Odpowiedź: [/INST]
-naturalnym satelitą Ziemi
-<s>[INST] Wybierz jedną z opcji podanych w pytaniu, opcja to element po lewej i prawej stronie słowa 'czy'.
-### Pytanie:
-Czy złoto jest metalem szlachetnym czy nieszlachetnym?
-### Odpowiedź: [/INST]
-metalem szlachetnym
-<s>[INST] Wybierz jedną z opcji podanych w pytaniu, opcja to element po lewej i prawej stronie słowa 'czy'.
-### Pytanie:
-Czy delfin jest rybą czy ssakiem?
-### Odpowiedź: [/INST]
-ssakiem
-<s>[INST] Wybierz jedną z opcji podanych w pytaniu, opcja to element po lewej i prawej stronie słowa 'czy'.
-### Pytanie:
-{question}
-### Odpowiedź: [/INST]""",
+    "czy_opt": """<s><<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest w prostych słowach odpowiadać na pytania<</SYS>>
+    [INST]Wybierz jedną z opcji podanych w pytaniu. Opcja w pytaniu do sformułowanie leżące na lewo od słowa 'czy'
+    albo na prawo od niego.[/INST]
+    [INST] Odpowiedz jedną z opcji na następujące pytanie.[/INST]
+    ### Pytanie:
+    Czy Księżyc jest naturalnym satelitą Ziemi czy Marsa?
+    ### Odpowiedź:
+    naturalnym satelitą Ziemi
+    [INST] Odpowiedz jedną z opcji na następujące pytanie.[/INST]
+    ### Pytanie:
+    Czy złoto jest metalem szlachetnym czy nieszlachetnym?
+    ### Odpowiedź:
+    metalem szlachetnym
+    [INST] Odpowiedz jedną z opcji na następujące pytanie.[/INST]    
+    ### Pytanie:
+    Czy delfin jest rybą czy ssakiem?
+    ### Odpowiedź:
+    ssakiem
+    [INST] Odpowiedz jedną z opcji na następujące pytanie.[/INST]
+    ### Pytanie:
+    {question}
+    ### Odpowiedź:
+    """,
 
-    "jak+": """<s>[INST] <<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest w prostych słowach odpowiadać na pytania<</SYS>>
-Odpowiedz krótko na pytanie zaczynające się od "jak".
-### Pytanie:
-Jak nazywa się stolica Francji?
-### Odpowiedź: [/INST]
-Paryż
-<s>[INST] Odpowiedz krótko na pytanie zaczynające się od "jak".
-### Pytanie:
-Jak nazywa się największy kontynent?
-### Odpowiedź: [/INST]
-Azja
-<s>[INST] Odpowiedz krótko na pytanie zaczynające się od "jak".
-### Pytanie:
-Jak nazywa się naturalne satelita Ziemi?
-### Odpowiedź: [/INST]
-Księżyc
-<s>[INST] Odpowiedz krótko na pytanie zaczynające się od "jak".
-### Pytanie:
-{question}
-### Odpowiedź: [/INST]""",
+    "jak+": """<s><<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest w prostych słowach odpowiadać na pytania<</SYS>>
+    [INST] Odpowiedz krótko na pytanie zaczynające się od "jak". Odpowiedź powinna być RZECZOWNIKIEM[/INST]
+    ### Pytanie:
+    Jak nazywa się stolica Francji?
+    ### Odpowiedź:
+    Paryż
+    [INST] Odpowiedz krótko na pytanie zaczynające się od "jak". Odpowiedź powinna być RZECZOWNIKIEM[/INST]
+    ### Pytanie:
+    Jak nazywa się największy kontynent?
+    ### Odpowiedź:
+    Azja
+    [INST] Odpowiedz krótko na pytanie zaczynające się od "jak". Odpowiedź powinna być RZECZOWNIKIEM[/INST]
+    ### Pytanie:
+    Jak nazywa się naturalne satelita Ziemi?
+    ### Odpowiedź:
+    Księżyc
+    [INST] Odpowiedz krótko na pytanie zaczynające się od "jak". Odpowiedź powinna być RZECZOWNIKIEM[/INST]
+    ### Pytanie:
+    {question}
+    ### Odpowiedź:""",
 
-    "ile": """<s>[INST] <<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest w prostych słowach odpowiadać na pytania<</SYS>>
-Podaj wartość liczbową w odpowiedzi na pytanie.
-### Pytanie:
-Ile dni ma tydzień?
-### Odpowiedź: [/INST]
-7
-<s>[INST] Podaj wartość liczbową w odpowiedzi na pytanie.
-### Pytanie:
-Ile kontynentów jest na Ziemi?
-### Odpowiedź: [/INST]
-7
-<s>[INST] Podaj wartość liczbową w odpowiedzi na pytanie.
-### Pytanie:
-Ile wynosi pierwiastek kwadratowy z 16?
-### Odpowiedź: [/INST]
-4
-<s>[INST] Podaj wartość liczbową w odpowiedzi na pytanie.
-### Pytanie:
-{question}
-### Odpowiedź: [/INST]""",
+    "ile": """<s><<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest w prostych słowach odpowiadać na pytania<</SYS>>
+    [INST]Podaj wartość liczbową w odpowiedzi na pytanie.[/INST]
+    ### Pytanie:
+    Ile dni ma tydzień?
+    ### Odpowiedź:
+    7
+    ### Pytanie:
+    Ile kontynentów jest na Ziemi?
+    ### Odpowiedź:
+    7
+    ### Pytanie:
+    Ile wynosi pierwiastek kwadratowy z 16?
+    ### Odpowiedź:
+    4
+    ### Pytanie:
+    {question}
+    ### Odpowiedź:
+    """,
 
-    "w_ktorym+": """<s>[INST] <<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest w prostych słowach odpowiadać na pytania<</SYS>>
-Podaj dokładną datę lub okres.
-### Pytanie:
-W którym mieście znajduje się wieża Eiffla?
-### Odpowiedź: [/INST]
-w Paryżu
-<s>[INST] Podaj dokładną datę lub okres.
-### Pytanie:
-W którym wieku wynaleziono druk?
-### Odpowiedź: [/INST]
-w XV wieku
-<s>[INST] Podaj dokładną datę lub okres.
-### Pytanie:
-W którym miesiącu rozpoczyna się kalendarzowa wiosna?
-### Odpowiedź: [/INST]
-w marcu
-<s>[INST] Podaj dokładną datę lub okres.
-### Pytanie:
-{question}
-### Odpowiedź: [/INST]""",
+    "w_ktorym+": """<s><<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest w prostych słowach odpowiadać na pytania<</SYS>>
+    [INST]Podaj dokładną datę, okres lub miejsce.[/INST]
+    ### Pytanie:
+    W którym mieście znajduje się wieża Eiffla?
+    ### Odpowiedź:
+    w Paryżu
+    ### Pytanie:
+    W którym wieku wynaleziono druk?
+    ### Odpowiedź:
+    w XV wieku
+    ### Pytanie:
+    W którym miesiącu rozpoczyna się kalendarzowa wiosna?
+    ### Odpowiedź:
+    w marcu
+    ### Pytanie:
+    {question}
+    ### Odpowiedź:
+    """,
 
-    "kto": """<s>[INST] <<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest w prostych słowach odpowiadać na pytania<</SYS>>
-Podaj imię i/lub nazwisko osoby.
+    "kto": """<s><<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest w prostych słowach odpowiadać na pytania<</SYS>>
+[INST]Podaj imię i/lub nazwisko osoby.[/INST]
 ### Pytanie:
 Kto napisał "Pan Tadeusz"?
-### Odpowiedź: [/INST]
+### Odpowiedź:
 Adam Mickiewicz
-<s>[INST] Podaj imię i/lub nazwisko osoby.
 ### Pytanie:
 Kto odkrył Amerykę?
-### Odpowiedź: [/INST]
+### Odpowiedź:
 Krzysztof Kolumb
-<s>[INST] Podaj imię i/lub nazwisko osoby.
 ### Pytanie:
 Kto jest autorem teorii względności?
-### Odpowiedź: [/INST]
+### Odpowiedź:
 Albert Einstein
-<s>[INST] Podaj imię i/lub nazwisko osoby.
 ### Pytanie:
 {question}
-### Odpowiedź: [/INST]""",
+### Odpowiedź:
+""",
 
-    "rest": """<s>[INST] <<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest w prostych słowach odpowiadać na pytania<</SYS>>
-Odpowiedz krótko i precyzyjnie na pytanie.
-### Pytanie:
-Który pierwiastek chemiczny jest najlżejszy?
-### Odpowiedź: [/INST]
-wodór
-<s>[INST] Odpowiedz krótko i precyzyjnie na pytanie.
-### Pytanie:
-Z którego kraju pochodzi pizza?
-### Odpowiedź: [/INST]
-z Włoch
-<s>[INST] Odpowiedz krótko i precyzyjnie na pytanie.
-### Pytanie:
-Która planeta jest najbliżej Słońca?
-### Odpowiedź: [/INST]
-Merkury
-<s>[INST] Odpowiedz krótko i precyzyjnie na pytanie.
-### Pytanie:
-{question}
-### Odpowiedź: [/INST]"""
+    "rest": """<s><<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest w prostych słowach odpowiadać na pytania<</SYS>>
+    [INST]Odpowiedz krótko i precyzyjnie na pytanie.[/INST]
+    ### Pytanie:
+    Który pierwiastek chemiczny jest najlżejszy?
+    ### Odpowiedź:
+    wodór
+    ### Pytanie:
+    Z którego kraju pochodzi pizza?
+    ### Odpowiedź:
+    z Włoch
+    ### Pytanie:
+    Która planeta jest najbliżej Słońca?
+    ### Odpowiedź:
+    Merkury
+    ### Pytanie:
+    {question}
+    ### Odpowiedź:"""
 }
 
+# each question is a tuple question, [answers]
+def create_propmpt(question: str, questions: List[tuple], category: str, prompt_type: str = "zero") -> str:
+    
+    if category == "czy":
+        prompt = "<s><<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem odpowiadać na pytania używając tylko TAK i NIE<</SYS>>\n"
+        if prompt_type == "one":
+            q = random.randint(0, len(question))
+            prompt = f"""{prompt}[INST]Odpowiedz używając TAK lub NIE na następujące pytanie.[/INST]\n[INST]{questions[q][0]}[/INST]\n{questions[q][1][0]}\n"""
+        elif prompt_type == "few":
+            idxs = [random.randint(0, len(question)) for _ in range(5)]
+            for i in idxs:
+                prompt = f"""{prompt}[INST]Odpowiedz TAK lub NIE na pytanie.[/INST]\n[INST]{questions[i][0]}[/INST]\n{questions[i][1][0]}\n"""
+
+        prompt = f"""{prompt}[INST]Odpowiedz TAK lub NIE na pytanie.[/INST]\n[INST]{question}[/INST]\n"""
+    elif category == "czy_opt":
+        prompt = """<s><<SYS>>Jesteś uczestnikiem quizu. Odpowiadaj na pytania wybierając jedno z wyrażeń obok "czy"<</SYS>>\n"""
+        if prompt_type == "one":
+            q = random.randint(0, len(questions)-1)
+            prompt = f"""{prompt}[INST]Wybierz jedną odpowiedź, z podanych w pytaniu opcji.[/INST]\n[INST]{questions[q][0]}[/INST]\n{questions[q][1][0]}\n"""
+        elif prompt_type == "few":
+            idxs = [random.randint(0, len(questions)-1) for _ in range(5)]
+            for i in idxs:
+                prompt = f"""{prompt}\n[INST]{questions[i][0]}[/INST]\n{questions[i][1][0]}\n"""
+        prompt = f"""{prompt}[INST]Wybierz jedną odpowiedź, z podanych w pytaniu opcji.[/INST]\n[INST]{question}[/INST]\n"""
+    
+    elif category  == "jak+":
+        prompt = "<s><<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest odpowiadać na pytania jakimś jednym słowem<</SYS>>\n"
+        if prompt_type == "one":
+            q = random.randint(0, len(questions)-1)
+            prompt = f"""{prompt}[INST]Odpowiedz jednym słowem na pytanie.[/INST]\n[INST]{questions[q][0]}[/INST]\n{questions[q][1][0]}\n"""
+        elif prompt_type == "few":
+            idxs = [random.randint(0, len(questions)-1) for _ in range(5)]
+            for i in idxs:
+                prompt = f"""{prompt}[INST]Odpowiedz jednym słowem na pytanie.[/INST]\n[INST]{questions[i][0]}[/INST]\n{questions[i][1][0]}\n"""
+        prompt = f"""{prompt}[INST]Odpowiedz jednym słowem na pytanie.[/INST]\n[INST]{question}[/INST]\n"""
+    
+    elif category == "ile":
+        prompt = "<s><<SYS>>Jesteś uczestnikiem quizu. Podaj wartość liczbową w odpowiedzi na pytanie.<</SYS>>\n"
+        if prompt_type == "one":
+            q = random.randint(0, len(questions)-1)
+            prompt = f"""{prompt}[INST]Odpowiedz podając liczbę.[/INST]\n[INST]{questions[q][0]}[/INST]\nOdpowiedź: {questions[q][1][0]}\n"""
+        elif prompt_type == "few":
+            idxs = [random.randint(0, len(questions)-1) for _ in range(5)]
+            for i in idxs:
+                prompt = f"""{prompt}[INST]Odpowiedz podając liczbę.[/INST]\n[INST]{questions[i][0]}[/INST]\n{questions[i][1][0]}\n"""
+        prompt = f"""{prompt}[INST]Odpowiedz podając liczbę.[/INST]\n[INST]{question}[/INST]\nOdpowiedź: """
+    
+    elif category == "kto":
+        prompt = "<s><<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest odpowiadać imieniem i nazwiskiem lub nazwą na zadane pytania.<</SYS>>\n"
+        if prompt_type == "one":
+            q = random.randint(0, len(questions)-1)
+            prompt = f"""{prompt}[INST]Odpowiedz podając imię i nazwisko lub nazwę.[/INST]\n[INST]{questions[q][0]}[/INST]\n{questions[q][1][0]}\n"""
+        elif prompt_type == "few":
+            idxs = [random.randint(0, len(questions)-1) for _ in range(5)]
+            for i in idxs:
+                prompt = f"""{prompt}[INST]Odpowiedz podając imię i nazwisko lub nazwę.[/INST]\n[INST]{questions[i][0]}[/INST]\n{questions[i][1][0]}\n"""
+        prompt = f"""{prompt}[INST]Odpowiedz podając imię i nazwisko lub nazwę.[/INST]\n[INST]{question}[/INST]\n"""
+
+    elif category == "w_którym+":
+        prompt = "<s><<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest odpowiadać podając dokładną datę, okres lub miejsce.<</SYS>>\n"
+        if prompt_type == "one":
+            q = random.randint(0, len(questions)-1)
+            prompt = f"""{prompt}[INST]Odpowiedz podając datę, okres lub miejsce.[/INST]\n[INST]{questions[q][0]}[/INST]\nOdpowiedź: {questions[q][1][0]}\n"""
+        elif prompt_type == "few":
+            idxs = [random.randint(0, len(questions)-1) for _ in range(5)]
+            for i in idxs:
+                prompt = f"""{prompt}[INST]Odpowiedz podając datę, okres lub miejsce.[/INST]\n[INST]{questions[i][0]}[/INST]\n{questions[i][1][0]}\n"""
+        prompt = f"""{prompt}[INST]Odpowiedz podając datę, okres lub miejsce.[/INST]\n[INST]{question}[/INST]\nOdpowiedź: """
+    
+    else:  # category == "rest"
+        prompt = "<s><<SYS>>Jesteś uczestnikiem quizu. Twoim zadaniem jest odpowiadać krótko i zwięźle na zadane pytania.<</SYS>>\n"
+        if prompt_type == "one":
+            q = random.randint(0, len(questions)-1)
+            prompt = f"""{prompt}[INST]Odpowiedz krótko i zwięźle.[/INST]\n[INST]{questions[q][0]}[/INST]\n{questions[q][1][0]}\n"""
+        elif prompt_type == "few":
+            idxs = [random.randint(0, len(questions)-1) for _ in range(5)]
+            for i in idxs:
+                prompt = f"""{prompt}[INST]Odpowiedz krótko i zwięźle.[/INST]\n[INST]{questions[i][0]}[/INST]\n{questions[i][1][0]}\n"""
+        prompt = f"""{prompt}[INST]Odpowiedz krótko i zwięźle.[/INST]\n[INST]{question}[/INST]\n"""
+    
+    return prompt
 
 def get_prompt(question: str, category: str, prompt_type: str = "zero") -> str:
     """

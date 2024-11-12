@@ -1,0 +1,5 @@
+Accuracy: 0.2
+operation: *
+complexity: multiplication_few_shssots
+correct: 2
+total: 10

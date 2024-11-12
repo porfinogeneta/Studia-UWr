@@ -1,0 +1,5 @@
+Accuracy: 0.8
+operation: +
+complexity: addition_few_shots_text
+correct: 16
+total: 20

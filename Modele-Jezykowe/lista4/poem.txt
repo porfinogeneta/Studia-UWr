@@ -1,0 +1,58 @@
+Poem Prompt Tokens:
+Token 0: 
+
+Token 1: Bie
+Token 2: ga
+Token 3: ,
+Token 4:  krzyczy
+Token 5:  pan
+Token 6:  Hil
+Token 7: ary
+Token 8: :
+Token 9: 
+
+Token 10: "
+Token 11: Gdzie
+Token 12:  s
+Token 13: �
+Token 14: �
+Token 15:  moje
+Token 16:  okulary
+Token 17: "
+Token 18: 
+
+Token 19: Szuka
+Token 20:  w
+Token 21:  spo
+Token 22: dniach
+Token 23:  i
+Token 24:  w
+Token 25:  sur
+Token 26: du
+Token 27: cie
+Token 28: ,
+Token 29: 
+
+Token 30: W
+Token 31:  prawym
+Token 32:  bu
+Token 33: cie
+Token 34: ,
+Token 35:  w
+Token 36:  lewym
+Token 37:  bu
+Token 38: cie
+Token 39: .
+Token 40: 
+
+
+Top K Tokens from Last Token in Prompt:
+Top 1: "Top 2: WTop 3: NieTop 4: BieTop 5: ATop 6: ZTop 7: NaTop 8: PoTop 9: ZaTop 10: I
+Generated Text:
+
+Biega, krzyczy pan Hilary:
+"Gdzie s¡ moje okulary"
+Szuka w spodniach i w surducie,
+W prawym bucie, w lewym bucie.
+A w spodniach i w bucie - czy wy nie jeste¢cie mi³osierni, a móg¢ pan Hilary jest mi³osierny? Patrzcie!
+"Zabili¶my ci du»,

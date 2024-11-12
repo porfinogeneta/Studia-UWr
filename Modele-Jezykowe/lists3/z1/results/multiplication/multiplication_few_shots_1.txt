@@ -1,0 +1,5 @@
+Accuracy: 0.74
+operation: *
+complexity: multiplication_few_shots_1
+correct: 37
+total: 50

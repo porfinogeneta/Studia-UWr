@@ -1,0 +1,31 @@
+RIDDLE:  kobieta podróżująca środkiem transportu, np. samolotem, pociągiem, statkiem, to inaczej -
+GUESS:  
+SOLUTION:  pasażerka
+RIDDLE:  emocjonalne uczucie łączące dwie osoby, oparte na zaufaniu, szacunku, trosce i oddaniu, to inaczej -
+GUESS:  mi
+SOLUTION:  miłość
+RIDDLE:  miejsce, w którym dzieci uczą się nowych rzeczy i poznają nauczycieli, to inaczej -
+GUESS:  szalik
+SOLUTION:  szkoła
+RIDDLE:  przyrząd do pisania, zazwyczaj wypełniony atramentem lub wkładem z tuszem, to inaczej -
+GUESS:  kawa
+SOLUTION:  długopis
+RIDDLE:  zwierzę domowe, często towarzyszy człowiekowi, jest wierne i ma ogon, to inaczej -
+GUESS:  mikrofal
+SOLUTION:  pies
+RIDDLE:  budynek z wieloma książkami, gdzie ludzie mogą czytać lub wypożyczać książki, to inaczej -
+GUESS:  wyspa
+SOLUTION:  biblioteka
+RIDDLE:  napój, który powstaje z ziaren, zazwyczaj jest czarny i pobudza do działania, to inaczej -
+GUESS:  kawa
+SOLUTION:  kawa
+RIDDLE:  owoc o zielonej skórce i miękkim miąższu, z dużą pestką w środku, to inaczej -
+GUESS:  awokado
+SOLUTION:  awokado
+RIDDLE:  półkulisty przedmiot, który chroni przed deszczem, trzymany nad głową, to inaczej -
+GUESS:  pasa
+SOLUTION:  parasol
+RIDDLE:  wodna roślina pływająca, znana z pięknych, białych lub różowych kwiatów, to inaczej -
+GUESS:  mi
+SOLUTION:  lilia
+ACCURACY:  0.2

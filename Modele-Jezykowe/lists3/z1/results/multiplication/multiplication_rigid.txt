@@ -1,0 +1,5 @@
+Accuracy: 0.65
+operation: *
+complexity: multiplication_rigid
+correct: 13
+total: 20

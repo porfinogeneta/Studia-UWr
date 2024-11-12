@@ -1,0 +1,5 @@
+Accuracy: 0.12
+operation: *
+complexity: multiplication_programmatic_1
+correct: 6
+total: 50
